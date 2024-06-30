@@ -14,6 +14,7 @@ import net.blay09.mods.excompressum.menu.AutoCompressorMenu;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.compressor.CompressedRecipe;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -82,7 +83,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
                 return (int) (100f * AutoCompressorBlockEntity.this.getProgress());
             } else if (id == 1) {
                 return AutoCompressorBlockEntity.this.getEnergyStorage().getEnergy();
-            } else if (id  == 2) {
+            } else if (id == 2) {
                 return AutoCompressorBlockEntity.this.isDisabledByRedstone() ? 1 : 0;
             }
             return 0;
@@ -90,10 +91,10 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
 
         public void set(int id, int value) {
             if (id == 0) {
-                AutoCompressorBlockEntity.this.setProgress( value / 100f);
+                AutoCompressorBlockEntity.this.setProgress(value / 100f);
             } else if (id == 1) {
                 AutoCompressorBlockEntity.this.getEnergyStorage().setEnergy(value);
-            } else if (id  == 2) {
+            } else if (id == 2) {
                 AutoCompressorBlockEntity.this.setDisabledByRedstone(value == 1);
             }
         }
@@ -190,7 +191,11 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
                         if (compressedRecipe != null) {
                             ItemStack resultStack = compressedRecipe.getResultStack().copy();
                             if (!addItemToOutput(resultStack)) {
-                                ItemEntity entityItem = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, resultStack);
+                                ItemEntity entityItem = new ItemEntity(level,
+                                        worldPosition.getX() + 0.5,
+                                        worldPosition.getY() + 1.5,
+                                        worldPosition.getZ() + 0.5,
+                                        resultStack);
                                 double motion = 0.05;
                                 entityItem.setDeltaMovement(level.random.nextGaussian() * motion, 0.2, level.random.nextGaussian() * motion);
                                 level.addFreshEntity(entityItem);
@@ -299,6 +304,15 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
     @Override
     public Container getContainer() {
         return container;
+    }
+
+    @Override
+    public Container getContainer(Direction side) {
+        if (side == Direction.DOWN) {
+            return outputSlots;
+        }
+
+        return BalmContainerProvider.super.getContainer(side);
     }
 
     @Override
