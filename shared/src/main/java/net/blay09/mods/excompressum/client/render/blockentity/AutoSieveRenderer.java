@@ -8,7 +8,6 @@ import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.block.HeavySieveBlock;
 import net.blay09.mods.excompressum.block.ModBlocks;
 import net.blay09.mods.excompressum.client.ModModels;
-import net.blay09.mods.excompressum.client.render.RenderUtils;
 import net.blay09.mods.excompressum.client.render.model.TinyHumanModel;
 import net.blay09.mods.excompressum.block.entity.AbstractAutoSieveBlockEntity;
 import net.blay09.mods.excompressum.utils.StupidUtils;
@@ -27,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.AxisAngle4f;
+import org.joml.Math;
 import org.joml.Quaternionf;
 
 import org.jetbrains.annotations.Nullable;
@@ -66,14 +66,14 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
 
         poseStack.pushPose();
         poseStack.translate(0.5f, 0f, 0.5f);
-        poseStack.mulPose(new Quaternionf(new AxisAngle4f(RenderUtils.getRotationAngle(blockEntity.getFacing()), 0f, 1f, 0f)));
+        poseStack.mulPose(blockEntity.getFacing().getRotation());
+        poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(-90), 0f, 1f, 0f)));
 
-        // TODO human is laying on the sieve
         // Render the tiny human
         poseStack.pushPose();
-        poseStack.mulPose(new Quaternionf(new AxisAngle4f(90, 0, 1f, 0)));
-        poseStack.mulPose(new Quaternionf(new AxisAngle4f(180, 1f, 0, 0)));
-        poseStack.translate(0, -1.2f, 0.25f);
+        poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(-90), 0f, 0f, 1f)));
+        poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(90), 0, 1f, 0)));
+        poseStack.translate(0f, -1.2f, 0.25f);
         poseStack.scale(0.75f, 0.75f, 0.75f);
         MinecraftProfileTexture skin = getPlayerSkin(blockEntity.getCustomSkin());
         TinyHumanModel playerModel = getPlayerModel(skin);
@@ -84,7 +84,7 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         // Render the glass around player head if underwater
         if (blockEntity.isWaterlogged()) {
             poseStack.pushPose();
-            poseStack.translate(-0.425f, 0.6f, -0.175f);
+            poseStack.translate(-0.95f, -0.42f, -0.175f);
             float glassScale = 0.35f;
             poseStack.scale(glassScale, glassScale, glassScale);
             dispatcher.renderSingleBlock(Blocks.GLASS.defaultBlockState(), poseStack, buffer, combinedLight, combinedOverlay);
@@ -96,9 +96,11 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         poseStack.scale(0.5f, 0.5f, 0.5f);
         poseStack.translate(-0.25f, 0f, -0.5f);
 
+        poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(90), 0f, 0f, 1f)));
+        poseStack.translate(-0.2f, -0.1f, 0f);
+
         // Render the sieve
         poseStack.pushPose();
-        poseStack.translate(0f, 0.01f, 0f);
         dispatcher.getModelRenderer().tesselateBlock(level, sieveModel, blockEntity.getBlockState(), blockEntity.getBlockPos(), poseStack, buffer.getBuffer(RenderType.solid()), false, random, 0, Integer.MAX_VALUE);
         poseStack.popPose();
 

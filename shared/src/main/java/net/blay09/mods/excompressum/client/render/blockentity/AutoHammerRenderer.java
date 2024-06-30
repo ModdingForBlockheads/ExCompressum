@@ -3,7 +3,6 @@ package net.blay09.mods.excompressum.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.client.render.BlockRenderUtils;
-import net.blay09.mods.excompressum.client.render.RenderUtils;
 import net.blay09.mods.excompressum.item.ModItems;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.block.entity.AutoHammerBlockEntity;
@@ -106,7 +105,7 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
                 BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
                 dispatcher.renderSingleBlock(contentState, poseStack, buffers, combinedLight, combinedOverlay);
 
-                if (tileEntity.getProgress() > 0f) { // TODO block break not showing on regular hammer?
+                if (tileEntity.getProgress() > 0f) {
                     int blockDamage = Math.min(9, (int) (tileEntity.getProgress() * 9f));
                     BlockRenderUtils.renderBlockBreak(contentState, poseStack, buffers, combinedLight, combinedOverlay, blockDamage + 1);
                 }

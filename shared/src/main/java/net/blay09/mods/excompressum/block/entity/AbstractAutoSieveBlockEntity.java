@@ -508,7 +508,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     }
 
     public SieveAnimationType getAnimationType() {
-        return SieveAnimationType.DEFAULT;
+        return SieveAnimationType.DEFAULT; // TODO maybe make this based on skin now that mana sieve is gone
     }
 
     public void applyFoodBoost(FoodProperties food) {
