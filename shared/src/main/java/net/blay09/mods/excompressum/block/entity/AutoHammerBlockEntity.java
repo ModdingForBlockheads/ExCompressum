@@ -13,6 +13,7 @@ import net.blay09.mods.excompressum.block.AutoHammerBlock;
 import net.blay09.mods.excompressum.block.ModBlockStateProperties;
 import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
+import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.menu.AutoHammerMenu;
 import net.blay09.mods.excompressum.registry.ExNihilo;
@@ -436,7 +437,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                 }
             }
         }
-        return ExNihilo.isNihiloItem(itemStack, ExNihiloProvider.NihiloItems.HAMMER_DIAMOND);
+        return itemStack.is(ModTags.HAMMERS);
     }
 
     public boolean isRegistered(ItemStack itemStack) {
