@@ -68,6 +68,7 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         poseStack.translate(0.5f, 0f, 0.5f);
         poseStack.mulPose(new Quaternionf(new AxisAngle4f(RenderUtils.getRotationAngle(blockEntity.getFacing()), 0f, 1f, 0f)));
 
+        // TODO human is laying on the sieve
         // Render the tiny human
         poseStack.pushPose();
         poseStack.mulPose(new Quaternionf(new AxisAngle4f(90, 0, 1f, 0)));
@@ -103,7 +104,8 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
 
         SieveModelBounds bounds = HeavySieveBlock.SIEVE_BOUNDS;
 
-        // Render the sieve mesh
+        // Render the sieve mesh TODO rendering with missing texture
+        // TODO iron mesh is not considered a mesh? maybe because nihilo is installed?
         SieveMeshRegistryEntry mesh = blockEntity.getSieveMesh();
         if (mesh != null) {
             BakedModel meshModel = ModModels.meshes.get(mesh.getModelName()).get();

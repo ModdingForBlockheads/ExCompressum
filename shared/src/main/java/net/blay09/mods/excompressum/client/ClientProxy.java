@@ -109,11 +109,11 @@ public class ClientProxy extends CommonProxy {
             return Balm.getHooks().getServer().getLootData();
         }
 
-        return null; // TODO
+        return null; // TODO this will probably break JEI on multiplayer?
     }
 
     /**
-     * @deprecated Can't remove yet because we need it in ChickenStickItem isCorrectToolForDrops/getDestroySpeed where we don't have level access.
+     * @deprecated Can't remove yet because we need it in ChickenStickItem isCorrectToolForDrops/getDestroySpeed where we don't have level access. maybe we can use ExRegistries instead
      */
     @Override
     @Deprecated

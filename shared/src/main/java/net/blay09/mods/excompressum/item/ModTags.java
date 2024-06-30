@@ -19,8 +19,8 @@ public class ModTags {
     public static void initialize(BalmRegistries registries) {
         MINEABLE_WITH_HAMMER = TagKey.create(Registries.BLOCK, new ResourceLocation("excompressum", "mineable/hammer"));
         MINEABLE_WITH_CROOK = TagKey.create(Registries.BLOCK, new ResourceLocation("excompressum", "mineable/crook"));
-        HAMMERS = registries.getItemTag(new ResourceLocation("excompressum", "hammer"));
-        COMPRESSED_HAMMERS = registries.getItemTag(new ResourceLocation("excompressum", "compressed_hammer"));
+        HAMMERS = registries.getItemTag(new ResourceLocation("excompressum", "hammers"));
+        COMPRESSED_HAMMERS = registries.getItemTag(new ResourceLocation("excompressum", "compressed_hammers"));
         CHICKEN_STICKS = registries.getItemTag(new ResourceLocation("excompressum", "chicken_sticks"));
         COMPRESSED_CROOKS = registries.getItemTag(new ResourceLocation("excompressum", "compressed_crooks"));
     }
