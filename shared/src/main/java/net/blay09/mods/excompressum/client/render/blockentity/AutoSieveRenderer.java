@@ -106,8 +106,7 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
 
         SieveModelBounds bounds = HeavySieveBlock.SIEVE_BOUNDS;
 
-        // Render the sieve mesh TODO rendering with missing texture
-        // TODO iron mesh is not considered a mesh? maybe because nihilo is installed?
+        // Render the sieve mesh
         SieveMeshRegistryEntry mesh = blockEntity.getSieveMesh();
         if (mesh != null) {
             BakedModel meshModel = ModModels.meshes.get(mesh.getModelName()).get();
