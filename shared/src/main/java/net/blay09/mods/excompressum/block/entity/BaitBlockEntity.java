@@ -14,6 +14,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Turtle;
+import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -68,6 +69,10 @@ public class BaitBlockEntity extends BalmBlockEntity {
                         }
                         if (entity instanceof Turtle turtle) {
                             turtle.setHomePos(worldPosition);
+                        }
+                        if (entity instanceof Llama llama) {
+                            final var candidates = Llama.Variant.values();
+                            llama.setVariant(candidates[level.random.nextInt(candidates.length)]);
                         }
                         entity.setPos(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5);
                         level.addFreshEntity(entity);
