@@ -4,6 +4,7 @@ import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.item.ModItems;
+import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRegistry;
@@ -13,6 +14,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -51,9 +53,10 @@ public class AutoCompressedHammerBlockEntity extends AutoHammerBlockEntity {
 
     @Override
     public boolean isHammerUpgrade(ItemStack itemStack) {
-        if (itemStack.getItem() == ModItems.compressedDiamondHammer) {
+        if (itemStack.is(ModTags.COMPRESSED_HAMMERS)) {
             return true;
         }
+
         if (itemStack.getItem() == Compat.TCONSTRUCT_HAMMER) {
             CompoundTag tagCompound = itemStack.getTag();
             if (tagCompound != null) {
