@@ -1,6 +1,7 @@
 package net.blay09.mods.excompressum.handler;
 
-import net.blay09.mods.excompressum.ExCompressum;
+import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.balm.api.event.DigSpeedEvent;
 import net.blay09.mods.excompressum.item.ModTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -10,18 +11,18 @@ import net.minecraft.world.item.ItemStack;
 public class HammerSpeedHandler {
 
     public static void initialize() {
-        // TODO Balm.getEvents().onEvent(BreakSpeedEvent.class, HammerSpeedHandler::onBreakSpeed);
+        Balm.getEvents().onEvent(DigSpeedEvent.class, HammerSpeedHandler::onDigSpeed);
     }
 
-    /*public static void onBreakSpeed(BreakSpeedEvent event) {
-        ItemStack heldItem = event.getEntity().getItemInHand(InteractionHand.MAIN_HAND);
+    public static void onDigSpeed(DigSpeedEvent event) {
+        ItemStack heldItem = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
         if (heldItem.is(ModTags.HAMMERS) && event.getState().is(BlockTags.LOGS)) {
             float newSpeed = 2f;
             if (heldItem.getItem() instanceof DiggerItem) {
                 newSpeed = ((DiggerItem) heldItem.getItem()).getTier().getSpeed();
             }
-            event.setNewSpeed(newSpeed);
+            event.setSpeedOverride(newSpeed);
         }
-    }*/
+    }
 
 }

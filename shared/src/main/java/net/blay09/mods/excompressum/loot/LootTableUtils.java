@@ -3,6 +3,7 @@ package net.blay09.mods.excompressum.loot;
 import com.google.common.collect.ArrayListMultimap;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
+import net.blay09.mods.excompressum.api.CommonLootTableAccessor;
 import net.blay09.mods.excompressum.api.ILootTableProvider;
 import net.blay09.mods.excompressum.mixin.*;
 import net.blay09.mods.excompressum.registry.LootTableProvider;
@@ -57,7 +58,7 @@ public class LootTableUtils {
         }
 
         List<LootTableEntry> result = new ArrayList<>();
-        LootPool[] pools = new LootPool[0]; // TODO ((LootTableAccessor) lootTable).balm_getLootPools();
+        LootPool[] pools = ((CommonLootTableAccessor) lootTable).balm_getPools();
         for (LootPool pool : pools) {
             float poolBaseChance = getBaseChance(pool);
             LootPoolEntryContainer[] entries = ((LootPoolAccessor) pool).getEntries();

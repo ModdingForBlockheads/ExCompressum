@@ -11,10 +11,12 @@ import net.blay09.mods.excompressum.entity.ModEntities;
 import net.blay09.mods.excompressum.handler.ChickenStickHandler;
 import net.blay09.mods.excompressum.handler.CompressedEnemyHandler;
 import net.blay09.mods.excompressum.handler.CrookPushHandler;
+import net.blay09.mods.excompressum.handler.HammerSpeedHandler;
 import net.blay09.mods.excompressum.item.ModItems;
 import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.loot.ModLoot;
 import net.blay09.mods.excompressum.menu.ModMenus;
+import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.blay09.mods.excompressum.registry.autosieveskin.AutoSieveSkinRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,10 +39,12 @@ public class ExCompressum {
         ModMenus.initialize(Balm.getMenus());
         ModTags.initialize(Balm.getRegistries());
         ModLoot.initialize(Balm.getLootTables());
+        ModRecipeTypes.initialize(Balm.getRecipes());
 
         Balm.initializeIfLoaded(Compat.EXNIHILO_SEQUENTIA, "net.blay09.mods.excompressum.forge.compat.exnihilosequentia.ExNihiloSequentiaAddon");
 
         AutoSieveSkinRegistry.load();
+        HammerSpeedHandler.initialize();
         CompressedEnemyHandler.initialize();
         CrookPushHandler.initialize();
         ChickenStickHandler.initialize();

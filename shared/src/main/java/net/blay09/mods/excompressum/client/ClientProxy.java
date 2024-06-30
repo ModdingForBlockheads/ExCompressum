@@ -99,6 +99,9 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+    /**
+     * @deprecated Used for JEI, but the client doesn't have a LootDataResolver anymore
+     */
     @Override
     @Deprecated
     public LootDataResolver getLootTableManager() {
@@ -109,6 +112,9 @@ public class ClientProxy extends CommonProxy {
         return null; // TODO
     }
 
+    /**
+     * @deprecated Can't remove yet because we need it in ChickenStickItem isCorrectToolForDrops/getDestroySpeed where we don't have level access.
+     */
     @Override
     @Deprecated
     public RecipeManager getRecipeManager(@Nullable Level level) {

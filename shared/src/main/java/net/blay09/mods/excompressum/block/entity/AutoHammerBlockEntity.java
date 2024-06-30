@@ -44,7 +44,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
+import java.util.Collections;
 
 public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmContainerProvider, BalmEnergyStorageProvider {
 
@@ -229,7 +231,11 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                         Collection<ItemStack> rewards = rollHammerRewards(currentStack, getEffectiveTool(), level.random);
                         for (ItemStack itemStack : rewards) {
                             if (!addItemToOutput(itemStack)) {
-                                ItemEntity entityItem = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, itemStack);
+                                ItemEntity entityItem = new ItemEntity(level,
+                                        worldPosition.getX() + 0.5,
+                                        worldPosition.getY() + 1.5,
+                                        worldPosition.getZ() + 0.5,
+                                        itemStack);
                                 double motion = 0.05;
                                 entityItem.setDeltaMovement(level.random.nextGaussian() * motion, 0.2, level.random.nextGaussian() * motion);
                                 level.addFreshEntity(entityItem);
@@ -434,12 +440,20 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
     }
 
     public boolean isRegistered(ItemStack itemStack) {
-        RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(level);
+        if (level == null) {
+            return false;
+        }
+
+        final var recipeManager = level.getRecipeManager();
         return ExNihilo.isHammerable(itemStack) || ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack);
     }
 
     public Collection<ItemStack> rollHammerRewards(ItemStack itemStack, ItemStack toolItem, RandomSource rand) {
-        RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(level);
+        if (level == null) {
+            return Collections.emptyList();
+        }
+
+        final var recipeManager = level.getRecipeManager();
         if (ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack)) {
             LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) level), itemStack);
             return HammerRegistry.rollHammerRewards(lootContext, itemStack);

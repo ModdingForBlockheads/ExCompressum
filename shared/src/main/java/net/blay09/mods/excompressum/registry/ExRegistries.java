@@ -19,12 +19,12 @@ public class ExRegistries {
     private static final HeavySieveRegistry heavySieveRegistry = new HeavySieveRegistry();
 
     public static void initialize() {
-        // TODO Balm.addServerReloadListener(new ResourceLocation("excompressum", "registries"), it -> compressedRecipeRegistry = new CompressedRecipeRegistry(it.getRecipeManager(), it.getRegistryAccess()));
+        // TODO do we need this one still? Balm.addServerReloadListener(new ResourceLocation(ExCompressum.MOD_ID, "registries"), it -> compressedRecipeRegistry = new CompressedRecipeRegistry(it.getRecipeManager(), it.getRegistryAccess()));
         Balm.getEvents().onEvent(RecipesUpdatedEvent.class, ExRegistries::onRecipesUpdated);
     }
 
     public static void onRecipesUpdated(RecipesUpdatedEvent event) {
-        compressedRecipeRegistry = new CompressedRecipeRegistry(event.getRecipeManager(), null); // TODO
+        compressedRecipeRegistry = new CompressedRecipeRegistry(event.getRecipeManager(), event.getRegistryAccess());
         compressedRecipeRegistry.reloadRecipes();
     }
 
