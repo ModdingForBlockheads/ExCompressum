@@ -16,7 +16,6 @@ import net.blay09.mods.excompressum.handler.CompressedEnemyHandler;
 import net.blay09.mods.excompressum.handler.CrookPushHandler;
 import net.blay09.mods.excompressum.handler.HammerSpeedHandler;
 import net.blay09.mods.excompressum.item.ModItems;
-import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.loot.ModLoot;
 import net.blay09.mods.excompressum.menu.ModMenus;
 import net.blay09.mods.excompressum.registry.ExRegistries;
@@ -45,7 +44,6 @@ public class ExCompressum {
         ModEntities.initialize(Balm.getEntities());
         ModItems.initialize(Balm.getItems());
         ModMenus.initialize(Balm.getMenus());
-        ModTags.initialize(Balm.getRegistries());
         ModLoot.initialize(Balm.getLootTables());
         ModRecipeTypes.initialize(Balm.getRecipes());
 

@@ -41,15 +41,33 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
         getOrCreateTagBuilder(ModItemTags.HAMMERS).addTag(ModItemTags.WOODEN_HAMMERS)
                 .addTag(ModItemTags.STONE_HAMMERS)
                 .addTag(ModItemTags.IRON_HAMMERS)
+                .addTag(ModItemTags.COPPER_HAMMERS)
                 .addTag(ModItemTags.GOLDEN_HAMMERS)
                 .addTag(ModItemTags.DIAMOND_HAMMERS)
-                .addTag(ModItemTags.NETHERITE_HAMMERS);
+                .addTag(ModItemTags.NETHERITE_HAMMERS)
+                .addTag(ModItemTags.EXOTIC_HAMMERS);
         getOrCreateTagBuilder(ModItemTags.WOODEN_HAMMERS).addOptional(sequentia("wooden_hammer"));
         getOrCreateTagBuilder(ModItemTags.STONE_HAMMERS).addOptional(sequentia("stone_hammer"));
         getOrCreateTagBuilder(ModItemTags.IRON_HAMMERS).addOptional(sequentia("iron_hammer"));
+        getOrCreateTagBuilder(ModItemTags.COPPER_HAMMERS).addOptional(sequentia("copper_hammer"));
         getOrCreateTagBuilder(ModItemTags.GOLDEN_HAMMERS).addOptional(sequentia("golden_hammer"));
         getOrCreateTagBuilder(ModItemTags.DIAMOND_HAMMERS).addOptional(sequentia("diamond_hammer"));
         getOrCreateTagBuilder(ModItemTags.NETHERITE_HAMMERS).addOptional(sequentia("netherite_hammer"));
+        getOrCreateTagBuilder(ModItemTags.EXOTIC_HAMMERS).addOptional(sequentia("bamboo_hammer"))
+                .addOptional(sequentia("andesite_hammer"))
+                .addOptional(sequentia("basalt_hammer"))
+                .addOptional(sequentia("blackstone_hammer"))
+                .addOptional(sequentia("bone_hammer"))
+                .addOptional(sequentia("calcite_hammer"))
+                .addOptional(sequentia("cherry_hammer"))
+                .addOptional(sequentia("deepslate_hammer"))
+                .addOptional(sequentia("diorite_hammer"))
+                .addOptional(sequentia("dripstone_hammer"))
+                .addOptional(sequentia("granite_hammer"))
+                .addOptional(sequentia("nether_brick_hammer"))
+                .addOptional(sequentia("red_nether_brick_hammer"))
+                .addOptional(sequentia("terracotta_hammer"))
+                .addOptional(sequentia("tuff_hammer"));
 
         final var woodenCrucibles = getOrCreateTagBuilder(ModItemTags.WOODEN_CRUCIBLES);
         for (Block woodenCrucible : ModBlocks.woodenCrucibles) {
@@ -64,6 +82,7 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
                 ModItems.compressedDiamondHammer,
                 ModItems.compressedNetheriteHammer);
 
+        getOrCreateTagBuilder(ModItemTags.COMPRESSED_CROOKS).addTag(ModItemTags.WOODEN_COMPRESSED_CROOKS);
         getOrCreateTagBuilder(ModItemTags.WOODEN_COMPRESSED_CROOKS).add(ModItems.compressedCrook);
 
         getOrCreateTagBuilder(ModItemTags.CHICKEN_STICKS).add(ModItems.chickenStick);

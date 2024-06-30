@@ -1,10 +1,10 @@
 package net.blay09.mods.excompressum.loot;
 
 import net.blay09.mods.balm.api.loot.BalmLootModifier;
-import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.hammer.HammerRegistry;
+import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +32,7 @@ public class HammerLootModifier implements BalmLootModifier {
         }
 
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
-        if (tool == null || !tool.is(ModTags.HAMMERS)) {
+        if (tool == null || !tool.is(ModItemTags.HAMMERS)) {
             return;
         }
 

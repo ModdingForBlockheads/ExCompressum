@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,14 +55,31 @@ public class BaitBlockEntity extends BalmBlockEntity {
             if (!level.isClientSide && level.random.nextFloat() <= baitType.getChance()) {
                 if (checkSpawnConditions(true) == EnvironmentalConditionResult.CanSpawn) {
                     final float range = MIN_DISTANCE_NO_PLAYERS;
-                    if (level.getEntitiesOfClass(Player.class, new AABB(worldPosition.getX() - range, worldPosition.getY() - range, worldPosition.getZ() - range, worldPosition.getX() + range, worldPosition.getY() + range, worldPosition.getZ() + range)).isEmpty()) {
+                    if (level.getEntitiesOfClass(Player.class,
+                            new AABB(worldPosition.getX() - range,
+                                    worldPosition.getY() - range,
+                                    worldPosition.getZ() - range,
+                                    worldPosition.getX() + range,
+                                    worldPosition.getY() + range,
+                                    worldPosition.getZ() + range)).isEmpty()) {
                         Entity entity = baitType.createEntity(level);
                         if (entity instanceof AgeableMob mob && level.random.nextFloat() <= ExCompressumConfig.getActive().baits.childBaitChance) {
                             mob.setAge(-24000);
                         }
+                        if (entity instanceof Turtle turtle) {
+                            turtle.setHomePos(worldPosition);
+                        }
                         entity.setPos(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5);
                         level.addFreshEntity(entity);
-                        ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, 1, 0, 0, 0, 0.0);
+                        ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION,
+                                worldPosition.getX() + 0.5,
+                                worldPosition.getY() + 0.5,
+                                worldPosition.getZ() + 0.5,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0.0);
                         level.playSound(null, worldPosition, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 1f, 1f);
 
                         level.removeBlock(worldPosition, false);
@@ -89,7 +107,7 @@ public class BaitBlockEntity extends BalmBlockEntity {
                         FluidState fluidState = level.getFluidState(testPos);
                         if (blockState.getBlock() instanceof BaitBlock) {
                             countBait++;
-                        } else if (fluidState.getType()== Fluids.WATER || fluidState.getType() == Fluids.FLOWING_WATER) {
+                        } else if (fluidState.getType() == Fluids.WATER || fluidState.getType() == Fluids.FLOWING_WATER) {
                             foundWater = true;
                         }
 
@@ -106,9 +124,18 @@ public class BaitBlockEntity extends BalmBlockEntity {
             } else if (countBait > MAX_BAITS_IN_AREA) {
                 environmentStatus = EnvironmentalConditionResult.NearbyBait;
             } else if (countEnvBlocks < MIN_ENV_IN_AREA) {
-                String listOfBlocks = envBlocks.stream().map(BaitEnvironmentCondition::getDisplayName).map(Component::getString).collect(Collectors.joining(", "));
+                String listOfBlocks = envBlocks.stream()
+                        .map(BaitEnvironmentCondition::getDisplayName)
+                        .map(Component::getString)
+                        .collect(Collectors.joining(", "));
                 environmentStatus = EnvironmentalConditionResult.wrongEnv(listOfBlocks);
-            } else if (level.getEntitiesOfClass(Animal.class, new AABB(worldPosition.getX() - range * 2, worldPosition.getY() - rangeVertical, worldPosition.getZ() - range * 2, worldPosition.getX() + range * 2, worldPosition.getY() + rangeVertical, worldPosition.getZ() + range * 2)).size() > MAX_ANIMALS_IN_AREA) {
+            } else if (level.getEntitiesOfClass(Animal.class,
+                    new AABB(worldPosition.getX() - range * 2,
+                            worldPosition.getY() - rangeVertical,
+                            worldPosition.getZ() - range * 2,
+                            worldPosition.getX() + range * 2,
+                            worldPosition.getY() + rangeVertical,
+                            worldPosition.getZ() + range * 2)).size() > MAX_ANIMALS_IN_AREA) {
                 environmentStatus = EnvironmentalConditionResult.NearbyAnimal;
             } else {
                 environmentStatus = EnvironmentalConditionResult.CanSpawn;

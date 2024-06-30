@@ -15,11 +15,14 @@ public class ModItemTags {
     public static final TagKey<Item> WOODEN_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "wooden_hammers"));
     public static final TagKey<Item> STONE_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "stone_hammers"));
     public static final TagKey<Item> IRON_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "iron_hammers"));
+    public static final TagKey<Item> COPPER_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "copper_hammers"));
     public static final TagKey<Item> GOLDEN_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "golden_hammers"));
     public static final TagKey<Item> DIAMOND_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "diamond_hammers"));
     public static final TagKey<Item> NETHERITE_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "netherite_hammers"));
+    public static final TagKey<Item> EXOTIC_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "exotic_hammers"));
     public static final TagKey<Item> COMPRESSED_HAMMERS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "compressed_hammers"));
     public static final TagKey<Item> WOODEN_CROOKS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "wooden_crooks"));
+    public static final TagKey<Item> COMPRESSED_CROOKS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "compressed_crooks"));
     public static final TagKey<Item> WOODEN_COMPRESSED_CROOKS = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "wooden_compressed_crooks"));
     public static final TagKey<Item> WOODEN_CRUCIBLES = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "wooden_crucibles"));
     public static final TagKey<Item> CRUSHED_ANDESITES = TagKey.create(Registries.ITEM, new ResourceLocation(ExCompressum.MOD_ID, "crushed_andesites"));

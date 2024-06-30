@@ -3,6 +3,7 @@ package net.blay09.mods.excompressum.item;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.ExRegistries;
+import net.blay09.mods.excompressum.tag.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +28,7 @@ import java.util.List;
 public class ChickenStickItem extends DiggerItem {
 
     public ChickenStickItem(Item.Properties properties) {
-        super(0f, 0f, ChickenStickTier.INSTANCE, ModTags.MINEABLE_WITH_HAMMER, properties.fireResistant());
+        super(0f, 0f, ChickenStickTier.INSTANCE, ModBlockTags.MINEABLE_WITH_HAMMER, properties.fireResistant());
     }
 
     @Override

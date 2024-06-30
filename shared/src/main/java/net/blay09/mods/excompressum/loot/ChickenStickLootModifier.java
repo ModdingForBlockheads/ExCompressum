@@ -1,9 +1,9 @@
 package net.blay09.mods.excompressum.loot;
 
 import net.blay09.mods.balm.api.loot.BalmLootModifier;
-import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.registry.chickenstick.ChickenStickRegistry;
 import net.blay09.mods.excompressum.registry.ExRegistries;
+import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -30,7 +30,7 @@ public class ChickenStickLootModifier implements BalmLootModifier {
         }
 
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
-        if(tool == null || !tool.is(ModTags.CHICKEN_STICKS)) {
+        if(tool == null || !tool.is(ModItemTags.CHICKEN_STICKS)) {
             return;
         }
 

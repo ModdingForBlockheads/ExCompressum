@@ -23,7 +23,7 @@ public class CompressedCrookItem extends DiggerItem {
     public static final ResourceLocation registryName = new ResourceLocation(ExCompressum.MOD_ID, name);
 
     public CompressedCrookItem(Item.Properties properties) {
-        super(0f, 0f, Tiers.WOOD, ModTags.MINEABLE_WITH_CROOK, properties
+        super(0f, 0f, Tiers.WOOD, ModBlockTags.MINEABLE_WITH_CROOK, properties
                 .durability((int) (Tiers.WOOD.getUses() * 2 * ExCompressumConfig.getActive().tools.compressedCrookDurabilityMultiplier)));
     }
 

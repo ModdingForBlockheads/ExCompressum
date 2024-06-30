@@ -16,17 +16,10 @@ public class ExCompressumConfigData implements BalmConfigData {
     public Baits baits = new Baits();
     public CompressedMobs compressedMobs = new CompressedMobs();
     public Tools tools = new Tools();
-    public Compat compat = new Compat();
     public Automation automation = new Automation();
     public Client client = new Client();
 
     public static class General {
-        @Comment("If set to true, wood can be hammered into wood chippings, which can be composted into dirt.")
-        public boolean enableWoodChippings = true;
-
-        @Comment("If enabled, all meshes can obtain the results from the lower tier meshes. Note if the same item is registered in multiple tiers, then the higher tier will have a chance to drop multiples.")
-        public boolean flattenSieveRecipes = false;
-
         @Comment("The amount of times the heavy sieve should roll for compressed entries. For example, a value of 7 means for every compressed gravel you only get the equivalent drops of 7 sifted gravel blocks (2 loss). A value of 9 would therefore mean no loss.")
         public int heavySieveDefaultRolls = 7;
     }
@@ -162,23 +155,6 @@ public class ExCompressumConfigData implements BalmConfigData {
         public double compressedCrookSpeedMultiplier = 4f;
     }
 
-    public static class Compat {
-        @Comment("Set to false if you need the Ex Nihilo Creatio wooden crucible for some reason. Note it'll cause a recipe conflict you'll have to fix via other means.")
-        public boolean disableCreatioWoodenCrucible = true;
-
-        @Comment("The mana cost of the Mana Sieve per Tick.")
-        public int manaSieveCost = 1;
-
-        @Comment("Setting this to false will disable the Evolved Orechid.")
-        public boolean enableEvolvedOrechid = false;
-
-        @Comment("The mana cost of the Evolved Orechid. GoG Orechid is 700, vanilla Orechid is 17500.")
-        public int evolvedOrechidCost = 700;
-
-        @Comment("The ore generation delay for the Evolved Orechid in ticks. GoG Orechid is 2, vanilla Orechid is 100.")
-        public int evolvedOrechidDelay = 2;
-    }
-
     public static class Automation {
         @Comment("The energy cost of the auto hammer per tick.")
         public int autoHammerEnergy = 40;
@@ -221,14 +197,14 @@ public class ExCompressumConfigData implements BalmConfigData {
 
         @Comment("The rate at which the wooden crucible extracts water. Measured in liquid per second.")
         public int woodenCrucibleSpeed = 8;
+
+        @Comment("Set this to true if you want to allow right-clicking Auto Sieves with Food to give them speed boosts")
+        public boolean allowAutoSieveFoodSpeedBoosts = true;
     }
 
     public static class Client {
         @Comment("Set this to true to disable the loading of auto sieve skins from a remote server.")
         public boolean skipAutoSieveSkins = false;
-
-        @Comment("Set this to true if you're a modpack dev to see Ex Compressum registry warnings in chat. Errors will always display.")
-        public boolean showRegistryWarnings = false;
 
         @Comment("Setting this to true will disable particles from the Sieves and Auto Hammers from Ex Compressum.")
         public boolean disableParticles = false;

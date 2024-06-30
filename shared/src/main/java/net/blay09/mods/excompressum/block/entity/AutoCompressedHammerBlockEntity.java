@@ -1,23 +1,19 @@
 package net.blay09.mods.excompressum.block.entity;
 
-import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
-import net.blay09.mods.excompressum.item.ModItems;
-import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRegistry;
+import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -53,7 +49,7 @@ public class AutoCompressedHammerBlockEntity extends AutoHammerBlockEntity {
 
     @Override
     public boolean isHammerUpgrade(ItemStack itemStack) {
-        if (itemStack.is(ModTags.COMPRESSED_HAMMERS)) {
+        if (itemStack.is(ModItemTags.COMPRESSED_HAMMERS)) {
             return true;
         }
 
