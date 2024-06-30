@@ -16,8 +16,8 @@ public class SieveMeshRegistry {
     private static final Map<CommonMeshType, SieveMeshRegistryEntry> entriesByType = new HashMap<>();
     private static final Map<ResourceLocation, SieveMeshRegistryEntry> entriesByItem = new HashMap<>();
 
-    public static void registerDefaults() {
-        SieveMeshRegistryEntry ironMesh = new SieveMeshRegistryEntry(CommonMeshType.IRON, new ItemStack(ModItems.ironMesh), null);
+    public static void registerDefaults(@Nullable Object backingMesh) {
+        SieveMeshRegistryEntry ironMesh = new SieveMeshRegistryEntry(CommonMeshType.IRON, new ItemStack(ModItems.ironMesh), backingMesh);
         ironMesh.setHeavy(true);
         ironMesh.setMeshLevel(3);
         ironMesh.setModelName("iron");

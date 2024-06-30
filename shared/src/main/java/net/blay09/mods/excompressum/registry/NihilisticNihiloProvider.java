@@ -4,6 +4,7 @@ import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.api.IHammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 
+import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -19,6 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class NihilisticNihiloProvider implements ExNihiloProvider {
+	public NihilisticNihiloProvider() {
+		SieveMeshRegistry.registerDefaults(null);
+	}
+
 	@Override
 	public ItemStack getNihiloItem(NihiloItems type) {
 		return ItemStack.EMPTY;

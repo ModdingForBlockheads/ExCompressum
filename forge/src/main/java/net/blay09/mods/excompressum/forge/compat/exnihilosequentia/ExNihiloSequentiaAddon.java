@@ -67,6 +67,8 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         itemMap.put(NihiloItems.ANDESITE_GRAVEL, findBlock("crushed_andesite"));
         itemMap.put(NihiloItems.GRANITE_GRAVEL, findBlock("crushed_granite"));
 
+        SieveMeshRegistry.registerDefaults(MeshType.STRING);
+
         ItemStack stringMeshItem = findItem("string_mesh");
         if (!stringMeshItem.isEmpty()) {
             SieveMeshRegistryEntry stringMesh = new SieveMeshRegistryEntry(CommonMeshType.STRING, stringMeshItem, MeshType.STRING);

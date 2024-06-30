@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"mesh": "excompressum:blocks/emerald_mesh"
+		"mesh": "excompressum:block/emerald_mesh"
 	},
 	"elements": [
 		{

@@ -9,6 +9,7 @@ import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRe
 import net.blay09.mods.excompressum.registry.compressor.CompressedRecipeRegistry;
 import net.blay09.mods.excompressum.registry.hammer.HammerRegistry;
 import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRegistry;
+import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRegistry;
 
 public class ExRegistries {

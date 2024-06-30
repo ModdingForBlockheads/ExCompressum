@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"mesh": "excompressum:blocks/iron_mesh"
+		"mesh": "excompressum:block/iron_mesh"
 	},
 	"elements": [
 		{

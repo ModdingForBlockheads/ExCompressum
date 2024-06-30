@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"mesh": "excompressum:blocks/diamond_mesh"
+		"mesh": "excompressum:block/diamond_mesh"
 	},
 	"elements": [
 		{
