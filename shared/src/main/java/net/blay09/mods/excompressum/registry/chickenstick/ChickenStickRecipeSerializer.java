@@ -1,7 +1,6 @@
 package net.blay09.mods.excompressum.registry.chickenstick;
 
 import com.google.gson.JsonObject;
-import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.registry.LootTableProvider;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipeSerializer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -28,7 +27,7 @@ public class ChickenStickRecipeSerializer extends ExCompressumRecipeSerializer<C
     @Override
     public void toNetwork(FriendlyByteBuf buffer, ChickenStickRecipe recipe) {
         recipe.getInput().toNetwork(buffer);
-        writeLootTable(buffer, recipe.getId(), recipe.getLootTable());
+        writeLootTable(buffer, recipe.getRecipeId(), recipe.getLootTable());
     }
 
 }

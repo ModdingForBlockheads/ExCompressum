@@ -131,7 +131,7 @@ public class JEIAddon implements IModPlugin {
             ItemLike source = Balm.getRegistries().getItem(generatedRecipe.getSource());
             LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(waterLoggedState, source, rolls, mesh);
             if (!LootTableUtils.isLootTableEmpty(lootTable)) {
-                HeavySieveRecipe recipe = new HeavySieveRecipe(generatedRecipe.getId(), generatedRecipe.getInput(), new LootTableProvider(lootTable), waterlogged, null, Sets.newHashSet(mesh.getMeshType()));
+                HeavySieveRecipe recipe = new HeavySieveRecipe(generatedRecipe.getRecipeId(), generatedRecipe.getInput(), new LootTableProvider(lootTable), waterlogged, null, Sets.newHashSet(mesh.getMeshType()));
                 outRecipes.add(new JeiHeavySieveRecipe(recipe));
             }
         }

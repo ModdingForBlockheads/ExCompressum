@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.registry.LootTableProvider;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipeSerializer;
@@ -74,7 +73,7 @@ public class HeavySieveRecipeSerializer extends ExCompressumRecipeSerializer<Hea
     @Override
     public void toNetwork(FriendlyByteBuf buffer, HeavySieveRecipe recipe) {
         recipe.getInput().toNetwork(buffer);
-        writeLootTable(buffer, recipe.getId(), recipe.getLootTable());
+        writeLootTable(buffer, recipe.getRecipeId(), recipe.getLootTable());
         buffer.writeBoolean(recipe.isWaterlogged());
         if (recipe.getMinimumMesh() != null) {
             buffer.writeByte(-1);

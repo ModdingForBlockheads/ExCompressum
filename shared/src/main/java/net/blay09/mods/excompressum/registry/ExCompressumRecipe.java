@@ -39,8 +39,7 @@ public abstract class ExCompressumRecipe implements Recipe<Container> {
         return false;
     }
 
-    @Override
-    public ResourceLocation getId() {
+    public ResourceLocation getRecipeId() {
         return id;
     }
 
