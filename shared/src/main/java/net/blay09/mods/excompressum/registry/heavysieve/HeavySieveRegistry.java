@@ -26,7 +26,7 @@ public class HeavySieveRegistry {
 
         if (recipe.getMinimumMesh() != null) {
             SieveMeshRegistryEntry minimumMesh = SieveMeshRegistry.getEntry(recipe.getMinimumMesh());
-            if (mesh.getMeshLevel() < minimumMesh.getMeshLevel()) {
+            if (minimumMesh != null && mesh.getMeshLevel() < minimumMesh.getMeshLevel()) {
                 return false;
             }
         }
