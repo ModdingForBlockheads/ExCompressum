@@ -61,7 +61,7 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
         poseStack.mulPose(tileEntity.getFacing().getRotation());
         poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(-90), 0f, 1f, 0f)));
 
-        if (tileEntity.shouldAnimate() || true) {
+        if (tileEntity.shouldAnimate()) {
             tileEntity.hammerAngle += 0.4f * partialTicks;
         }
 
@@ -96,15 +96,13 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
 
         poseStack.popPose();
 
-        // TODO content is slanted inside
-
         ItemStack currentStack = tileEntity.getCurrentStack();
         if (!currentStack.isEmpty()) {
             BlockState contentState = StupidUtils.getStateFromItemStack(currentStack);
             if (!contentState.isAir()) {
                 poseStack.pushPose();
-                poseStack.translate(-0.09375f, 0.0625f, -0.25);
-                poseStack.scale(0.5f, 0.5f, 0.5f);
+                poseStack.translate(-0.4f, -0.04f, -0.2);
+                poseStack.scale(0.4f, 0.4f, 0.4f);
                 BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
                 dispatcher.renderSingleBlock(contentState, poseStack, buffers, combinedLight, combinedOverlay);
 
