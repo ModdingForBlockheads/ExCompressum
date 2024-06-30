@@ -54,7 +54,7 @@ public class AutoSieveMenu extends AbstractContainerMenu {
             ItemStack slotStack = slot.getItem();
             itemStack = slotStack.copy();
             if (slotNumber <= 21) {
-                if (!moveItemStackTo(slotStack, 22, 57, true)) {
+                if (!moveItemStackTo(slotStack, 22, 58, true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (autoSieve.getBackingContainer().canPlaceItem(0, slotStack)) {
