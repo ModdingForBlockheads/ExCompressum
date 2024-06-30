@@ -424,17 +424,6 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
     }
 
     public boolean isHammerUpgrade(ItemStack itemStack) {
-        if (itemStack.getItem() == Compat.TCONSTRUCT_HAMMER) {
-            CompoundTag tagCompound = itemStack.getTag();
-            if (tagCompound != null) {
-                ListTag traits = tagCompound.getList("Traits", Tag.TAG_STRING);
-                for (Tag tag : traits) {
-                    if (tag.getAsString().equalsIgnoreCase(Compat.TCONSTRUCT_TRAIT_SMASHING)) {
-                        return true;
-                    }
-                }
-            }
-        }
         return itemStack.is(ModItemTags.HAMMERS);
     }
 
