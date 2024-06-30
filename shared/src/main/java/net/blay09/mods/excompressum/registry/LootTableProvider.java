@@ -1,6 +1,7 @@
 package net.blay09.mods.excompressum.registry;
 
 import com.google.gson.*;
+import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.api.ILootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.*;
@@ -33,7 +34,7 @@ public class LootTableProvider implements ILootTableProvider {
     public LootTable getLootTable(@Nullable ResourceLocation resourceLocation, LootDataResolver lootDataResolver) {
         if (inlineLootTableJson != null || inlineLootTable != null) {
             if (inlineLootTable == null) {
-                inlineLootTable = GSON_INSTANCE.fromJson(inlineLootTableJson, LootTable.class);
+                inlineLootTable = ExCompressum.lootTableLoader.apply(GSON_INSTANCE, resourceLocation, inlineLootTableJson);
             }
             return inlineLootTable;
         }
@@ -45,7 +46,7 @@ public class LootTableProvider implements ILootTableProvider {
     public LootTable getLootTable(ResourceLocation resourceLocation, LootContext context) {
         if (inlineLootTableJson != null || inlineLootTable != null) {
             if (inlineLootTable == null) {
-                inlineLootTable = GSON_INSTANCE.fromJson(inlineLootTableJson, LootTable.class);
+                inlineLootTable = ExCompressum.lootTableLoader.apply(GSON_INSTANCE, resourceLocation, inlineLootTableJson);
             }
             return inlineLootTable;
         }

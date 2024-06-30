@@ -1,5 +1,8 @@
 package net.blay09.mods.excompressum.item;
 
+import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.balm.api.energy.BalmEnergyStorageProvider;
+import net.blay09.mods.balm.api.energy.EnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -25,6 +28,16 @@ public class BatZapperItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
+        if (context.getPlayer() != null && context.getPlayer().getAbilities().instabuild) {
+            final var blockEntity = context.getLevel().getBlockEntity(context.getClickedPos());
+            if (blockEntity != null) {
+                final var energyStorage = Balm.getProviders().getProvider(blockEntity, EnergyStorage.class);
+                if (energyStorage != null) {
+                    energyStorage.setEnergy(energyStorage.getCapacity());
+                }
+            }
+        }
+
         return zapBatter(context.getLevel(), context.getPlayer(), context.getItemInHand(), context.getClickedPos(), context.getHand()).getResult();
     }
 
@@ -39,7 +52,8 @@ public class BatZapperItem extends Item {
 
         if (!level.isClientSide) {
             final int range = 5;
-            for (Bat entity : level.getEntitiesOfClass(Bat.class, new AABB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range))) {
+            for (Bat entity : level.getEntitiesOfClass(Bat.class,
+                    new AABB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range))) {
                 entity.hurt(level.damageSources().playerAttack(player), Float.MAX_VALUE);
                 ((ServerLevel) level).sendParticles(ParticleTypes.CRIMSON_SPORE, entity.getX(), entity.getY(), entity.getZ(), 50, 0.1f, 0.1f, 0.1f, 0.1f);
             }

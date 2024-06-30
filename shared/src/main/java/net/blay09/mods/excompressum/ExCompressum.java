@@ -1,5 +1,8 @@
 package net.blay09.mods.excompressum;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.mojang.datafixers.util.Function3;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.proxy.SidedProxy;
 import net.blay09.mods.excompressum.api.ExCompressumAPI;
@@ -16,8 +19,11 @@ import net.blay09.mods.excompressum.item.ModItems;
 import net.blay09.mods.excompressum.item.ModTags;
 import net.blay09.mods.excompressum.loot.ModLoot;
 import net.blay09.mods.excompressum.menu.ModMenus;
+import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.blay09.mods.excompressum.registry.autosieveskin.AutoSieveSkinRegistry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,11 +33,13 @@ public class ExCompressum {
     public static final Logger logger = LogManager.getLogger(MOD_ID);
 
     public static SidedProxy<CommonProxy> proxy = Balm.sidedProxy("net.blay09.mods.excompressum.CommonProxy", "net.blay09.mods.excompressum.client.ClientProxy");
+    public static Function3<Gson, ResourceLocation, JsonElement, LootTable> lootTableLoader;
 
     public static void initialize() {
         ExCompressumAPI.__setupAPI(new InternalMethodsImpl());
 
         ExCompressumConfig.initialize();
+        ExRegistries.initialize();
         ModBlocks.initialize(Balm.getBlocks());
         ModBlockEntities.initialize(Balm.getBlockEntities());
         ModEntities.initialize(Balm.getEntities());

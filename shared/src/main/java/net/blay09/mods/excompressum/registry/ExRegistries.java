@@ -2,6 +2,8 @@ package net.blay09.mods.excompressum.registry;
 
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.event.client.RecipesUpdatedEvent;
+import net.blay09.mods.balm.api.event.server.ServerReloadFinishedEvent;
+import net.blay09.mods.balm.api.event.server.ServerStartedEvent;
 import net.blay09.mods.excompressum.registry.chickenstick.ChickenStickRegistry;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRegistry;
 import net.blay09.mods.excompressum.registry.compressor.CompressedRecipeRegistry;
@@ -11,7 +13,7 @@ import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRegist
 
 public class ExRegistries {
 
-    private static CompressedRecipeRegistry compressedRecipeRegistry;
+    private static final CompressedRecipeRegistry compressedRecipeRegistry = new CompressedRecipeRegistry();
     private static final ChickenStickRegistry chickenStickRegistry = new ChickenStickRegistry();
     private static final HammerRegistry hammerRegistry = new HammerRegistry();
     private static final CompressedHammerRegistry compressedHammerRegistry = new CompressedHammerRegistry();
@@ -19,13 +21,17 @@ public class ExRegistries {
     private static final HeavySieveRegistry heavySieveRegistry = new HeavySieveRegistry();
 
     public static void initialize() {
-        // TODO do we need this one still? Balm.addServerReloadListener(new ResourceLocation(ExCompressum.MOD_ID, "registries"), it -> compressedRecipeRegistry = new CompressedRecipeRegistry(it.getRecipeManager(), it.getRegistryAccess()));
+        Balm.getEvents()
+                .onEvent(ServerStartedEvent.class,
+                        it -> compressedRecipeRegistry.reloadRecipes(it.getServer().getRecipeManager(), it.getServer().registryAccess()));
+        Balm.getEvents()
+                .onEvent(ServerReloadFinishedEvent.class,
+                        it -> compressedRecipeRegistry.reloadRecipes(it.getServer().getRecipeManager(), it.getServer().registryAccess()));
         Balm.getEvents().onEvent(RecipesUpdatedEvent.class, ExRegistries::onRecipesUpdated);
     }
 
     public static void onRecipesUpdated(RecipesUpdatedEvent event) {
-        compressedRecipeRegistry = new CompressedRecipeRegistry(event.getRecipeManager(), event.getRegistryAccess());
-        compressedRecipeRegistry.reloadRecipes();
+        compressedRecipeRegistry.reloadRecipes(event.getRecipeManager(), event.getRegistryAccess());
     }
 
     public static CompressedRecipeRegistry getCompressedRecipeRegistry() {

@@ -4,8 +4,6 @@ import net.blay09.mods.balm.api.Balm;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -18,28 +16,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CompressedRecipeRegistry implements ResourceManagerReloadListener {
+public class CompressedRecipeRegistry {
 
     private final List<CompressedRecipe> recipesSmall = new ArrayList<>();
     private final List<CompressedRecipe> recipes = new ArrayList<>();
 
     private final Map<ResourceLocation, CompressedRecipe> cachedResults = new HashMap<>();
-    private final RecipeManager recipeManager;
-    private final RegistryAccess registryAccess;
 
-    private boolean recipesLoaded;
-
-    public CompressedRecipeRegistry(RecipeManager recipeManager, RegistryAccess registryAccess) {
-        this.recipeManager = recipeManager;
-        this.registryAccess = registryAccess;
+    public CompressedRecipeRegistry() {
     }
 
-    @Override
-    public void onResourceManagerReload(ResourceManager resourceManager) {
-        recipesLoaded = false;
-    }
-
-    public void reloadRecipes() {
+    public void reloadRecipes(RecipeManager recipeManager, RegistryAccess registryAccess) {
         cachedResults.clear();
         recipesSmall.clear();
         recipes.clear();
@@ -75,16 +62,10 @@ public class CompressedRecipeRegistry implements ResourceManagerReloadListener {
                 }
             }
         }
-
-        recipesLoaded = true;
     }
 
     @Nullable
     public CompressedRecipe getRecipe(ItemStack itemStack) {
-        if (!recipesLoaded) {
-            reloadRecipes();
-        }
-
         if (itemStack.getTag() != null) {
             return null;
         }

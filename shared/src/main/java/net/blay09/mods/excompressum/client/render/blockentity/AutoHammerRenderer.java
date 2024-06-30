@@ -63,7 +63,7 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
             tileEntity.hammerAngle += 0.4f * partialTicks;
         }
 
-        // Render the hammers
+        // Render the hammers TODO they movin way too fast rn
         poseStack.pushPose();
         poseStack.mulPose(new Quaternionf(new AxisAngle4f(180, 0, 1f, 0f)));
         poseStack.mulPose(new Quaternionf(new AxisAngle4f((float) Math.sin(tileEntity.hammerAngle) * 15, 0, 0, 1f)));
@@ -91,6 +91,8 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
 
         poseStack.popPose();
 
+        // TODO content is slanted inside
+
         ItemStack currentStack = tileEntity.getCurrentStack();
         if (!currentStack.isEmpty()) {
             BlockState contentState = StupidUtils.getStateFromItemStack(currentStack);
@@ -101,7 +103,7 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
                 BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
                 dispatcher.renderSingleBlock(contentState, poseStack, buffers, combinedLight, combinedOverlay);
 
-                if (tileEntity.getProgress() > 0f) {
+                if (tileEntity.getProgress() > 0f) { // TODO block break not showing on regular hammer?
                     int blockDamage = Math.min(9, (int) (tileEntity.getProgress() * 9f));
                     BlockRenderUtils.renderBlockBreak(contentState, poseStack, buffers, combinedLight, combinedOverlay, blockDamage + 1);
                 }
