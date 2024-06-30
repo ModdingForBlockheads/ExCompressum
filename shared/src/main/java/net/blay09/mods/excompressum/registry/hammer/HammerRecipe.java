@@ -41,4 +41,5 @@ public class HammerRecipe extends ExCompressumRecipe implements IHammerRecipe {
     public void setLootTable(LootTableProvider lootTable) {
         this.lootTable = lootTable;
     }
+
 }
