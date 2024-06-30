@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.AxisAngle4f;
+import org.joml.Math;
 import org.joml.Quaternionf;
 
 public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEntity> {
@@ -57,25 +58,28 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
 
         poseStack.pushPose();
         poseStack.translate(0.5f, 0f, 0.5f);
-        poseStack.mulPose(new Quaternionf(new AxisAngle4f(RenderUtils.getRotationAngle(tileEntity.getFacing()), 0f, 1f, 0f)));
+        poseStack.mulPose(tileEntity.getFacing().getRotation());
+        poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(-90), 0f, 1f, 0f)));
 
-        if (tileEntity.shouldAnimate()) {
+        if (tileEntity.shouldAnimate() || true) {
             tileEntity.hammerAngle += 0.4f * partialTicks;
         }
 
-        // Render the hammers TODO they movin way too fast rn
+        // Render the hammers
         poseStack.pushPose();
-        poseStack.mulPose(new Quaternionf(new AxisAngle4f(180, 0, 1f, 0f)));
-        poseStack.mulPose(new Quaternionf(new AxisAngle4f((float) Math.sin(tileEntity.hammerAngle) * 15, 0, 0, 1f)));
-        poseStack.translate(0.15f, 0.6f, 0f);
+        poseStack.translate(-0.5f, -0.15f, 0f);
         poseStack.scale(0.5f, 0.5f, 0.5f);
+        poseStack.pushPose();
+        poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(Math.sin(tileEntity.hammerAngle) * 30), 0, 0, 1f)));
         itemRenderer.renderStatic(hammerItemStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffers, level, 0);
+        poseStack.popPose();
 
         ItemStack firstHammer = tileEntity.getUpgradeStack(0);
         if (!firstHammer.isEmpty()) {
             poseStack.pushPose();
             poseStack.translate(0f, 0f, 0.33f);
-            poseStack.mulPose(new Quaternionf(new AxisAngle4f(-10f, 0f, 1, 0)));
+            poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(10f), 0f, 1, 0)));
+            poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(Math.sin(tileEntity.hammerAngle - 8f) * 30), 0, 0, 1f)));
             itemRenderer.renderStatic(firstHammer, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffers, level, 0);
             poseStack.popPose();
         }
@@ -84,7 +88,8 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
         if (!secondHammer.isEmpty()) {
             poseStack.pushPose();
             poseStack.translate(0f, 0f, -0.33f);
-            poseStack.mulPose(new Quaternionf(new AxisAngle4f(10, 0f, 1f, 0)));
+            poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(-10), 0f, 1f, 0)));
+            poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(Math.sin(tileEntity.hammerAngle + 8f) * 30), 0, 0, 1f)));
             itemRenderer.renderStatic(secondHammer, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffers, level, 0);
             poseStack.popPose();
         }
