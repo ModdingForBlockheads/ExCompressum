@@ -176,6 +176,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:the-one-probe-245211:$theoneprobe_version")
 }
 
+apply from: rootProject.file('repositories.gradle')
 apply from: 'dependencies.gradle'
 
 tasks.withType(JavaCompile) {

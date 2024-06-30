@@ -4,6 +4,7 @@ public enum CommonMeshType {
     STRING,
     FLINT,
     IRON,
+    GOLD,
     DIAMOND,
     EMERALD,
     NETHERITE

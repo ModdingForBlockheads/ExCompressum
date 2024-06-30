@@ -43,7 +43,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
-import java.util.Random;
 
 public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmContainerProvider {
 
@@ -231,7 +230,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                     if (!level.isClientSide) {
                         SieveMeshRegistryEntry sieveMesh = getSieveMesh();
                         if (sieveMesh != null) {
-                            Collection<ItemStack> rewards = rollSieveRewards(currentStack, sieveMesh, getEffectiveLuck(), level.random);
+                            Collection<ItemStack> rewards = rollSieveRewards(level, currentStack, sieveMesh, getEffectiveLuck(), level.random);
                             for (ItemStack itemStack : rewards) {
                                 if (!addItemToOutput(itemStack)) {
                                     level.addFreshEntity(new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, itemStack));
@@ -308,8 +307,8 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         return SieveMeshRegistry.getEntry(itemStack) != null;
     }
 
-    public Collection<ItemStack> rollSieveRewards(ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
-        return ExNihilo.rollSieveRewards(getBlockState(), itemStack, sieveMesh, luck, rand);
+    public Collection<ItemStack> rollSieveRewards(Level level, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+        return ExNihilo.rollSieveRewards(level, getBlockState(), itemStack, sieveMesh, luck, rand);
     }
 
     @Override

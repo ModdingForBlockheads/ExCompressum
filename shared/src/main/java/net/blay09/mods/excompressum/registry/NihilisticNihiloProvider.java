@@ -11,7 +11,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +37,7 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 	}
 
 	@Override
-	public List<ItemStack> rollHammerRewards(BlockState state, ItemStack itemStack, RandomSource rand) {
+	public List<ItemStack> rollHammerRewards(Level level, BlockState state, ItemStack itemStack, RandomSource rand) {
 		return Collections.emptyList();
 	}
 
@@ -45,8 +47,23 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 	}
 
 	@Override
-	public Collection<ItemStack> rollSieveRewards(BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+	public boolean isHeavySiftableWithMesh(BlockState sieveState, BlockState state, @Nullable SieveMeshRegistryEntry sieveMesh) {
+		return false;
+	}
+
+	@Override
+	public Collection<ItemStack> rollSieveRewards(Level level, BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
 		return Collections.emptyList();
+	}
+
+	@Override
+	public Collection<ItemStack> rollHeavySieveRewards(Level level, BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public Collection<ItemStack> rollCompressedHammerRewards(Level level, LootContext context, ItemStack itemStack) {
+		return List.of();
 	}
 
 	@Override
@@ -55,7 +72,7 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 	}
 
 	@Override
-	public LootTable generateHeavySieveLootTable(BlockState sieveState, ItemLike source, int count, SieveMeshRegistryEntry mesh) {
+	public LootTable generateHeavySieveLootTable(Level level, BlockState sieveState, ItemLike source, int count, SieveMeshRegistryEntry mesh) {
 		return LootTable.EMPTY;
 	}
 
@@ -81,6 +98,11 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 
 	@Override
 	public boolean isCompressableOre(ItemStack itemStack) {
+		return false;
+	}
+
+	@Override
+	public boolean isHammerableCompressed(ItemStack itemStack) {
 		return false;
 	}
 

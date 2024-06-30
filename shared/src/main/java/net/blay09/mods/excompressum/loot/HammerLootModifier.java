@@ -54,7 +54,8 @@ public class HammerLootModifier implements BalmLootModifier {
             synchronized (activeContexts) {
                 activeContexts.add(context);
             }
-            List<ItemStack> loot = ExNihilo.getInstance().rollHammerRewards(state, tool, context.getRandom());
+            final var level = context.getLevel();
+            List<ItemStack> loot = ExNihilo.getInstance().rollHammerRewards(level, state, tool, context.getRandom());
             synchronized (activeContexts) {
                 activeContexts.remove(context);
             }

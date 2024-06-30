@@ -1,6 +1,8 @@
 package net.blay09.mods.excompressum.registry.compressedhammer;
 
+import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
+import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -24,6 +26,8 @@ public class CompressedHammerRegistry {
             }
         }
 
+        results.addAll(ExNihilo.getInstance().rollCompressedHammerRewards(level, context, itemStack));
+
         return results;
     }
 
@@ -43,7 +47,7 @@ public class CompressedHammerRegistry {
             }
         }
 
-        return false;
+        return ExNihilo.getInstance().isHammerableCompressed(itemStack);
     }
 
 }

@@ -34,6 +34,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -59,8 +60,8 @@ public class JEIAddon implements IModPlugin {
 
         List<GeneratedHeavySieveRecipe> generatedHeavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
         for (GeneratedHeavySieveRecipe recipe : generatedHeavySieveRecipes) {
-            loadGeneratedHeavySieveRecipe(false, recipe, jeiHeavySieveRecipes);
-            loadGeneratedHeavySieveRecipe(true, recipe, jeiHeavySieveRecipes);
+            loadGeneratedHeavySieveRecipe(Minecraft.getInstance().level, false, recipe, jeiHeavySieveRecipes);
+            loadGeneratedHeavySieveRecipe(Minecraft.getInstance().level, true, recipe, jeiHeavySieveRecipes);
         }
 
         registry.addRecipes(HeavySieveRecipeCategory.TYPE, jeiHeavySieveRecipes);
@@ -124,12 +125,12 @@ public class JEIAddon implements IModPlugin {
         registry.addRecipes(CraftChickenStickRecipeCategory.TYPE, Lists.newArrayList(new CraftChickenStickRecipe()));
     }
 
-    private void loadGeneratedHeavySieveRecipe(boolean waterlogged, GeneratedHeavySieveRecipe generatedRecipe, List<JeiHeavySieveRecipe> outRecipes) {
+    private void loadGeneratedHeavySieveRecipe(Level level, boolean waterlogged, GeneratedHeavySieveRecipe generatedRecipe, List<JeiHeavySieveRecipe> outRecipes) {
         BlockState waterLoggedState = ModBlocks.heavySieves[0].defaultBlockState().setValue(HeavySieveBlock.WATERLOGGED, waterlogged);
         for (SieveMeshRegistryEntry mesh : SieveMeshRegistry.getEntries().values()) {
             int rolls = HeavySieveRegistry.getGeneratedRollCount(generatedRecipe);
             ItemLike source = Balm.getRegistries().getItem(generatedRecipe.getSource());
-            LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(waterLoggedState, source, rolls, mesh);
+            LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, waterLoggedState, source, rolls, mesh);
             if (!LootTableUtils.isLootTableEmpty(lootTable)) {
                 HeavySieveRecipe recipe = new HeavySieveRecipe(generatedRecipe.getRecipeId(), generatedRecipe.getInput(), new LootTableProvider(lootTable), waterlogged, null, Sets.newHashSet(mesh.getMeshType()));
                 outRecipes.add(new JeiHeavySieveRecipe(recipe));

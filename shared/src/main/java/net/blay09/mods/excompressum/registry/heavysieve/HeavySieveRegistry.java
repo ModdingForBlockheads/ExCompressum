@@ -5,6 +5,7 @@ import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.*;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
+import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
@@ -43,7 +44,7 @@ public class HeavySieveRegistry {
         return generatedRecipe.getInput().test(itemStack) && ExNihilo.isSiftableWithMesh(sieve, new ItemStack(sourceBlock), sieveMesh);
     }
 
-    public static List<ItemStack> rollSieveRewards(LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
+    public static List<ItemStack> rollSieveRewards(Level level, LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
         RecipeManager recipeManager = context.getLevel().getRecipeManager();
         List<HeavySieveRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
@@ -62,12 +63,15 @@ public class HeavySieveRegistry {
             if (testGeneratedRecipe(itemStack, generatedRecipe, sieve, mesh)) {
                 int rolls = getGeneratedRollCount(generatedRecipe);
                 ItemLike source = Balm.getRegistries().getItem(generatedRecipe.getSource());
-                LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(sieve, source, rolls, mesh);
+                LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, sieve, source, rolls, mesh);
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
                 }
             }
         }
+
+        final var inputState = StupidUtils.getStateFromItemStack(itemStack);
+        results.addAll(ExNihilo.getInstance().rollHeavySieveRewards(level, sieve, inputState, mesh, context.getLuck(), level.random));
 
         return results;
     }
@@ -93,7 +97,8 @@ public class HeavySieveRegistry {
             }
         }
 
-        return false;
+        final var state = StupidUtils.getStateFromItemStack(itemStack);
+        return ExNihilo.getInstance().isHeavySiftableWithMesh(sieve, state, sieveMesh);
     }
 
 }

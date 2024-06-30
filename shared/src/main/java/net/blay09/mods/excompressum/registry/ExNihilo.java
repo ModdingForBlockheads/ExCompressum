@@ -7,12 +7,12 @@ import net.blay09.mods.excompressum.utils.StupidUtils;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Random;
 
 public abstract class ExNihilo {
 
@@ -45,10 +45,10 @@ public abstract class ExNihilo {
         return state != null && instance.isSiftableWithMesh(sieveState, state, sieveMesh);
     }
 
-    public static Collection<ItemStack> rollSieveRewards(BlockState sieveState, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+    public static Collection<ItemStack> rollSieveRewards(Level level, BlockState sieveState, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
         if (state != null) {
-            return instance.rollSieveRewards(sieveState, state, sieveMesh, luck, rand);
+            return instance.rollSieveRewards(level, sieveState, state, sieveMesh, luck, rand);
         }
         return Collections.emptyList();
     }

@@ -38,6 +38,7 @@ dependencies {
 	modCompileOnly "mcp.mobius.waila:wthit-api:mojmap-$wthit_version"
 }
 
+apply from: rootProject.file('repositories.gradle')
 apply from: 'dependencies.gradle'
 
 loom {

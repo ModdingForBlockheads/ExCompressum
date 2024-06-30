@@ -448,7 +448,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         }
 
         BlockState currentState = StupidUtils.getStateFromItemStack(itemStack);
-        return ExNihilo.getInstance().rollHammerRewards(currentState, toolItem, rand);
+        return ExNihilo.getInstance().rollHammerRewards(level, currentState, toolItem, rand);
     }
 
     public int getMiningLevel() {

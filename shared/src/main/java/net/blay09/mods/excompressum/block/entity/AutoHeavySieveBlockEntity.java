@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -28,9 +29,9 @@ public class AutoHeavySieveBlockEntity extends AutoSieveBlockEntity {
     }
 
     @Override
-    public Collection<ItemStack> rollSieveRewards(ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
-        LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) level), itemStack);
-        return HeavySieveRegistry.rollSieveRewards(lootContext, getBlockState(), sieveMesh, itemStack);
+    public Collection<ItemStack> rollSieveRewards(Level level, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+        LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) this.level), itemStack);
+        return HeavySieveRegistry.rollSieveRewards(level, lootContext, getBlockState(), sieveMesh, itemStack);
     }
 
     @Override

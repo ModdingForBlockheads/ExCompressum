@@ -19,7 +19,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -124,7 +123,7 @@ public class HeavySieveBlockEntity extends BalmBlockEntity {
                 SieveMeshRegistryEntry sieveMesh = getSieveMesh();
                 if (sieveMesh != null) {
                     LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) level), currentStack);
-                    Collection<ItemStack> rewards = HeavySieveRegistry.rollSieveRewards(lootContext, getBlockState(), sieveMesh, currentStack);
+                    Collection<ItemStack> rewards = HeavySieveRegistry.rollSieveRewards(level, lootContext, getBlockState(), sieveMesh, currentStack);
                     for (ItemStack itemStack : rewards) {
                         level.addFreshEntity(new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, itemStack));
                     }

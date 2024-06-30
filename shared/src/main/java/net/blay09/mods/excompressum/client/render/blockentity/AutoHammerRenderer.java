@@ -65,6 +65,8 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
         }
 
         // Render the hammers
+        // TODO processed block is too far in the ground
+        // TODO rotate the hammer, not the handle
         poseStack.pushPose();
         poseStack.translate(-0.5f, -0.05f, 0f);
         poseStack.scale(0.5f, 0.5f, 0.5f);

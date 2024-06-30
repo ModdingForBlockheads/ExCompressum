@@ -48,6 +48,7 @@ public class ExCompressum {
         ModRecipeTypes.initialize(Balm.getRecipes());
 
         Balm.initializeIfLoaded(Compat.EXNIHILO_SEQUENTIA, "net.blay09.mods.excompressum.forge.compat.exnihilosequentia.ExNihiloSequentiaAddon");
+        Balm.initializeIfLoaded(Compat.EX_DEORUM, "net.blay09.mods.excompressum.forge.compat.exdeorum.ExDeorumAddon");
 
         AutoSieveSkinRegistry.load();
         HammerSpeedHandler.initialize();

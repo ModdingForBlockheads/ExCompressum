@@ -53,7 +53,8 @@ public class CompressedHammerLootModifier implements BalmLootModifier {
             synchronized (activeContexts) {
                 activeContexts.add(context);
             }
-            List<ItemStack> nihiLoot = ExNihilo.getInstance().rollHammerRewards(state, tool, context.getRandom());
+            final var level = context.getLevel();
+            List<ItemStack> nihiLoot = ExNihilo.getInstance().rollHammerRewards(level, state, tool, context.getRandom());
             synchronized (activeContexts) {
                 activeContexts.remove(context);
             }
