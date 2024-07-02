@@ -55,7 +55,15 @@ public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<Expanded
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedWoodenCrucibleRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10).addFluidStack(recipe.getFluid(), recipe.getFluidStack().getAmount());
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 75, 10).addFluidStack(recipe.getFluid(), recipe.getFluidStack().getAmount());
+
+        int slotNumber = 0;
+        for (final var itemStack : recipe.getInputs()) {
+            final int slotX = 3 + (slotNumber % 9 * 18);
+            final int slotY = 37 + (slotNumber / 9 * 18);
+            recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addItemStack(itemStack);
+            slotNumber++;
+        }
     }
 
 }
