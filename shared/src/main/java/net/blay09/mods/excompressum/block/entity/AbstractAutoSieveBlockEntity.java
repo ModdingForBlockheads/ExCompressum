@@ -21,9 +21,7 @@ import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -42,7 +40,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.StringUtils;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmContainerProvider {
 
@@ -100,6 +101,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     private final SubContainer inputSlots = new SubContainer(backingContainer, 0, 1);
     private final SubContainer outputSlots = new SubContainer(backingContainer, 1, 21);
     private final SubContainer meshSlots = new SubContainer(backingContainer, 21, 22);
+    private final List<ItemStack> overflowBuffer = new ArrayList<>();
 
     private final DelegateContainer container = new DelegateContainer(backingContainer) {
         @Override
@@ -195,7 +197,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         }
 
         int effectiveEnergy = getEffectiveEnergy();
-        if (!isDisabledByRedstone() && getEnergyStored() >= effectiveEnergy) {
+        if (!isDisabledByRedstone() && overflowBuffer.isEmpty() && getEnergyStored() >= effectiveEnergy) {
             if (currentStack.isEmpty()) {
                 ItemStack inputStack = inputSlots.getItem(0);
                 SieveMeshRegistryEntry sieveMesh = getSieveMesh();
@@ -233,7 +235,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                             Collection<ItemStack> rewards = rollSieveRewards(level, currentStack, sieveMesh, getEffectiveLuck(), level.random);
                             for (ItemStack itemStack : rewards) {
                                 if (!addItemToOutput(itemStack)) {
-                                    level.addFreshEntity(new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, itemStack));
+                                    overflowBuffer.add(itemStack);
                                 }
                             }
                             if (ExNihilo.getInstance().doMeshesHaveDurability()) {
@@ -248,13 +250,17 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                             }
                         } else {
                             if (!addItemToOutput(currentStack)) {
-                                level.addFreshEntity(new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, currentStack));
+                                overflowBuffer.add(currentStack);
                             }
                         }
                     }
                     progress = 0f;
                     currentStack = ItemStack.EMPTY;
                 }
+            }
+        } else if (!overflowBuffer.isEmpty()) {
+            if (addItemToOutput(overflowBuffer.get(0))) {
+                overflowBuffer.remove(0);
             }
         }
     }
@@ -328,6 +334,10 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         particleCount = tag.getInt("ParticleCount");
         backingContainer.deserialize(tag.getCompound("ItemHandler"));
         isDisabledByRedstone = tag.getBoolean("IsDisabledByRedstone");
+        overflowBuffer.clear();
+        for (final var overflowItem : tag.getList("OverflowBuffer", Tag.TAG_COMPOUND)) {
+            overflowBuffer.add(ItemStack.of(((CompoundTag) overflowItem)));
+        }
 
         if (tag.contains("MeshStack", Tag.TAG_COMPOUND)) {
             meshSlots.setItem(0, ItemStack.of(tag.getCompound("MeshStack")));
@@ -350,6 +360,11 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         tag.putInt("ParticleCount", particleCount);
         tag.put("ItemHandler", backingContainer.serialize());
         tag.putBoolean("IsDisabledByRedstone", isDisabledByRedstone());
+        final var overflowList = new ListTag();
+        for (ItemStack itemStack : overflowBuffer) {
+            overflowList.add(itemStack.save(new CompoundTag()));
+        }
+        tag.put("OverflowBuffer", overflowList);
     }
 
     @Override

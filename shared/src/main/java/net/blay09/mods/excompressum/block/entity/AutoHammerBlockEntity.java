@@ -44,8 +44,10 @@ import net.minecraft.world.level.storage.loot.LootContext;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmContainerProvider, BalmEnergyStorageProvider {
 
@@ -111,6 +113,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
     private final SubContainer inputSlots = new SubContainer(backingContainer, 0, 1);
     private final SubContainer outputSlots = new SubContainer(backingContainer, 1, 21);
     private final SubContainer hammerSlots = new SubContainer(backingContainer, 21, 23);
+    private final List<ItemStack> overflowBuffer = new ArrayList<>();
     private final DelegateContainer container = new DelegateContainer(backingContainer) {
         @Override
         public ItemStack removeItem(int slot, int count) {
@@ -186,7 +189,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         }
 
         int effectiveEnergy = getEffectiveEnergy();
-        if (!isDisabledByRedstone() && getEnergyStored() >= effectiveEnergy) {
+        if (!isDisabledByRedstone() && overflowBuffer.isEmpty() && getEnergyStored() >= effectiveEnergy) {
             if (currentStack.isEmpty() && cooldown <= 0) {
                 ItemStack inputStack = inputSlots.getItem(0);
                 if (!inputStack.isEmpty() && isRegistered(inputStack)) {
@@ -230,14 +233,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                         Collection<ItemStack> rewards = rollHammerRewards(currentStack, getEffectiveTool(), level.random);
                         for (ItemStack itemStack : rewards) {
                             if (!addItemToOutput(itemStack)) {
-                                ItemEntity entityItem = new ItemEntity(level,
-                                        worldPosition.getX() + 0.5,
-                                        worldPosition.getY() + 1.5,
-                                        worldPosition.getZ() + 0.5,
-                                        itemStack);
-                                double motion = 0.05;
-                                entityItem.setDeltaMovement(level.random.nextGaussian() * motion, 0.2, level.random.nextGaussian() * motion);
-                                level.addFreshEntity(entityItem);
+                                overflowBuffer.add(itemStack);
                             }
                         }
                     }
@@ -247,6 +243,10 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                     cooldown = 2;
                     currentStack = ItemStack.EMPTY;
                 }
+            }
+        } else if (!overflowBuffer.isEmpty()) {
+            if (addItemToOutput(overflowBuffer.get(0))) {
+                overflowBuffer.remove(0);
             }
         }
 
@@ -357,6 +357,10 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         if (tag.contains("SecondHammer", Tag.TAG_COMPOUND)) {
             hammerSlots.setItem(1, ItemStack.of(tag.getCompound("SecondHammer")));
         }
+        overflowBuffer.clear();
+        for (final var overflowItem : tag.getList("OverflowBuffer", Tag.TAG_COMPOUND)) {
+            overflowBuffer.add(ItemStack.of(((CompoundTag) overflowItem)));
+        }
     }
 
     @Override
@@ -374,6 +378,12 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         if (!finishedStack.isEmpty()) {
             tag.put("FinishedStack", finishedStack.save(new CompoundTag()));
         }
+
+        final var overflowList = new ListTag();
+        for (ItemStack itemStack : overflowBuffer) {
+            overflowList.add(itemStack.save(new CompoundTag()));
+        }
+        tag.put("OverflowBuffer", overflowList);
     }
 
     @Override

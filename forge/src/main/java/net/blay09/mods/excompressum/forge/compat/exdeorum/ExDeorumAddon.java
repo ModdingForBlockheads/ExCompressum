@@ -322,7 +322,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
         return LootTableUtils.buildLootEntry(outputItem, -1f);
     }
 
-    /* TODO private LootPoolSingletonContainer.Builder<?> buildLootEntry(ItemStackWithChance outputItem) {
+    /* private LootPoolSingletonContainer.Builder<?> buildLootEntry(ItemStackWithChance outputItem) {
         return LootTableUtils.buildLootEntry(outputItem.getStack(), outputItem.getChance());
     }*/
 

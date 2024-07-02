@@ -17,6 +17,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -29,6 +31,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmEnergyStorageProvider, BalmContainerProvider {
 
@@ -52,6 +57,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
     };
     private final SubContainer inputSlots = new SubContainer(backingContainer, 0, 12);
     private final SubContainer outputSlots = new SubContainer(backingContainer, 12, 24);
+    private final List<ItemStack> overflowBuffer = new ArrayList<>();
     private final DelegateContainer container = new DelegateContainer(backingContainer) {
         @Override
         public ItemStack removeItem(int slot, int count) {
@@ -127,7 +133,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
 
     public void serverTick() {
         int effectiveEnergy = getEffectiveEnergy();
-        if (!isDisabledByRedstone() && energyStorage.getEnergy() > effectiveEnergy) {
+        if (!isDisabledByRedstone() && overflowBuffer.isEmpty() && energyStorage.getEnergy() > effectiveEnergy) {
             if (currentRecipe == null) {
                 inputItems.clear();
                 for (int i = 0; i < inputSlots.getContainerSize(); i++) {
@@ -191,14 +197,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
                         if (compressedRecipe != null) {
                             ItemStack resultStack = compressedRecipe.getResultStack().copy();
                             if (!addItemToOutput(resultStack)) {
-                                ItemEntity entityItem = new ItemEntity(level,
-                                        worldPosition.getX() + 0.5,
-                                        worldPosition.getY() + 1.5,
-                                        worldPosition.getZ() + 0.5,
-                                        resultStack);
-                                double motion = 0.05;
-                                entityItem.setDeltaMovement(level.random.nextGaussian() * motion, 0.2, level.random.nextGaussian() * motion);
-                                level.addFreshEntity(entityItem);
+                                overflowBuffer.add(resultStack);
                             }
                         }
                     }
@@ -206,6 +205,10 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
                     currentRecipe = null;
                     progress = 0f;
                 }
+            }
+        } else if (!overflowBuffer.isEmpty()) {
+            if (addItemToOutput(overflowBuffer.get(0))) {
+                overflowBuffer.remove(0);
             }
         }
     }
@@ -258,6 +261,10 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
         progress = tagCompound.getFloat("Progress");
         backingContainer.deserialize(tagCompound.getCompound("ItemHandler"));
         energyStorage.deserialize(tagCompound.get("EnergyStorage"));
+        overflowBuffer.clear();
+        for (final var overflowItem : tagCompound.getList("OverflowBuffer", Tag.TAG_COMPOUND)) {
+            overflowBuffer.add(ItemStack.of(((CompoundTag) overflowItem)));
+        }
     }
 
     @Override
@@ -270,6 +277,11 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
         tag.putFloat("Progress", progress);
         tag.put("ItemHandler", backingContainer.serialize());
         tag.put("EnergyStorage", energyStorage.serialize());
+        final var overflowList = new ListTag();
+        for (ItemStack itemStack : overflowBuffer) {
+            overflowList.add(itemStack.save(new CompoundTag()));
+        }
+        tag.put("OverflowBuffer", overflowList);
     }
 
     @Override
