@@ -3,7 +3,6 @@ package net.blay09.mods.excompressum.block;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.excompressum.block.entity.ModBlockEntities;
-import net.blay09.mods.excompressum.registry.SieveModelBounds;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
@@ -42,8 +41,6 @@ import org.jetbrains.annotations.Nullable;
 public class HeavySieveBlock extends BaseEntityBlock {
 
     public static final String nameSuffix = "_heavy_sieve";
-
-    public static final SieveModelBounds SIEVE_BOUNDS = new SieveModelBounds(0.5625f, 0.0625f, 0.88f, 0.5f);
 
     private static final VoxelShape BOUNDING_BOX = Shapes.or(
             Shapes.box(0, 0.5f, 0, 1, 0.75f, 1),

@@ -37,14 +37,14 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registry) {
-        List<JeiHeavySieveRecipe> jeiHeavySieveRecipes = new ArrayList<>();
+        List<ExpandedHeavySieveRecipe> jeiHeavySieveRecipes = new ArrayList<>();
 
         final var level = Minecraft.getInstance().level;
         final var recipeManager = level.getRecipeManager();
 
         final var heavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         for (final var recipe : heavySieveRecipes) {
-            jeiHeavySieveRecipes.add(new JeiHeavySieveRecipe(recipe));
+            jeiHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe));
         }
 
         final var generatedHeavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
@@ -53,29 +53,29 @@ public class JEIAddon implements IModPlugin {
             loadGeneratedHeavySieveRecipe(level, true, recipe, jeiHeavySieveRecipes);
         }
 
-        registry.addRecipes(HeavySieveRecipeCategory.TYPE, jeiHeavySieveRecipes);
+        registry.addRecipes(HeavySieveJeiRecipeCategory.TYPE, jeiHeavySieveRecipes);
 
-        List<JeiCompressedHammerRecipe> jeiCompressedHammerRecipes = new ArrayList<>();
+        List<ExpandedCompressedHammerRecipe> jeiCompressedHammerRecipes = new ArrayList<>();
         final var compressedHammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         for (final var recipe : compressedHammerRecipes) {
-            jeiCompressedHammerRecipes.add(new JeiCompressedHammerRecipe(recipe));
+            jeiCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe));
         }
-        registry.addRecipes(CompressedHammerRecipeCategory.TYPE, jeiCompressedHammerRecipes);
+        registry.addRecipes(CompressedHammerJeiRecipeCategory.TYPE, jeiCompressedHammerRecipes);
 
-        List<JeiHammerRecipe> jeiHammerRecipes = new ArrayList<>();
+        List<ExpandedHammerRecipe> jeiHammerRecipes = new ArrayList<>();
         final var hammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         for (final var recipe : hammerRecipes) {
-            jeiHammerRecipes.add(new JeiHammerRecipe(recipe));
+            jeiHammerRecipes.add(new ExpandedHammerRecipe(recipe));
         }
         for (final var recipe : ExNihilo.getInstance().getHammerRecipes()) {
-            jeiHammerRecipes.add(new JeiHammerRecipe(recipe));
+            jeiHammerRecipes.add(new ExpandedHammerRecipe(recipe));
         }
-        registry.addRecipes(HammerRecipeCategory.TYPE, jeiHammerRecipes);
+        registry.addRecipes(HammerJeiRecipeCategory.TYPE, jeiHammerRecipes);
 
-        List<JeiChickenStickRecipe> jeiChickenStickRecipes = new ArrayList<>();
+        List<ExpandedChickenStickRecipe> jeiChickenStickRecipes = new ArrayList<>();
         final var chickenStickRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
         for (final var recipe : chickenStickRecipes) {
-            jeiChickenStickRecipes.add(new JeiChickenStickRecipe(recipe));
+            jeiChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe));
         }
         registry.addRecipes(ChickenStickJeiRecipeCategory.TYPE, jeiChickenStickRecipes);
 
@@ -85,7 +85,7 @@ public class JEIAddon implements IModPlugin {
             fluidOutputMap.put(entry.getFluidId(), entry);
         }
 
-        List<JeiWoodenCrucibleRecipe> jeiWoodenCrucibleRecipes = new ArrayList<>();
+        List<ExpandedWoodenCrucibleRecipe> jeiWoodenCrucibleRecipes = new ArrayList<>();
         for (final var fluidName : fluidOutputMap.keySet()) {
             final var fluid = Balm.getRegistries().getFluid(fluidName);
             if (fluid == null) {
@@ -105,16 +105,16 @@ public class JEIAddon implements IModPlugin {
             final int pageSize = 45;
             final var pages = Lists.partition(inputs, pageSize);
             for (final var page : pages) {
-                jeiWoodenCrucibleRecipes.add(new JeiWoodenCrucibleRecipe(fluid, page));
+                jeiWoodenCrucibleRecipes.add(new ExpandedWoodenCrucibleRecipe(fluid, page));
             }
         }
 
-        registry.addRecipes(WoodenCrucibleRecipeCategory.TYPE, jeiWoodenCrucibleRecipes);
+        registry.addRecipes(WoodenCrucibleJeiRecipeCategory.TYPE, jeiWoodenCrucibleRecipes);
 
-        registry.addRecipes(CraftChickenStickRecipeCategory.TYPE, Lists.newArrayList(new CraftChickenStickRecipe()));
+        registry.addRecipes(CraftChickenStickJeiRecipeCategory.TYPE, Lists.newArrayList(new CraftChickenStickRecipe()));
     }
 
-    private void loadGeneratedHeavySieveRecipe(Level level, boolean waterlogged, GeneratedHeavySieveRecipe generatedRecipe, List<JeiHeavySieveRecipe> outRecipes) {
+    private void loadGeneratedHeavySieveRecipe(Level level, boolean waterlogged, GeneratedHeavySieveRecipe generatedRecipe, List<ExpandedHeavySieveRecipe> outRecipes) {
         final var waterLoggedState = ModBlocks.heavySieves[0].defaultBlockState().setValue(HeavySieveBlock.WATERLOGGED, waterlogged);
         for (final var mesh : SieveMeshRegistry.getEntries().values()) {
             final var rolls = HeavySieveRegistry.getGeneratedRollCount(generatedRecipe);
@@ -122,7 +122,7 @@ public class JEIAddon implements IModPlugin {
             final var lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, waterLoggedState, source, rolls, mesh);
             if (!LootTableUtils.isLootTableEmpty(lootTable)) {
                 final var recipe = new HeavySieveRecipe(generatedRecipe.getRecipeId(), generatedRecipe.getInput(), lootTable, waterlogged, null, Sets.newHashSet(mesh.getMeshType()));
-                outRecipes.add(new JeiHeavySieveRecipe(recipe));
+                outRecipes.add(new ExpandedHeavySieveRecipe(recipe));
             }
         }
     }
@@ -130,27 +130,27 @@ public class JEIAddon implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
         for (final var heavySieve : ModBlocks.heavySieves) {
-            registry.addRecipeCatalyst(new ItemStack(heavySieve), HeavySieveRecipeCategory.TYPE);
+            registry.addRecipeCatalyst(new ItemStack(heavySieve), HeavySieveJeiRecipeCategory.TYPE);
         }
         for (final var woodenCrucible : ModBlocks.woodenCrucibles) {
-            registry.addRecipeCatalyst(new ItemStack(woodenCrucible), WoodenCrucibleRecipeCategory.TYPE);
+            registry.addRecipeCatalyst(new ItemStack(woodenCrucible), WoodenCrucibleJeiRecipeCategory.TYPE);
         }
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoCompressedHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedNetheriteHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedDiamondHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedGoldenHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedIronHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedStoneHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedWoodenHammer), CompressedHammerRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoCompressedHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedNetheriteHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedDiamondHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedGoldenHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedIronHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedStoneHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedWoodenHammer), CompressedHammerJeiRecipeCategory.TYPE);
         registry.addRecipeCatalyst(new ItemStack(ModItems.chickenStick), ChickenStickJeiRecipeCategory.TYPE);
 
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHammer), HammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_NETHERITE), HammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_DIAMOND), HammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_GOLD), HammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_IRON), HammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_STONE), HammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_WOODEN), HammerRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHammer), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_NETHERITE), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_DIAMOND), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_GOLD), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_IRON), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_STONE), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_WOODEN), HammerJeiRecipeCategory.TYPE);
     }
 
     @Override
@@ -161,11 +161,11 @@ public class JEIAddon implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(
-                new HeavySieveRecipeCategory(registry.getJeiHelpers()),
-                new HammerRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new CompressedHammerRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new WoodenCrucibleRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new CraftChickenStickRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new HeavySieveJeiRecipeCategory(registry.getJeiHelpers()),
+                new HammerJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new CompressedHammerJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new WoodenCrucibleJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
+                new CraftChickenStickJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
                 new ChickenStickJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
     }
 

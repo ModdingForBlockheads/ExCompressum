@@ -1,24 +1,24 @@
 package net.blay09.mods.excompressum.registry.compressedhammer;
 
+import net.blay09.mods.excompressum.api.recipe.CompressedHammerRecipe;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.*;
 
 public class CompressedHammerRegistry {
 
     public static List<ItemStack> rollHammerRewards(Level level, LootContext context, ItemStack itemStack) {
-        RecipeManager recipeManager = level.getRecipeManager();
-        List<CompressedHammerRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
+        final var recipeManager = level.getRecipeManager();
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (CompressedHammerRecipe recipe : recipes) {
+        for (final var recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
-                LootTable lootTable = recipe.getLootTable();
+                final var lootTable = recipe.getLootTable();
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
                 }
@@ -31,7 +31,7 @@ public class CompressedHammerRegistry {
     }
 
     private static boolean testRecipe(ItemStack itemStack, CompressedHammerRecipe recipe) {
-        return recipe.getInput().test(itemStack);
+        return recipe.getIngredient().test(itemStack);
     }
 
     public boolean isHammerable(Level level, ItemStack itemStack) {
@@ -39,8 +39,8 @@ public class CompressedHammerRegistry {
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
-        List<CompressedHammerRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
-        for (CompressedHammerRecipe recipe : recipes) {
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
+        for (final var recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
                 return true;
             }

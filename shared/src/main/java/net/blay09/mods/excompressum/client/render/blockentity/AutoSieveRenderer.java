@@ -3,9 +3,7 @@ package net.blay09.mods.excompressum.client.render.blockentity;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.blay09.mods.excompressum.registry.SieveModelBounds;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
-import net.blay09.mods.excompressum.block.HeavySieveBlock;
 import net.blay09.mods.excompressum.block.ModBlocks;
 import net.blay09.mods.excompressum.client.ModModels;
 import net.blay09.mods.excompressum.client.render.model.TinyHumanModel;
@@ -104,8 +102,6 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         dispatcher.getModelRenderer().tesselateBlock(level, sieveModel, blockEntity.getBlockState(), blockEntity.getBlockPos(), poseStack, buffer.getBuffer(RenderType.solid()), false, random, 0, Integer.MAX_VALUE);
         poseStack.popPose();
 
-        SieveModelBounds bounds = HeavySieveBlock.SIEVE_BOUNDS;
-
         // Render the sieve mesh
         SieveMeshRegistryEntry mesh = blockEntity.getSieveMesh();
         if (mesh != null) {
@@ -122,8 +118,12 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
             if (contentState != null) {
                 float progress = blockEntity.getProgress();
                 poseStack.pushPose();
-                poseStack.translate(bounds.contentOffset, bounds.meshY, bounds.contentOffset);
-                poseStack.scale(bounds.contentScaleXZ, bounds.contentBaseScaleY - progress * bounds.contentBaseScaleY, bounds.contentScaleXZ);
+                final var contentOffset = 0.0625f;
+                final var meshY = 0.5625f;
+                final var contentScaleXZ = 0.88f;
+                final var contentBaseScaleY = 0.5f;
+                poseStack.translate(contentOffset, meshY, contentOffset);
+                poseStack.scale(contentScaleXZ, contentBaseScaleY - progress * contentBaseScaleY, contentScaleXZ);
                 dispatcher.renderSingleBlock(contentState, poseStack, buffer, combinedLight, combinedOverlay);
                 poseStack.popPose();
             }

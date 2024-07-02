@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.api;
+package net.blay09.mods.excompressum;
 
 import net.minecraft.world.level.storage.loot.LootPool;
 

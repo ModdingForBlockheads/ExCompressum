@@ -5,7 +5,7 @@ import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.registry.chickenstick.ChickenStickRecipe;
 import net.blay09.mods.excompressum.registry.chickenstick.ChickenStickRecipeSerializer;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRecipeSerializer;
-import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRecipe;
+import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeSerializer;
 import net.blay09.mods.excompressum.registry.heavysieve.GeneratedHeavySieveRecipe;
@@ -27,7 +27,7 @@ public class ModRecipeTypes {
     public static final ResourceLocation HEAVY_SIEVE = new ResourceLocation(ExCompressum.MOD_ID, "heavy_sieve");
     public static final ResourceLocation WOODEN_CRUCIBLE = new ResourceLocation(ExCompressum.MOD_ID, "wooden_crucible");
 
-    public static RecipeType<CompressedHammerRecipe> compressedHammerRecipeType;
+    public static RecipeType<CompressedHammerRecipeImpl> compressedHammerRecipeType;
     public static RecipeType<ChickenStickRecipe> chickenStickRecipeType;
     public static RecipeType<HammerRecipeImpl> hammerRecipeType;
     public static RecipeType<GeneratedHeavySieveRecipe> generatedHeavySieveRecipeType;
@@ -36,7 +36,7 @@ public class ModRecipeTypes {
 
     public static RecipeSerializer<HeavySieveRecipe> heavySieveRecipeSerializer;
     public static RecipeSerializer<GeneratedHeavySieveRecipe> generatedHeavySieveRecipeSerializer;
-    public static RecipeSerializer<CompressedHammerRecipe> compressedHammerRecipeSerializer;
+    public static RecipeSerializer<CompressedHammerRecipeImpl> compressedHammerRecipeSerializer;
     public static RecipeSerializer<HammerRecipeImpl> hammerRecipeSerializer;
     public static RecipeSerializer<ChickenStickRecipe> chickenStickRecipeSerializer;
     public static RecipeSerializer<WoodenCrucibleRecipe> woodenCrucibleRecipeSerializer;

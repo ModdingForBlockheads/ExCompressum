@@ -16,22 +16,22 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class HammerRecipeCategory implements IRecipeCategory<JeiHammerRecipe> {
+public class HammerJeiRecipeCategory implements IRecipeCategory<ExpandedHammerRecipe> {
 
     private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
     public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "hammer");
-    public static final RecipeType<JeiHammerRecipe> TYPE = new RecipeType<>(UID, JeiHammerRecipe.class);
+    public static final RecipeType<ExpandedHammerRecipe> TYPE = new RecipeType<>(UID, ExpandedHammerRecipe.class);
 
     private final IDrawable background;
     private final IDrawable icon;
 
-    public HammerRecipeCategory(IGuiHelper guiHelper) {
+    public HammerJeiRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(texture, 0, 0, 166, 63);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.autoHammer));
     }
 
     @Override
-    public RecipeType<JeiHammerRecipe> getRecipeType() {
+    public RecipeType<ExpandedHammerRecipe> getRecipeType() {
         return TYPE;
     }
 
@@ -52,7 +52,7 @@ public class HammerRecipeCategory implements IRecipeCategory<JeiHammerRecipe> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, JeiHammerRecipe recipe, IFocusGroup focusGroup) {
+    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedHammerRecipe recipe, IFocusGroup focusGroup) {
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 75, 10).addIngredients(recipe.getIngredient());
         final var outputItems = recipe.getOutputItems();
         for (int i = 0; i < outputItems.size(); i++) {

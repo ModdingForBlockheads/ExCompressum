@@ -1,7 +1,7 @@
 package net.blay09.mods.excompressum.registry;
 
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
-import net.blay09.mods.excompressum.api.HammerRecipe;
+import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;

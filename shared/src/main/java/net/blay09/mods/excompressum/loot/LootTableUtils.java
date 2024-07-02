@@ -3,7 +3,7 @@ package net.blay09.mods.excompressum.loot;
 import com.google.common.collect.ArrayListMultimap;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
-import net.blay09.mods.excompressum.api.CommonLootTableAccessor;
+import net.blay09.mods.excompressum.CommonLootTableAccessor;
 import net.blay09.mods.excompressum.mixin.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

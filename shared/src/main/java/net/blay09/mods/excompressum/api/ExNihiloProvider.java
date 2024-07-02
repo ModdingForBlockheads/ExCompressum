@@ -1,10 +1,10 @@
 package net.blay09.mods.excompressum.api;
 
+import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -16,25 +16,10 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 public interface ExNihiloProvider {
 
     boolean isHammerableCompressed(ItemStack itemStack);
-
-    @Deprecated
-    enum NihiloMod implements StringRepresentable {
-        NONE,
-        OMNIA,
-        ADSCENSIO,
-        CREATIO,
-        SEQUENTIA;
-
-        @Override
-        public String getSerializedName() {
-            return name().toLowerCase(Locale.ENGLISH);
-        }
-    }
 
     enum NihiloItems {
         SEEDS_GRASS,

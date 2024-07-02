@@ -14,11 +14,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class ChickenStickJeiRecipeCategory implements IRecipeCategory<JeiChickenStickRecipe> {
+public class ChickenStickJeiRecipeCategory implements IRecipeCategory<ExpandedChickenStickRecipe> {
 
     private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
     public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "chicken_stick");
-    public static final RecipeType<JeiChickenStickRecipe> TYPE = new RecipeType<>(UID, JeiChickenStickRecipe.class);
+    public static final RecipeType<ExpandedChickenStickRecipe> TYPE = new RecipeType<>(UID, ExpandedChickenStickRecipe.class);
 
     private final IDrawable background;
     private final IDrawable icon;
@@ -29,7 +29,7 @@ public class ChickenStickJeiRecipeCategory implements IRecipeCategory<JeiChicken
     }
 
     @Override
-    public RecipeType<JeiChickenStickRecipe> getRecipeType() {
+    public RecipeType<ExpandedChickenStickRecipe> getRecipeType() {
         return TYPE;
     }
 
@@ -49,7 +49,7 @@ public class ChickenStickJeiRecipeCategory implements IRecipeCategory<JeiChicken
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, JeiChickenStickRecipe recipe, IFocusGroup focusGroup) {
+    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedChickenStickRecipe recipe, IFocusGroup focusGroup) {
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 75, 10).addIngredients(recipe.getIngredient());
 
         final var outputItems = recipe.getOutputItems();

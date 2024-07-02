@@ -9,13 +9,13 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JeiWoodenCrucibleRecipe {
+public class ExpandedWoodenCrucibleRecipe {
 
     private final Fluid fluid;
     private final List<Pair<WoodenCrucibleRecipe, ItemStack>> entries;
     private final List<ItemStack> inputs;
 
-    public JeiWoodenCrucibleRecipe(Fluid fluid, List<Pair<WoodenCrucibleRecipe, ItemStack>> entries) {
+    public ExpandedWoodenCrucibleRecipe(Fluid fluid, List<Pair<WoodenCrucibleRecipe, ItemStack>> entries) {
         this.fluid = fluid;
         this.entries = entries;
 

@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class CraftChickenStickRecipeCategory implements IRecipeCategory<CraftChickenStickRecipe> {
+public class CraftChickenStickJeiRecipeCategory implements IRecipeCategory<CraftChickenStickRecipe> {
 
     public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "craft_chicken_stick");
     public static final RecipeType<CraftChickenStickRecipe> TYPE = new RecipeType<>(UID, CraftChickenStickRecipe.class);
@@ -25,7 +25,7 @@ public class CraftChickenStickRecipeCategory implements IRecipeCategory<CraftChi
     private final IDrawable background;
     private final IDrawable icon;
 
-    public CraftChickenStickRecipeCategory(IGuiHelper guiHelper) {
+    public CraftChickenStickJeiRecipeCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(texture, 0, 0, 166, 58);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.chickenStick));
     }

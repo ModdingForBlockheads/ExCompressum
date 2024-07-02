@@ -1,5 +1,6 @@
 package net.blay09.mods.excompressum.registry.hammer;
 
+import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -12,10 +13,10 @@ import java.util.*;
 public class HammerRegistry {
 
     public static List<ItemStack> rollHammerRewards(LootContext context, ItemStack itemStack) {
-        RecipeManager recipeManager = context.getLevel().getRecipeManager();
-        List<HammerRecipeImpl> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
+        final var recipeManager = context.getLevel().getRecipeManager();
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (HammerRecipeImpl recipe : recipes) {
+        for (final var recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
                 LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -27,8 +28,8 @@ public class HammerRegistry {
         return results;
     }
 
-    private static boolean testRecipe(ItemStack itemStack, HammerRecipeImpl recipe) {
-        return recipe.getInput().test(itemStack);
+    private static boolean testRecipe(ItemStack itemStack, HammerRecipe recipe) {
+        return recipe.getIngredient().test(itemStack);
     }
 
     public boolean isHammerable(Level level, ItemStack itemStack) {
@@ -36,8 +37,8 @@ public class HammerRegistry {
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
-        List<HammerRecipeImpl> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
-        for (HammerRecipeImpl recipe : recipes) {
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
+        for (final var recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
                 return true;
             }

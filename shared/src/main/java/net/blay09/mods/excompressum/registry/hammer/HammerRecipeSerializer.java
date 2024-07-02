@@ -26,7 +26,7 @@ public class HammerRecipeSerializer extends ExCompressumRecipeSerializer<HammerR
 
     @Override
     public void toNetwork(FriendlyByteBuf buffer, HammerRecipeImpl recipe) {
-        recipe.getInput().toNetwork(buffer);
+        recipe.getIngredient().toNetwork(buffer);
         writeLootTable(buffer, recipe.getLootTable());
     }
 

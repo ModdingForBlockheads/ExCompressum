@@ -1,12 +1,12 @@
-package net.blay09.mods.excompressum.api;
+package net.blay09.mods.excompressum.api.recipe;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public interface HammerRecipe {
+public interface CompressedHammerRecipe {
 
-    Ingredient getInput();
+    Ingredient getIngredient();
 
     LootTable getLootTable();
 

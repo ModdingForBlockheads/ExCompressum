@@ -16,23 +16,23 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class WoodenCrucibleRecipeCategory implements IRecipeCategory<JeiWoodenCrucibleRecipe> {
+public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<ExpandedWoodenCrucibleRecipe> {
 
     public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "wooden_crucible");
-    public static final RecipeType<JeiWoodenCrucibleRecipe> TYPE = new RecipeType<>(UID, JeiWoodenCrucibleRecipe.class);
+    public static final RecipeType<ExpandedWoodenCrucibleRecipe> TYPE = new RecipeType<>(UID, ExpandedWoodenCrucibleRecipe.class);
 
     private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_wooden_crucible.png");
 
     private final IDrawable background;
     private final IDrawable icon;
 
-    public WoodenCrucibleRecipeCategory(IGuiHelper guiHelper) {
+    public WoodenCrucibleJeiRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(texture, 0, 0, 166, 129);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.woodenCrucibles[0]));
     }
 
     @Override
-    public RecipeType<JeiWoodenCrucibleRecipe> getRecipeType() {
+    public RecipeType<ExpandedWoodenCrucibleRecipe> getRecipeType() {
         return TYPE;
     }
 
@@ -54,8 +54,8 @@ public class WoodenCrucibleRecipeCategory implements IRecipeCategory<JeiWoodenCr
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, JeiWoodenCrucibleRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 61, 9);
+    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedWoodenCrucibleRecipe recipe, IFocusGroup focusGroup) {
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10).addFluidStack(recipe.getFluid(), recipe.getFluidStack().getAmount());
     }
 
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JeiHeavySieveRecipe {
+public class ExpandedHeavySieveRecipe {
 
     private final HeavySieveRecipe recipe;
     private final List<List<ItemStack>> inputs;
@@ -20,7 +20,7 @@ public class JeiHeavySieveRecipe {
     private final List<ItemStack> outputItems;
     private final boolean waterlogged;
 
-    public JeiHeavySieveRecipe(HeavySieveRecipe recipe) {
+    public ExpandedHeavySieveRecipe(HeavySieveRecipe recipe) {
         this.recipe = recipe;
         inputs = new ArrayList<>();
         if (recipe.getMinimumMesh() != null) {

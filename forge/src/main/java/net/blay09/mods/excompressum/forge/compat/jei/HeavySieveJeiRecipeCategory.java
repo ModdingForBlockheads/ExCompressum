@@ -17,23 +17,23 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class HeavySieveRecipeCategory implements IRecipeCategory<JeiHeavySieveRecipe> {
+public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeavySieveRecipe> {
 
     public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "heavy_sieve");
-    public static final RecipeType<JeiHeavySieveRecipe> TYPE = new RecipeType<>(UID, JeiHeavySieveRecipe.class);
+    public static final RecipeType<ExpandedHeavySieveRecipe> TYPE = new RecipeType<>(UID, ExpandedHeavySieveRecipe.class);
     private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_heavy_sieve.png");
 
     private final IDrawable background;
     private final IDrawable icon;
 
-    public HeavySieveRecipeCategory(IJeiHelpers jeiHelpers) {
+    public HeavySieveJeiRecipeCategory(IJeiHelpers jeiHelpers) {
         final IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
         this.background = guiHelper.createDrawable(texture, 0, 0, 166, 129);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.heavySieves[0]));
     }
 
     @Override
-    public RecipeType<JeiHeavySieveRecipe> getRecipeType() {
+    public RecipeType<ExpandedHeavySieveRecipe> getRecipeType() {
         return TYPE;
     }
 
@@ -55,7 +55,7 @@ public class HeavySieveRecipeCategory implements IRecipeCategory<JeiHeavySieveRe
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, JeiHeavySieveRecipe recipe, IFocusGroup focusGroup) {
+    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedHeavySieveRecipe recipe, IFocusGroup focusGroup) {
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10);
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 88, 10);
         for (int i = 0; i < recipe.getOutputItems().size(); i++) {

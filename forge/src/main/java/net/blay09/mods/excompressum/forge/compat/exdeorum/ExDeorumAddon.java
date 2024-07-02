@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
-import net.blay09.mods.excompressum.api.HammerRecipe;
+import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.compat.Compat;
