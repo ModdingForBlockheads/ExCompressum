@@ -68,19 +68,22 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
         // TODO processed block is too far in the ground
         // TODO rotate the hammer, not the handle
         poseStack.pushPose();
-        poseStack.translate(-0.5f, -0.05f, 0f);
         poseStack.scale(0.5f, 0.5f, 0.5f);
         poseStack.pushPose();
+        poseStack.translate(-0.7f, -0.3f, 0f);
         poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(Math.sin(tileEntity.hammerAngle) * 30), 0, 0, 1f)));
+        poseStack.translate(-0.4f, 0.2f, 0f);
         itemRenderer.renderStatic(hammerItemStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffers, level, 0);
         poseStack.popPose();
 
         ItemStack firstHammer = tileEntity.getUpgradeStack(0);
         if (!firstHammer.isEmpty()) {
             poseStack.pushPose();
+            poseStack.translate(-0.7f, -0.3f, 0f);
             poseStack.translate(0f, 0.1f, 0.33f);
             poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(10f), 0f, 1, 0)));
             poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(Math.sin(tileEntity.hammerAngle - 8f) * 30), 0, 0, 1f)));
+            poseStack.translate(-0.4f, 0.2f, 0f);
             itemRenderer.renderStatic(firstHammer, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffers, level, 0);
             poseStack.popPose();
         }
@@ -88,9 +91,11 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
         ItemStack secondHammer = tileEntity.getUpgradeStack(1);
         if (!secondHammer.isEmpty()) {
             poseStack.pushPose();
+            poseStack.translate(-0.7f, -0.3f, 0f);
             poseStack.translate(0f, 0.1f, -0.33f);
             poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(-10), 0f, 1f, 0)));
             poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(Math.sin(tileEntity.hammerAngle + 8f) * 30), 0, 0, 1f)));
+            poseStack.translate(-0.4f, 0.2f, 0f);
             itemRenderer.renderStatic(secondHammer, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffers, level, 0);
             poseStack.popPose();
         }
@@ -102,7 +107,7 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
             BlockState contentState = StupidUtils.getStateFromItemStack(currentStack);
             if (!contentState.isAir()) {
                 poseStack.pushPose();
-                poseStack.translate(-0.4f, -0.04f, -0.2);
+                poseStack.translate(-0.4625f, -0.04f, -0.2);
                 poseStack.scale(0.4f, 0.4f, 0.4f);
                 BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
                 dispatcher.renderSingleBlock(contentState, poseStack, buffers, combinedLight, combinedOverlay);
