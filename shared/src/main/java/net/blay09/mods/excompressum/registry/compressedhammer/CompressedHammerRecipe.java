@@ -1,19 +1,19 @@
 package net.blay09.mods.excompressum.registry.compressedhammer;
 
-import net.blay09.mods.excompressum.registry.LootTableProvider;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 public class CompressedHammerRecipe extends ExCompressumRecipe {
 
 
     private Ingredient input;
-    private LootTableProvider lootTable;
+    private LootTable lootTable;
 
-    public CompressedHammerRecipe(ResourceLocation id, Ingredient input, LootTableProvider lootTable) {
+    public CompressedHammerRecipe(ResourceLocation id, Ingredient input, LootTable lootTable) {
         super(id, ModRecipeTypes.compressedHammerRecipeType);
         this.input = input;
         this.lootTable = lootTable;
@@ -28,7 +28,7 @@ public class CompressedHammerRecipe extends ExCompressumRecipe {
         return input;
     }
 
-    public LootTableProvider getLootTable() {
+    public LootTable getLootTable() {
         return lootTable;
     }
 
@@ -36,7 +36,7 @@ public class CompressedHammerRecipe extends ExCompressumRecipe {
         this.input = input;
     }
 
-    public void setLootTable(LootTableProvider lootTable) {
+    public void setLootTable(LootTable lootTable) {
         this.lootTable = lootTable;
     }
 }

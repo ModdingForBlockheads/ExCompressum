@@ -18,7 +18,7 @@ public class JeiCompressedHammerRecipe {
 
     public JeiCompressedHammerRecipe(CompressedHammerRecipe recipe) {
         inputs = Arrays.asList(recipe.getInput().getItems());
-        List<LootTableEntry> entries = LootTableUtils.getLootTableEntries(recipe.getRecipeId(), recipe.getLootTable());
+        List<LootTableEntry> entries = LootTableUtils.getLootTableEntries(recipe.getLootTable());
         outputs = LootTableUtils.mergeLootTableEntries(entries);
         outputItems = outputs.stream().map(MergedLootTableEntry::getItemStack).collect(Collectors.toList());
     }

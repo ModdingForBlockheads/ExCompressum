@@ -1,6 +1,5 @@
 package net.blay09.mods.excompressum.registry.heavysieve;
 
-import net.blay09.mods.excompressum.registry.LootTableProvider;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
@@ -8,18 +7,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
+import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
 public class HeavySieveRecipe extends ExCompressumRecipe {
 
     private Ingredient input;
-    private LootTableProvider lootTable;
+    private LootTable lootTable;
     private boolean waterlogged;
     private CommonMeshType minimumMesh;
     private Set<CommonMeshType> meshes;
 
-    public HeavySieveRecipe(ResourceLocation id, Ingredient input, LootTableProvider lootTable, boolean waterlogged, @Nullable CommonMeshType minimumMesh, @Nullable Set<CommonMeshType> meshes) {
+    public HeavySieveRecipe(ResourceLocation id, Ingredient input, LootTable lootTable, boolean waterlogged, @Nullable CommonMeshType minimumMesh, @Nullable Set<CommonMeshType> meshes) {
         super(id, ModRecipeTypes.heavySieveRecipeType);
         this.input = input;
         this.lootTable = lootTable;
@@ -37,7 +37,7 @@ public class HeavySieveRecipe extends ExCompressumRecipe {
         return input;
     }
 
-    public LootTableProvider getLootTable() {
+    public LootTable getLootTable() {
         return lootTable;
     }
 
@@ -59,7 +59,7 @@ public class HeavySieveRecipe extends ExCompressumRecipe {
         this.input = input;
     }
 
-    public void setLootTable(LootTableProvider lootTable) {
+    public void setLootTable(LootTable lootTable) {
         this.lootTable = lootTable;
     }
 

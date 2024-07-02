@@ -2,7 +2,6 @@ package net.blay09.mods.excompressum.registry.compressedhammer;
 
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
-import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -19,7 +18,7 @@ public class CompressedHammerRegistry {
         List<ItemStack> results = new ArrayList<>();
         for (CompressedHammerRecipe recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
-                LootTable lootTable = recipe.getLootTable().getLootTable(recipe.getRecipeId(), context);
+                LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
                 }

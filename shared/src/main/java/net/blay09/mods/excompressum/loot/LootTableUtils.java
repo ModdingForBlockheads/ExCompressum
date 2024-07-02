@@ -4,9 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.api.CommonLootTableAccessor;
-import net.blay09.mods.excompressum.api.ILootTableProvider;
 import net.blay09.mods.excompressum.mixin.*;
-import net.blay09.mods.excompressum.registry.LootTableProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -42,16 +40,6 @@ public class LootTableUtils {
         return getLootTableEntries(lootTable).isEmpty();
     }
 
-    public static List<LootTableEntry> getLootTableEntries(ResourceLocation id, @Nullable ILootTableProvider lootTableProvider) {
-        if (lootTableProvider == null) {
-            return Collections.emptyList();
-        }
-
-        final var lootTableManager = ExCompressum.proxy.get().getLootTableManager();
-        LootTable lootTable = lootTableProvider.getLootTable(id, lootTableManager);
-        return getLootTableEntries(lootTable);
-    }
-
     public static List<LootTableEntry> getLootTableEntries(@Nullable LootTable lootTable) {
         if (lootTable == null) {
             return Collections.emptyList();
@@ -77,10 +65,6 @@ public class LootTableUtils {
                         itemStack.setCount(getMaxCount(countRange));
                         result.add(new LootTableEntry(itemStack, countRange, baseChance));
                     });
-                } else if (entry instanceof LootTableReferenceAccessor tableLootEntry) {
-                    ResourceLocation lootTableLocation = tableLootEntry.getName();
-                    LootTableProvider provider = new LootTableProvider(lootTableLocation);
-                    result.addAll(getLootTableEntries(lootTableLocation, provider));
                 }
             }
         }

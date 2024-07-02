@@ -2,7 +2,6 @@ package net.blay09.mods.excompressum.client;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
-import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.CommonProxy;
 import net.blay09.mods.excompressum.client.render.HammeringParticle;
 import net.blay09.mods.excompressum.client.render.SievingParticle;
@@ -15,7 +14,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.storage.loot.LootDataResolver;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
@@ -97,19 +95,6 @@ public class ClientProxy extends CommonProxy {
             double particleZ = 0.5f + particleOffset.z() + level.random.nextFloat() * spread - min;
             Minecraft.getInstance().particleEngine.add(new SievingParticle((ClientLevel) level, pos, particleX, particleY, particleZ, particleScale, particleState));
         }
-    }
-
-    /**
-     * @deprecated Used for JEI, but the client doesn't have a LootDataResolver anymore
-     */
-    @Override
-    @Deprecated
-    public LootDataResolver getLootTableManager() {
-        if (Balm.getHooks().getServer() != null) {
-            return Balm.getHooks().getServer().getLootData();
-        }
-
-        return null; // TODO this will probably break JEI on multiplayer?
     }
 
     /**

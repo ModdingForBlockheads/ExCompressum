@@ -18,7 +18,7 @@ public class ChickenStickRegistry {
         List<ItemStack> results = new ArrayList<>();
         for (ChickenStickRecipe recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
-                LootTable lootTable = recipe.getLootTable().getLootTable(recipe.getRecipeId(), context);
+                LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
                 }

@@ -8,7 +8,6 @@ import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.api.IHammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
-import net.blay09.mods.excompressum.registry.LootTableProvider;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.registry.ExNihilo;
@@ -321,8 +320,8 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
 
             final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
             Ingredient input = firstRecipe.getInput();
-            LootTableProvider lootTableProvider = new LootTableProvider(tableBuilder.build());
-            result.add(new net.blay09.mods.excompressum.registry.hammer.HammerRecipe(firstRecipe.getId(), input, lootTableProvider));
+            final var lootTable = tableBuilder.build();
+            result.add(new net.blay09.mods.excompressum.registry.hammer.HammerRecipe(firstRecipe.getId(), input, lootTable));
         }
 
         return result;

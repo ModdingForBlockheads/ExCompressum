@@ -1,13 +1,14 @@
 package net.blay09.mods.excompressum.registry;
 
 import com.google.gson.*;
-import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.excompressum.ExCompressum;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.storage.loot.Deserializers;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 public abstract class ExCompressumRecipeSerializer<T extends Recipe<?>> implements RecipeSerializer<T> {
 
@@ -20,23 +21,17 @@ public abstract class ExCompressumRecipeSerializer<T extends Recipe<?>> implemen
 
     public abstract T readFromJson(ResourceLocation id, JsonObject json);
 
-    public LootTableProvider readLootTableProvider(JsonObject json, String field) throws JsonParseException {
-        if (GsonHelper.isStringValue(json, field)) {
-            return new LootTableProvider(new ResourceLocation(json.getAsString()));
-        } else {
-            return new LootTableProvider(GsonHelper.getAsJsonObject(json, field));
-        }
+    public LootTable readLootTable(JsonObject json, String field, ResourceLocation lootTableId) throws JsonParseException {
+        return ExCompressum.lootTableLoader.apply(gson, lootTableId, GsonHelper.getAsJsonObject(json, field));
     }
 
-    public LootTableProvider readLootTableProvider(FriendlyByteBuf buffer) {
+    public LootTable readLootTable(FriendlyByteBuf buffer, ResourceLocation lootTableId) {
         final var jsonString = buffer.readUtf();
         final var jsonElement = gson.fromJson(jsonString, JsonObject.class);
-        return new LootTableProvider(jsonElement);
+        return ExCompressum.lootTableLoader.apply(gson, lootTableId, jsonElement);
     }
 
-    public void writeLootTable(FriendlyByteBuf buffer, ResourceLocation recipeId, LootTableProvider lootTableProvider) {
-        final var lootTableManager = Balm.getHooks().getServer().getLootData();
-        final var lootTable = lootTableProvider.getLootTable(recipeId, lootTableManager);
+    public void writeLootTable(FriendlyByteBuf buffer, LootTable lootTable) {
         final var jsonString = gson.toJson(lootTable);
         buffer.writeUtf(jsonString);
     }

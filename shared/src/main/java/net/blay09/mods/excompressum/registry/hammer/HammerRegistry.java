@@ -17,7 +17,7 @@ public class HammerRegistry {
         List<ItemStack> results = new ArrayList<>();
         for (HammerRecipe recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
-                LootTable lootTable = recipe.getLootTable().getLootTable(recipe.getRecipeId(), context);
+                LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
                 }
