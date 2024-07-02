@@ -1,13 +1,13 @@
 package net.blay09.mods.excompressum.registry.heavysieve;
 
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.*;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -36,7 +36,7 @@ public class HeavySieveRegistry {
             return false;
         }
 
-        return recipe.getInput().test(itemStack);
+        return recipe.getIngredient().test(itemStack);
     }
 
     private static boolean testGeneratedRecipe(ItemStack itemStack, GeneratedHeavySieveRecipe generatedRecipe, BlockState sieve, SieveMeshRegistryEntry sieveMesh) {
@@ -46,10 +46,10 @@ public class HeavySieveRegistry {
 
     public static List<ItemStack> rollSieveRewards(Level level, LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
-        RecipeManager recipeManager = context.getLevel().getRecipeManager();
-        List<HeavySieveRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
+        final var recipeManager = context.getLevel().getRecipeManager();
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (HeavySieveRecipe recipe : recipes) {
+        for (final var recipe : recipes) {
             if (testRecipe(mesh, itemStack, waterlogged, recipe)) {
                 LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -58,8 +58,8 @@ public class HeavySieveRegistry {
             }
         }
 
-        List<GeneratedHeavySieveRecipe> generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
-        for (GeneratedHeavySieveRecipe generatedRecipe : generatedRecipes) {
+        final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
+        for (final var generatedRecipe : generatedRecipes) {
             if (testGeneratedRecipe(itemStack, generatedRecipe, sieve, mesh)) {
                 int rolls = getGeneratedRollCount(generatedRecipe);
                 ItemLike source = Balm.getRegistries().getItem(generatedRecipe.getSource());
@@ -82,16 +82,16 @@ public class HeavySieveRegistry {
 
     public boolean isSiftable(Level level, BlockState sieve, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
-        RecipeManager recipeManager = level.getRecipeManager();
-        List<HeavySieveRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
-        for (HeavySieveRecipe recipe : recipes) {
+        final var recipeManager = level.getRecipeManager();
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
+        for (final var recipe : recipes) {
             if (testRecipe(sieveMesh, itemStack, waterlogged, recipe)) {
                 return true;
             }
         }
 
-        List<GeneratedHeavySieveRecipe> generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
-        for (GeneratedHeavySieveRecipe recipe : generatedRecipes) {
+        final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
+        for (final var recipe : generatedRecipes) {
             if (testGeneratedRecipe(itemStack, recipe, sieve, sieveMesh)) {
                 return true;
             }

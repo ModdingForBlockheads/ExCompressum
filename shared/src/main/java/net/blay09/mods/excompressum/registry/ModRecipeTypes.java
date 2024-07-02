@@ -10,7 +10,7 @@ import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeSerializer;
 import net.blay09.mods.excompressum.registry.heavysieve.GeneratedHeavySieveRecipe;
 import net.blay09.mods.excompressum.registry.heavysieve.GeneratedHeavySieveRecipeSerializer;
-import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipe;
+import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipeImpl;
 import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipeSerializer;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipe;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipeSerializer;
@@ -31,10 +31,10 @@ public class ModRecipeTypes {
     public static RecipeType<ChickenStickRecipe> chickenStickRecipeType;
     public static RecipeType<HammerRecipeImpl> hammerRecipeType;
     public static RecipeType<GeneratedHeavySieveRecipe> generatedHeavySieveRecipeType;
-    public static RecipeType<HeavySieveRecipe> heavySieveRecipeType;
+    public static RecipeType<HeavySieveRecipeImpl> heavySieveRecipeType;
     public static RecipeType<WoodenCrucibleRecipe> woodenCrucibleRecipeType;
 
-    public static RecipeSerializer<HeavySieveRecipe> heavySieveRecipeSerializer;
+    public static RecipeSerializer<HeavySieveRecipeImpl> heavySieveRecipeSerializer;
     public static RecipeSerializer<GeneratedHeavySieveRecipe> generatedHeavySieveRecipeSerializer;
     public static RecipeSerializer<CompressedHammerRecipeImpl> compressedHammerRecipeSerializer;
     public static RecipeSerializer<HammerRecipeImpl> hammerRecipeSerializer;

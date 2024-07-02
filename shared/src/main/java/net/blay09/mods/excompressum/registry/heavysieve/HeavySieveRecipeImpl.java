@@ -1,5 +1,6 @@
 package net.blay09.mods.excompressum.registry.heavysieve;
 
+import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
@@ -11,17 +12,17 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
-public class HeavySieveRecipe extends ExCompressumRecipe {
+public class HeavySieveRecipeImpl extends ExCompressumRecipe implements HeavySieveRecipe {
 
-    private Ingredient input;
+    private Ingredient ingredient;
     private LootTable lootTable;
     private boolean waterlogged;
     private CommonMeshType minimumMesh;
     private Set<CommonMeshType> meshes;
 
-    public HeavySieveRecipe(ResourceLocation id, Ingredient input, LootTable lootTable, boolean waterlogged, @Nullable CommonMeshType minimumMesh, @Nullable Set<CommonMeshType> meshes) {
+    public HeavySieveRecipeImpl(ResourceLocation id, Ingredient ingredient, LootTable lootTable, boolean waterlogged, @Nullable CommonMeshType minimumMesh, @Nullable Set<CommonMeshType> meshes) {
         super(id, ModRecipeTypes.heavySieveRecipeType);
-        this.input = input;
+        this.ingredient = ingredient;
         this.lootTable = lootTable;
         this.waterlogged = waterlogged;
         this.minimumMesh = minimumMesh;
@@ -33,10 +34,12 @@ public class HeavySieveRecipe extends ExCompressumRecipe {
         return ModRecipeTypes.heavySieveRecipeSerializer;
     }
 
-    public Ingredient getInput() {
-        return input;
+    @Override
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
+    @Override
     public LootTable getLootTable() {
         return lootTable;
     }
@@ -55,8 +58,8 @@ public class HeavySieveRecipe extends ExCompressumRecipe {
         return meshes;
     }
 
-    public void setInput(Ingredient input) {
-        this.input = input;
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     public void setLootTable(LootTable lootTable) {

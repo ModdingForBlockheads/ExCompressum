@@ -1,11 +1,11 @@
 package net.blay09.mods.excompressum.forge.compat.jei;
 
+import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.loot.LootTableEntry;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.loot.MergedLootTableEntry;
-import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipe;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.world.item.ItemStack;
 
@@ -45,7 +45,7 @@ public class ExpandedHeavySieveRecipe {
         } else {
             inputs.add(Collections.emptyList());
         }
-        inputs.add(Arrays.asList(recipe.getInput().getItems()));
+        inputs.add(Arrays.asList(recipe.getIngredient().getItems()));
         List<LootTableEntry> entries = LootTableUtils.getLootTableEntries(recipe.getLootTable());
         outputs = LootTableUtils.mergeLootTableEntries(entries);
         outputItems = outputs.stream().map(MergedLootTableEntry::getItemStack).collect(Collectors.toList());

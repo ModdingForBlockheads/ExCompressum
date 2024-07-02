@@ -20,7 +20,7 @@ import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRegistry;
 import net.blay09.mods.excompressum.registry.heavysieve.GeneratedHeavySieveRecipe;
-import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipe;
+import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipe;
 import net.minecraft.client.Minecraft;
@@ -121,7 +121,7 @@ public class JEIAddon implements IModPlugin {
             final var source = Balm.getRegistries().getItem(generatedRecipe.getSource());
             final var lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, waterLoggedState, source, rolls, mesh);
             if (!LootTableUtils.isLootTableEmpty(lootTable)) {
-                final var recipe = new HeavySieveRecipe(generatedRecipe.getRecipeId(), generatedRecipe.getInput(), lootTable, waterlogged, null, Sets.newHashSet(mesh.getMeshType()));
+                final var recipe = new HeavySieveRecipeImpl(generatedRecipe.getRecipeId(), generatedRecipe.getInput(), lootTable, waterlogged, null, Sets.newHashSet(mesh.getMeshType()));
                 outRecipes.add(new ExpandedHeavySieveRecipe(recipe));
             }
         }

@@ -18,10 +18,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class HeavySieveRecipeSerializer extends ExCompressumRecipeSerializer<HeavySieveRecipe> {
+public class HeavySieveRecipeSerializer extends ExCompressumRecipeSerializer<HeavySieveRecipeImpl> {
 
     @Override
-    public HeavySieveRecipe readFromJson(ResourceLocation id, JsonObject json) {
+    public HeavySieveRecipeImpl readFromJson(ResourceLocation id, JsonObject json) {
         Ingredient input = Ingredient.fromJson(json.get("input"));
         LootTable lootTable = readLootTable(json, "lootTable", id);
         boolean waterlogged = GsonHelper.getAsBoolean(json, "waterlogged", false);
@@ -36,7 +36,7 @@ public class HeavySieveRecipeSerializer extends ExCompressumRecipeSerializer<Hea
             }
         }
 
-        return new HeavySieveRecipe(id, input, lootTable, waterlogged, minimumMesh, meshes);
+        return new HeavySieveRecipeImpl(id, input, lootTable, waterlogged, minimumMesh, meshes);
     }
 
     @Nullable
@@ -50,7 +50,7 @@ public class HeavySieveRecipeSerializer extends ExCompressumRecipeSerializer<Hea
     }
 
     @Override
-    public HeavySieveRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public HeavySieveRecipeImpl fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         Ingredient input = Ingredient.fromNetwork(buffer);
         LootTable lootTable = readLootTable(buffer, id);
         boolean waterlogged = buffer.readBoolean();
@@ -67,12 +67,12 @@ public class HeavySieveRecipeSerializer extends ExCompressumRecipeSerializer<Hea
             }
         }
 
-        return new HeavySieveRecipe(id, input, lootTable, waterlogged, minimumMesh, meshes);
+        return new HeavySieveRecipeImpl(id, input, lootTable, waterlogged, minimumMesh, meshes);
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, HeavySieveRecipe recipe) {
-        recipe.getInput().toNetwork(buffer);
+    public void toNetwork(FriendlyByteBuf buffer, HeavySieveRecipeImpl recipe) {
+        recipe.getIngredient().toNetwork(buffer);
         writeLootTable(buffer, recipe.getLootTable());
         buffer.writeBoolean(recipe.isWaterlogged());
         if (recipe.getMinimumMesh() != null) {
