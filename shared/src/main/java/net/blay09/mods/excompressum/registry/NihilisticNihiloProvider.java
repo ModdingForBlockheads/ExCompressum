@@ -1,7 +1,7 @@
 package net.blay09.mods.excompressum.registry;
 
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
-import net.blay09.mods.excompressum.api.IHammerRecipe;
+import net.blay09.mods.excompressum.api.HammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
@@ -112,7 +112,7 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 	}
 
 	@Override
-	public List<IHammerRecipe> getHammerRecipes() {
+	public List<HammerRecipe> getHammerRecipes() {
 		return Collections.emptyList();
 	}
 }

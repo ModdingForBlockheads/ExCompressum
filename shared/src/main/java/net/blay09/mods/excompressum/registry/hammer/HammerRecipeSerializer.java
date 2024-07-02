@@ -8,24 +8,24 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public class HammerRecipeSerializer extends ExCompressumRecipeSerializer<HammerRecipe> {
+public class HammerRecipeSerializer extends ExCompressumRecipeSerializer<HammerRecipeImpl> {
 
     @Override
-    public HammerRecipe readFromJson(ResourceLocation id, JsonObject json) {
+    public HammerRecipeImpl readFromJson(ResourceLocation id, JsonObject json) {
         Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
         LootTable lootTable = readLootTable(json, "lootTable", id);
-        return new HammerRecipe(id, input, lootTable);
+        return new HammerRecipeImpl(id, input, lootTable);
     }
 
     @Override
-    public HammerRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public HammerRecipeImpl fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         Ingredient input = Ingredient.fromNetwork(buffer);
         LootTable lootTable = readLootTable(buffer, id);
-        return new HammerRecipe(id, input, lootTable);
+        return new HammerRecipeImpl(id, input, lootTable);
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, HammerRecipe recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, HammerRecipeImpl recipe) {
         recipe.getInput().toNetwork(buffer);
         writeLootTable(buffer, recipe.getLootTable());
     }

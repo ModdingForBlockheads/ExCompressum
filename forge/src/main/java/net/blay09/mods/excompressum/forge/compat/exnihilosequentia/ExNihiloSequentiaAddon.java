@@ -5,12 +5,13 @@ import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
-import net.blay09.mods.excompressum.api.IHammerRecipe;
+import net.blay09.mods.excompressum.api.HammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.registry.ExNihilo;
+import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -300,13 +301,13 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     }
 
     @Override
-    public List<IHammerRecipe> getHammerRecipes() {
+    public List<HammerRecipe> getHammerRecipes() {
         ArrayListMultimap<IntList, CrushingRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : ExNihiloRegistries.HAMMER_REGISTRY.getRecipeList()) {
             groupedRecipes.put(hammerRecipe.getInput().getStackingIds(), hammerRecipe);
         }
 
-        List<IHammerRecipe> result = new ArrayList<>();
+        List<HammerRecipe> result = new ArrayList<>();
         for (IntList packedStacks : groupedRecipes.keySet()) {
             LootTable.Builder tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
@@ -321,7 +322,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
             final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
             Ingredient input = firstRecipe.getInput();
             final var lootTable = tableBuilder.build();
-            result.add(new net.blay09.mods.excompressum.registry.hammer.HammerRecipe(firstRecipe.getId(), input, lootTable));
+            result.add(new HammerRecipeImpl(firstRecipe.getId(), input, lootTable));
         }
 
         return result;

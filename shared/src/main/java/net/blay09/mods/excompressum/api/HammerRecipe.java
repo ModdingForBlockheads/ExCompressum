@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public interface IHammerRecipe {
+public interface HammerRecipe {
 
     Ingredient getInput();
 

@@ -13,9 +13,9 @@ public class HammerRegistry {
 
     public static List<ItemStack> rollHammerRewards(LootContext context, ItemStack itemStack) {
         RecipeManager recipeManager = context.getLevel().getRecipeManager();
-        List<HammerRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
+        List<HammerRecipeImpl> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (HammerRecipe recipe : recipes) {
+        for (HammerRecipeImpl recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
                 LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -27,7 +27,7 @@ public class HammerRegistry {
         return results;
     }
 
-    private static boolean testRecipe(ItemStack itemStack, HammerRecipe recipe) {
+    private static boolean testRecipe(ItemStack itemStack, HammerRecipeImpl recipe) {
         return recipe.getInput().test(itemStack);
     }
 
@@ -36,8 +36,8 @@ public class HammerRegistry {
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
-        List<HammerRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
-        for (HammerRecipe recipe : recipes) {
+        List<HammerRecipeImpl> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
+        for (HammerRecipeImpl recipe : recipes) {
             if (testRecipe(itemStack, recipe)) {
                 return true;
             }

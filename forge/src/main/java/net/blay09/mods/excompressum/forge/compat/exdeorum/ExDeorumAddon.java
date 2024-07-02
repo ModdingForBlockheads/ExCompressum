@@ -5,12 +5,13 @@ import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
-import net.blay09.mods.excompressum.api.IHammerRecipe;
+import net.blay09.mods.excompressum.api.HammerRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.registry.ExNihilo;
+import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
@@ -33,7 +34,6 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import org.jetbrains.annotations.Nullable;
 import thedarkcolour.exdeorum.recipe.RecipeUtil;
-import thedarkcolour.exdeorum.recipe.hammer.HammerRecipe;
 
 import java.util.*;
 
@@ -295,10 +295,10 @@ public class ExDeorumAddon implements ExNihiloProvider {
     }
 
     @Override
-    public List<IHammerRecipe> getHammerRecipes() {
-        List<IHammerRecipe> result = new ArrayList<>();
+    public List<HammerRecipe> getHammerRecipes() {
+        List<HammerRecipe> result = new ArrayList<>();
 
-        ArrayListMultimap<IntList, HammerRecipe> groupedRecipes = ArrayListMultimap.create();
+        ArrayListMultimap<IntList, thedarkcolour.exdeorum.recipe.hammer.HammerRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : RecipeUtil.getCachedHammerRecipes()) {
             groupedRecipes.put(hammerRecipe.getIngredient().getStackingIds(), hammerRecipe);
         }
@@ -315,7 +315,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
             final var input = firstRecipe.getIngredient();
             final var lootTableProvider = tableBuilder.build();
-            result.add(new net.blay09.mods.excompressum.registry.hammer.HammerRecipe(firstRecipe.getId(), input, lootTableProvider));
+            result.add(new HammerRecipeImpl(firstRecipe.getId(), input, lootTableProvider));
         }
 
         return result;
