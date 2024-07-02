@@ -59,6 +59,12 @@ public class JEIAddon implements IModPlugin {
 
         registry.addRecipes(HeavySieveJeiRecipeCategory.TYPE, expandedHeavySieveRecipes);
 
+        final var expandedSieveRecipes = new ArrayList<ExpandedSieveRecipe>();
+        for (final var recipe : ExNihilo.getInstance().getSieveRecipes()) {
+            expandedSieveRecipes.add(new ExpandedSieveRecipe(recipe));
+        }
+        registry.addRecipes(SieveJeiRecipeCategory.TYPE, expandedSieveRecipes);
+
         List<ExpandedCompressedHammerRecipe> expandedCompressedHammerRecipes = new ArrayList<>();
         final var compressedHammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         for (final var recipe : compressedHammerRecipes) {
@@ -141,6 +147,7 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoSieve), SieveJeiRecipeCategory.TYPE);
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHeavySieve), HeavySieveJeiRecipeCategory.TYPE);
         for (final var heavySieve : ModBlocks.heavySieves) {
             registry.addRecipeCatalyst(new ItemStack(heavySieve), HeavySieveJeiRecipeCategory.TYPE);
@@ -169,6 +176,7 @@ public class JEIAddon implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(
+                new SieveJeiRecipeCategory(registry.getJeiHelpers()),
                 new HeavySieveJeiRecipeCategory(registry.getJeiHelpers()),
                 new HammerJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
                 new CompressedHammerJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()),

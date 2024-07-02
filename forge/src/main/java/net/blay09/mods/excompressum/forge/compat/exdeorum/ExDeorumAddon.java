@@ -18,6 +18,7 @@ import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipeImpl;
+import net.blay09.mods.excompressum.registry.sieve.SieveRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
@@ -309,7 +310,32 @@ public class ExDeorumAddon implements ExNihiloProvider {
 
     @Override
     public List<SieveRecipe> getSieveRecipes() {
-        return List.of();
+        List<SieveRecipe> result = new ArrayList<>();
+
+        final var recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
+        ArrayListMultimap<Pair<IntList, CommonMeshType>, thedarkcolour.exdeorum.recipe.sieve.SieveRecipe> groupedRecipes = ArrayListMultimap.create();
+        final var sieveRecipes = recipeManager.getAllRecipesFor(ERecipeTypes.SIEVE.get());
+        for (final var recipe : sieveRecipes) {
+            final var mesh = itemToMeshType.get(recipe.mesh);
+            groupedRecipes.put(Pair.of(recipe.getIngredient().getStackingIds(), mesh), recipe);
+        }
+
+        for (final var packedStacks : groupedRecipes.keySet()) {
+            final var tableBuilder = LootTable.lootTable();
+            for (final var recipe : groupedRecipes.get(packedStacks)) {
+                final var poolBuilder = LootPool.lootPool();
+                final var entryBuilder = buildLootEntry(recipe.result, recipe.resultAmount);
+                poolBuilder.add(entryBuilder);
+                tableBuilder.withPool(poolBuilder);
+            }
+
+            final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
+            final var ingredient = firstRecipe.getIngredient();
+            final var lootTable = tableBuilder.build();
+            result.add(new SieveRecipeImpl(firstRecipe.getId(), ingredient, lootTable, false, packedStacks.getSecond(), null));
+        }
+
+        return result;
     }
 
     @Override
