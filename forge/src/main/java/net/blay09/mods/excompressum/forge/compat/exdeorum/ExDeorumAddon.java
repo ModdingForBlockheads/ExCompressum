@@ -1,6 +1,8 @@
 package net.blay09.mods.excompressum.forge.compat.exdeorum;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.api.IHammerRecipe;
@@ -25,10 +27,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import org.jetbrains.annotations.Nullable;
 import thedarkcolour.exdeorum.recipe.RecipeUtil;
+import thedarkcolour.exdeorum.recipe.hammer.HammerRecipe;
 
 import java.util.*;
 
@@ -293,37 +298,31 @@ public class ExDeorumAddon implements ExNihiloProvider {
     public List<IHammerRecipe> getHammerRecipes() {
         List<IHammerRecipe> result = new ArrayList<>();
 
-        /*ArrayListMultimap<IntList, CrushingRecipe> groupedRecipes = ArrayListMultimap.create();
-        for (final var hammerRecipe : ExNihiloRegistries.HAMMER_REGISTRY.getRecipeList()) {
-            groupedRecipes.put(hammerRecipe.getInput().getStackingIds(), hammerRecipe);
+        ArrayListMultimap<IntList, HammerRecipe> groupedRecipes = ArrayListMultimap.create();
+        for (final var hammerRecipe : RecipeUtil.getCachedHammerRecipes()) {
+            groupedRecipes.put(hammerRecipe.getIngredient().getStackingIds(), hammerRecipe);
         }
 
         for (IntList packedStacks : groupedRecipes.keySet()) {
             LootTable.Builder tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
-                for (ItemStackWithChance itemStackWithChance : hammerRecipe.getDrops()) {
-                    LootPool.Builder poolBuilder = LootPool.lootPool();
-                    LootPoolSingletonContainer.Builder<?> entryBuilder = buildLootEntry(itemStackWithChance);
-                    poolBuilder.add(entryBuilder);
-                    tableBuilder.withPool(poolBuilder);
-                }
+                LootPool.Builder poolBuilder = LootPool.lootPool();
+                LootPoolSingletonContainer.Builder<?> entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
+                poolBuilder.add(entryBuilder);
+                tableBuilder.withPool(poolBuilder);
             }
 
             final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
-            Ingredient input = firstRecipe.getInput();
-            LootTableProvider lootTableProvider = new LootTableProvider(tableBuilder.build());
+            final var input = firstRecipe.getIngredient();
+            final var lootTableProvider = tableBuilder.build();
             result.add(new net.blay09.mods.excompressum.registry.hammer.HammerRecipe(firstRecipe.getId(), input, lootTableProvider));
-        }*/
+        }
 
         return result;
     }
 
-    private LootPoolSingletonContainer.Builder<?> buildLootEntry(ItemStack outputItem) {
-        return LootTableUtils.buildLootEntry(outputItem, -1f);
+    private LootPoolSingletonContainer.Builder<?> buildLootEntry(Item item, NumberProvider amount) {
+        return LootTableUtils.buildLootEntry(new ItemStack(item), amount);
     }
-
-    /* private LootPoolSingletonContainer.Builder<?> buildLootEntry(ItemStackWithChance outputItem) {
-        return LootTableUtils.buildLootEntry(outputItem.getStack(), outputItem.getChance());
-    }*/
 
 }

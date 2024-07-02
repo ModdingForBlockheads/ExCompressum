@@ -164,4 +164,15 @@ public class LootTableUtils {
         }
         return entryBuilder;
     }
+
+    public static LootPoolSingletonContainer.Builder<?> buildLootEntry(ItemStack itemStack, NumberProvider amount) {
+        LootPoolSingletonContainer.Builder<?> entryBuilder = LootItem.lootTableItem(itemStack.getItem());
+        if (itemStack.getCount() > 0) {
+            entryBuilder.apply(SetItemCountFunction.setCount(amount));
+        }
+        if (itemStack.getTag() != null) {
+            entryBuilder.apply(SetNbtFunction.setTag(itemStack.getTag()));
+        }
+        return entryBuilder;
+    }
 }
