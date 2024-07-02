@@ -1,5 +1,6 @@
 package net.blay09.mods.excompressum.client.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -49,9 +50,9 @@ public class BlockRenderUtils {
             BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state);
 
             TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(tex);
-            VertexConsumer vertex = Minecraft.getInstance().renderBuffers().outlineBufferSource().getBuffer(RENDER_TYPE_BREAK);
+            VertexConsumer vertex = Minecraft.getInstance().renderBuffers().crumblingBufferSource().getBuffer(RENDER_TYPE_BREAK);
 
-            for(Direction direction : Direction.values()) {
+            for (Direction direction : Direction.values()) {
                 random.setSeed(positionRandom);
                 List<BakedQuad> list = model.getQuads(state, direction, random);
                 if (!list.isEmpty()) {
@@ -68,9 +69,13 @@ public class BlockRenderUtils {
     }
 
     private static void renderBlockBreakQuad(PoseStack.Pose pose, VertexConsumer vertex, List<BakedQuad> list, int light, int overlay, TextureAtlasSprite sprite) {
-        for(BakedQuad quad : list) {
-            BakedQuad modifiedQuad = new BakedQuad(modifyBlockBreakQuadData(quad.getVertices(), quad.getSprite(), sprite), quad.getTintIndex(), quad.getDirection(), sprite, quad.isShade());
-            vertex.putBulkData(pose, modifiedQuad,1, 1, 1, light, overlay);
+        for (BakedQuad quad : list) {
+            BakedQuad modifiedQuad = new BakedQuad(modifyBlockBreakQuadData(quad.getVertices(), quad.getSprite(), sprite),
+                    quad.getTintIndex(),
+                    quad.getDirection(),
+                    sprite,
+                    quad.isShade());
+            vertex.putBulkData(pose, modifiedQuad, 1, 1, 1, light, overlay);
         }
     }
 
@@ -79,8 +84,10 @@ public class BlockRenderUtils {
         int[] newData = new int[data.length];
         System.arraycopy(data, 0, newData, 0, data.length);
         for (int off = 0; off + 7 < newData.length; off += DefaultVertexFormat.BLOCK.getIntegerSize()) {
-            newData[off + 4] = Float.floatToRawIntBits(((Float.intBitsToFloat(data[off + 4]) - oldSprite.getU0()) * newSprite.contents().width() / oldSprite.contents().width()) + newSprite.getU0());
-            newData[off + 5] = Float.floatToRawIntBits(((Float.intBitsToFloat(data[off + 5]) - oldSprite.getV0()) * newSprite.contents().height() / oldSprite.contents().height()) + newSprite.getV0());
+            newData[off + 4] = Float.floatToRawIntBits(((Float.intBitsToFloat(data[off + 4]) - oldSprite.getU0()) * newSprite.contents()
+                    .width() / oldSprite.contents().width()) + newSprite.getU0());
+            newData[off + 5] = Float.floatToRawIntBits(((Float.intBitsToFloat(data[off + 5]) - oldSprite.getV0()) * newSprite.contents()
+                    .height() / oldSprite.contents().height()) + newSprite.getV0());
         }
         return newData;
     }
