@@ -56,13 +56,13 @@ public class LootTableUtils {
                 NumberProvider countRange = getCountRange(entry);
                 if (entry instanceof LootItemAccessor lootItem) {
                     ItemStack itemStack = new ItemStack(lootItem.getItem());
-                    itemStack.setCount(getMaxCount(countRange));
+                    itemStack.setCount(Math.max(1, (int) getMaxCount(countRange)));
                     result.add(new LootTableEntry(itemStack, countRange, baseChance));
                 } else if (entry instanceof TagEntryAccessor tagEntry) {
                     TagKey<Item> tag = tagEntry.getTag();
                     BuiltInRegistries.ITEM.getOrCreateTag(tag).forEach(itemHolder -> {
                         ItemStack itemStack = new ItemStack(itemHolder.value());
-                        itemStack.setCount(getMaxCount(countRange));
+                        itemStack.setCount(Math.max(1, (int) getMaxCount(countRange)));
                         result.add(new LootTableEntry(itemStack, countRange, baseChance));
                     });
                 }
@@ -100,25 +100,25 @@ public class LootTableUtils {
         return ConstantValue.exactly(1);
     }
 
-    public static int getMinCount(NumberProvider range) {
+    public static float getMinCount(NumberProvider range) {
         if (range instanceof UniformGeneratorAccessor uniform) {
             return getMinCount(uniform.getMin());
         } else if (range instanceof BinomialDistributionGeneratorAccessor binomial) {
             return getMinCount(binomial.getN()) * getMaxCount(binomial.getP());
         } else if (range instanceof ConstantValueAccessor constant) {
-            return (int) constant.getValue();
+            return constant.getValue();
         }
 
         return 1;
     }
 
-    public static int getMaxCount(NumberProvider range) {
+    public static float getMaxCount(NumberProvider range) {
         if (range instanceof UniformGeneratorAccessor uniform) {
             return getMaxCount(uniform.getMax());
         } else if (range instanceof BinomialDistributionGeneratorAccessor binomial) {
             return getMaxCount(binomial.getN()) * getMaxCount(binomial.getP());
         } else if (range instanceof ConstantValueAccessor constant) {
-            return (int) constant.getValue();
+            return constant.getValue();
         }
 
         return 1;

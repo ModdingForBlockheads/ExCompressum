@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeavySieveRecipe> {
 
@@ -56,12 +57,13 @@ public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeav
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedHeavySieveRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10);
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 88, 10);
-        for (int i = 0; i < recipe.getOutputItems().size(); i++) {
-            final int slotX = 3 + i * 18;
-            final int slotY = 37;
-            recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY);
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10).addIngredients(recipe.getIngredient());
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 88, 10).addItemStacks(recipe.getMeshItems());
+        final var outputItems = recipe.getOutputItems();
+        for (int i = 0; i < outputItems.size(); i++) {
+            final int slotX = 3 + (i % 9 * 18);
+            final int slotY = 37 + (i / 9 * 18);
+            recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addItemStack(outputItems.get(i));
         }
     }
 

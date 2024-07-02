@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<ExpandedWoodenCrucibleRecipe> {
 
@@ -57,12 +58,11 @@ public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<Expanded
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedWoodenCrucibleRecipe recipe, IFocusGroup focusGroup) {
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 75, 10).addFluidStack(recipe.getFluid(), recipe.getFluidStack().getAmount());
 
-        int slotNumber = 0;
-        for (final var itemStack : recipe.getInputs()) {
-            final int slotX = 3 + (slotNumber % 9 * 18);
-            final int slotY = 37 + (slotNumber / 9 * 18);
-            recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addItemStack(itemStack);
-            slotNumber++;
+        final var inputs = recipe.getInputs();
+        for (int i = 0; i < inputs.size(); i++) {
+            final int slotX = 3 + (i % 9 * 18);
+            final int slotY = 37 + (i / 9 * 18);
+            recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addItemStack(inputs.get(i));
         }
     }
 

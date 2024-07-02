@@ -141,6 +141,7 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHeavySieve), HeavySieveJeiRecipeCategory.TYPE);
         for (final var heavySieve : ModBlocks.heavySieves) {
             registry.addRecipeCatalyst(new ItemStack(heavySieve), HeavySieveJeiRecipeCategory.TYPE);
         }

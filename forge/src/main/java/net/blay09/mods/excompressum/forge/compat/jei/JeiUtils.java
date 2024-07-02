@@ -35,12 +35,12 @@ public class JeiUtils {
 
     private static Component getCountTextComponent(LootTableEntry entry) {
         if (entry.getCountRange() instanceof UniformGeneratorAccessor uniform) {
-            int min = LootTableUtils.getMinCount(uniform.getMin());
-            int max = LootTableUtils.getMaxCount(uniform.getMax());
+            int min = (int) LootTableUtils.getMinCount(uniform.getMin());
+            int max = (int) LootTableUtils.getMaxCount(uniform.getMax());
             return Component.translatable("tooltip.jei.drop_count.random_range", min, max);
         } else if (entry.getCountRange() instanceof BinomialDistributionGeneratorAccessor binomial) {
-            int n = LootTableUtils.getMinCount(binomial.getN());
-            int p = LootTableUtils.getMinCount(binomial.getP());
+            int n = (int) LootTableUtils.getMinCount(binomial.getN());
+            int p = (int) LootTableUtils.getMinCount(binomial.getP());
             return Component.translatable("tooltip.jei.drop_count.binomial_range", n * p);
         } else if (entry.getCountRange() instanceof ConstantValueAccessor constant) {
             return Component.translatable("tooltip.jei.drop_count.constant", (int) constant.getValue());
