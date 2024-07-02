@@ -4,15 +4,8 @@ Minecraft Mod. Attempts to reduce grind by adding pre-automation tools like comp
 
 - [Modpack Permissions](https://mods.twelveiterations.com/permissions)
 
-#### Forge
-
 [![Versions](http://cf.way2muchnoise.eu/versions/241967_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/ex-compressum)
 [![Downloads](http://cf.way2muchnoise.eu/full_241967_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/ex-compressum)
-
-#### Fabric
-
-[![Versions](http://cf.way2muchnoise.eu/versions/_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/ex-compressum-fabric)
-[![Downloads](http://cf.way2muchnoise.eu/full__downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/ex-compressum-fabric)
 
 ## Contributing
 
