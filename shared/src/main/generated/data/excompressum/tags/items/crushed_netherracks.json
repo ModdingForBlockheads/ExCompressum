@@ -4,6 +4,10 @@
     {
       "id": "exnihilosequentia:crushed_netherrack",
       "required": false
+    },
+    {
+      "id": "exdeorum:crushed_netherrack",
+      "required": false
     }
   ]
 }

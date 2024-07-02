@@ -11,7 +11,6 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
-import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.block.HeavySieveBlock;
 import net.blay09.mods.excompressum.block.ModBlocks;
@@ -25,10 +24,8 @@ import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipe;
 import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -150,17 +147,14 @@ public class JEIAddon implements IModPlugin {
         for (final var woodenCrucible : ModBlocks.woodenCrucibles) {
             registry.addRecipeCatalyst(new ItemStack(woodenCrucible), WoodenCrucibleJeiRecipeCategory.TYPE);
         }
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoCompressedHammer), CompressedHammerJeiRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedNetheriteHammer), CompressedHammerJeiRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedDiamondHammer), CompressedHammerJeiRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedGoldenHammer), CompressedHammerJeiRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedIronHammer), CompressedHammerJeiRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedStoneHammer), CompressedHammerJeiRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.compressedWoodenHammer), CompressedHammerJeiRecipeCategory.TYPE);
         registry.addRecipeCatalyst(new ItemStack(ModItems.chickenStick), ChickenStickJeiRecipeCategory.TYPE);
 
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHammer), HammerJeiRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoCompressedHammer), CompressedHammerJeiRecipeCategory.TYPE);
+        for (final var itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(ModItemTags.COMPRESSED_HAMMERS)) {
+            registry.addRecipeCatalyst(new ItemStack(itemHolder.value()), CompressedHammerJeiRecipeCategory.TYPE);
+        }
 
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHammer), HammerJeiRecipeCategory.TYPE);
         for (final var itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(ModItemTags.HAMMERS)) {
             registry.addRecipeCatalyst(new ItemStack(itemHolder.value()), HammerJeiRecipeCategory.TYPE);
         }

@@ -4,6 +4,10 @@
     {
       "id": "exnihilosequentia:crushed_end_stone",
       "required": false
+    },
+    {
+      "id": "exdeorum:crushed_end_stone",
+      "required": false
     }
   ]
 }

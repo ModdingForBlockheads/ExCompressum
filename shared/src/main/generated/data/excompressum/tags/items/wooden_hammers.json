@@ -4,6 +4,10 @@
     {
       "id": "exnihilosequentia:wooden_hammer",
       "required": false
+    },
+    {
+      "id": "exdeorum:wooden_hammer",
+      "required": false
     }
   ]
 }

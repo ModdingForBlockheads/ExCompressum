@@ -4,6 +4,10 @@
     {
       "id": "exnihilosequentia:wooden_crook",
       "required": false
+    },
+    {
+      "id": "exdeorum:crook",
+      "required": false
     }
   ]
 }

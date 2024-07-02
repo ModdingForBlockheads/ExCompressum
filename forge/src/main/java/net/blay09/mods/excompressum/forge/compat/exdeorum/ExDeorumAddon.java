@@ -1,9 +1,10 @@
 package net.blay09.mods.excompressum.forge.compat.exdeorum;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Maps;
+import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.api.recipe.CompressedHammerRecipe;
 import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
@@ -16,6 +17,7 @@ import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
+import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
@@ -29,7 +31,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -38,10 +39,14 @@ import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import org.jetbrains.annotations.Nullable;
 import thedarkcolour.exdeorum.recipe.RecipeUtil;
+import thedarkcolour.exdeorum.recipe.sieve.CompressedSieveRecipe;
+import thedarkcolour.exdeorum.registry.ERecipeTypes;
 
 import java.util.*;
 
 public class ExDeorumAddon implements ExNihiloProvider {
+
+    private final Map<Item, CommonMeshType> itemToMeshType = new HashMap<>();
 
     public ExDeorumAddon() {
         ExNihilo.setInstance(this);
@@ -52,6 +57,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             stringMesh.setMeshLevel(1);
             stringMesh.setModelName("string");
             SieveMeshRegistry.add(stringMesh);
+            itemToMeshType.put(stringMeshItem.getItem(), CommonMeshType.STRING);
         }
 
         ItemStack flintMeshItem = findItem("flint_mesh");
@@ -60,6 +66,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             flintMesh.setMeshLevel(2);
             flintMesh.setModelName("flint");
             SieveMeshRegistry.add(flintMesh);
+            itemToMeshType.put(flintMeshItem.getItem(), CommonMeshType.FLINT);
         }
 
         ItemStack ironMeshItem = findItem("iron_mesh");
@@ -70,6 +77,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             ironMesh.setModelName("iron");
             SieveMeshRegistry.add(ironMesh);
             SieveMeshRegistry.registerDefaults(ironMeshItem.getItem());
+            itemToMeshType.put(ironMeshItem.getItem(), CommonMeshType.IRON);
         }
 
         ItemStack goldMeshItem = findItem("golden_mesh");
@@ -79,6 +87,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             goldMesh.setHeavy(true);
             goldMesh.setModelName("gold");
             SieveMeshRegistry.add(goldMesh);
+            itemToMeshType.put(goldMeshItem.getItem(), CommonMeshType.GOLD);
         }
 
         ItemStack diamondMeshItem = findItem("diamond_mesh");
@@ -88,6 +97,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             diamondMesh.setHeavy(true);
             diamondMesh.setModelName("diamond");
             SieveMeshRegistry.add(diamondMesh);
+            itemToMeshType.put(diamondMeshItem.getItem(), CommonMeshType.DIAMOND);
         }
 
         ItemStack netheriteMeshItem = findItem("netherite_mesh");
@@ -97,6 +107,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
             mesh.setHeavy(true);
             mesh.setModelName("netherite");
             SieveMeshRegistry.add(mesh);
+            itemToMeshType.put(netheriteMeshItem.getItem(), CommonMeshType.NETHERITE);
         }
     }
 
@@ -210,30 +221,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
 
     @Override
     public LootTable generateHeavySieveLootTable(Level level, BlockState sieveState, ItemLike source, int times, SieveMeshRegistryEntry mesh) {
-        return LootTable.EMPTY;
-        /*if (!(mesh.getBackingMesh() instanceof Item)) {
-            return LootTable.EMPTY;
-        }
-
-        LootTable.Builder tableBuilder = LootTable.lootTable();
-        final var recipes = RecipeUtil.getSieveRecipes((Item) mesh.getBackingMesh(), new ItemStack(source));
-        for (final var recipe : recipes) {
-            if (recipe.mesh != mesh.getBackingMesh()) {
-                continue;
-            }
-
-            final var poolBuilder = LootPool.lootPool();
-            poolBuilder.name("excompressum-heavysieve-" + Balm.getRegistries()
-                    .getKey(source.asItem())
-                    .toString()
-                    .replace(':', '-') + "-" + UUID.randomUUID());
-            poolBuilder.setRolls(ConstantValue.exactly(times));
-            LootPoolSingletonContainer.Builder<?> entryBuilder = buildLootEntry(recipe.getResultItem(level.registryAccess()));
-            entryBuilder.apply(SetItemCountFunction.setCount(recipe.resultAmount));
-            poolBuilder.add(entryBuilder);
-            tableBuilder.withPool(poolBuilder);
-        }
-        return tableBuilder.build();*/
+        return LootTable.EMPTY; // We don't generate heavy sieve loot because Deorum has its own compressed sieve recipes
     }
 
     @Override
@@ -271,10 +259,10 @@ public class ExDeorumAddon implements ExNihiloProvider {
         }
 
         for (final var packedStacks : groupedRecipes.keySet()) {
-            LootTable.Builder tableBuilder = LootTable.lootTable();
+            final var tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
-                LootPool.Builder poolBuilder = LootPool.lootPool();
-                LootPoolSingletonContainer.Builder<?> entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
+                final var poolBuilder = LootPool.lootPool();
+                final var entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
                 poolBuilder.add(entryBuilder);
                 tableBuilder.withPool(poolBuilder);
             }
@@ -302,10 +290,10 @@ public class ExDeorumAddon implements ExNihiloProvider {
         }
 
         for (final var packedStacks : groupedRecipes.keySet()) {
-            LootTable.Builder tableBuilder = LootTable.lootTable();
+            final var tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
-                LootPool.Builder poolBuilder = LootPool.lootPool();
-                LootPoolSingletonContainer.Builder<?> entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
+                final var poolBuilder = LootPool.lootPool();
+                final var entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
                 poolBuilder.add(entryBuilder);
                 tableBuilder.withPool(poolBuilder);
             }
@@ -326,6 +314,31 @@ public class ExDeorumAddon implements ExNihiloProvider {
 
     @Override
     public List<HeavySieveRecipe> getHeavySieveRecipes() {
-        return List.of();
+        List<HeavySieveRecipe> result = new ArrayList<>();
+
+        final var recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
+        ArrayListMultimap<Pair<IntList, CommonMeshType>, CompressedSieveRecipe> groupedRecipes = ArrayListMultimap.create();
+        final var compressedSieveRecipes = recipeManager.getAllRecipesFor(ERecipeTypes.COMPRESSED_SIEVE.get());
+        for (final var recipe : compressedSieveRecipes) {
+            final var mesh = itemToMeshType.get(recipe.mesh);
+            groupedRecipes.put(Pair.of(recipe.getIngredient().getStackingIds(), mesh), recipe);
+        }
+
+        for (final var packedStacks : groupedRecipes.keySet()) {
+            final var tableBuilder = LootTable.lootTable();
+            for (final var recipe : groupedRecipes.get(packedStacks)) {
+                final var poolBuilder = LootPool.lootPool();
+                final var entryBuilder = buildLootEntry(recipe.result, recipe.resultAmount);
+                poolBuilder.add(entryBuilder);
+                tableBuilder.withPool(poolBuilder);
+            }
+
+            final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
+            final var ingredient = firstRecipe.getIngredient();
+            final var lootTable = tableBuilder.build();
+            result.add(new HeavySieveRecipeImpl(firstRecipe.getId(), ingredient, lootTable, false, packedStacks.getSecond(), null));
+        }
+
+        return result;
     }
 }

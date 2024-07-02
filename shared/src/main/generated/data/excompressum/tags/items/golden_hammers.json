@@ -4,6 +4,10 @@
     {
       "id": "exnihilosequentia:golden_hammer",
       "required": false
+    },
+    {
+      "id": "exdeorum:golden_hammer",
+      "required": false
     }
   ]
 }

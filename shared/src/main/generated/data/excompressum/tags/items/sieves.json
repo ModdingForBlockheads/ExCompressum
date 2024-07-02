@@ -40,6 +40,46 @@
     {
       "id": "exnihilosequentia:crimson_sieve",
       "required": false
+    },
+    {
+      "id": "exdeorum:acacia_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:birch_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:dark_oak_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:jungle_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:oak_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:spruce_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:cherry_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:mangrove_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:warped_sieve",
+      "required": false
+    },
+    {
+      "id": "exdeorum:crimson_sieve",
+      "required": false
     }
   ]
 }
