@@ -10,6 +10,7 @@ import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipe;
+import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -77,7 +78,7 @@ public class WoodenCrucibleBlockEntity extends BalmBlockEntity implements BalmFl
 
     public boolean addItem(ItemStack itemStack, boolean isAutomated, boolean simulate) {
         // When inserting dust, turn it into clay if we have enough liquid
-        if (fluidTank.getAmount() >= 1000 && ExNihilo.isNihiloItem(itemStack, ExNihiloProvider.NihiloItems.DUST)) {
+        if (fluidTank.getAmount() >= 1000 && itemStack.is(ModItemTags.DUSTS)) {
             if (!simulate) {
                 items.set(0, new ItemStack(Blocks.CLAY));
                 fluidTank.setFluid(Fluids.EMPTY, 0);

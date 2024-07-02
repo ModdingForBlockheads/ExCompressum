@@ -30,11 +30,6 @@ public abstract class ExNihilo {
         return instance;
     }
 
-    public static boolean isNihiloItem(ItemStack itemStack, ExNihiloProvider.NihiloItems type) {
-        ItemStack nihiloStack = instance.getNihiloItem(type);
-        return !nihiloStack.isEmpty() && itemStack.getItem() == nihiloStack.getItem();
-    }
-
     public static boolean isHammerable(ItemStack itemStack) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
         return state != null && instance.isHammerable(state);

@@ -6,6 +6,7 @@ import net.blay09.mods.excompressum.client.render.BlockRenderUtils;
 import net.blay09.mods.excompressum.item.ModItems;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.block.entity.AutoHammerBlockEntity;
+import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,6 +14,9 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -46,7 +50,10 @@ public class AutoHammerRenderer implements BlockEntityRenderer<AutoHammerBlockEn
             if (isCompressed) {
                 hammerItemStack = new ItemStack(ModItems.compressedDiamondHammer);
             } else {
-                hammerItemStack = ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_DIAMOND);
+                for (final var itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(ModItemTags.DIAMOND_HAMMERS)) {
+                    hammerItemStack = new ItemStack(itemHolder.value());
+                    break;
+                }
                 if (hammerItemStack.isEmpty()) {
                     hammerItemStack = new ItemStack(Items.COD); // This should never happen
                 }

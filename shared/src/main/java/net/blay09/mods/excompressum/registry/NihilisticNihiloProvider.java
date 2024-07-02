@@ -1,7 +1,10 @@
 package net.blay09.mods.excompressum.registry;
 
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
+import net.blay09.mods.excompressum.api.recipe.CompressedHammerRecipe;
 import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
+import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
+import net.blay09.mods.excompressum.api.recipe.SieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
@@ -24,11 +27,6 @@ import java.util.List;
 public class NihilisticNihiloProvider implements ExNihiloProvider {
 	public NihilisticNihiloProvider() {
 		SieveMeshRegistry.registerDefaults(null);
-	}
-
-	@Override
-	public ItemStack getNihiloItem(NihiloItems type) {
-		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -81,12 +79,7 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 		return true;
 	}
 
-	@Override
-	public boolean doMeshesSplitLootTables() {
-		return false;
-	}
-
-	@Override
+    @Override
 	public int getMeshFortune(ItemStack meshStack) {
 		return 0;
 	}
@@ -113,6 +106,21 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 
 	@Override
 	public List<HammerRecipe> getHammerRecipes() {
-		return Collections.emptyList();
+		return List.of();
+	}
+
+	@Override
+	public List<CompressedHammerRecipe> getCompressedHammerRecipes() {
+		return List.of();
+	}
+
+	@Override
+	public List<SieveRecipe> getSieveRecipes() {
+		return List.of();
+	}
+
+	@Override
+	public List<HeavySieveRecipe> getHeavySieveRecipes() {
+		return List.of();
 	}
 }
