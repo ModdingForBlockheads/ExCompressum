@@ -53,11 +53,12 @@ public class HammerRecipeCategory implements IRecipeCategory<JeiHammerRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, JeiHammerRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 74, 9);
-        for (int i = 0; i < recipe.getOutputItems().size(); i++) {
-            final int slotX = 2 + i * 18;
-            final int slotY = 36;
-            recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY);
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 75, 10).addIngredients(recipe.getIngredient());
+        final var outputItems = recipe.getOutputItems();
+        for (int i = 0; i < outputItems.size(); i++) {
+            final int slotX = 3 + i * 18;
+            final int slotY = 37;
+            recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addItemStack(outputItems.get(i));
         }
     }
 

@@ -56,11 +56,11 @@ public class HeavySieveRecipeCategory implements IRecipeCategory<JeiHeavySieveRe
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, JeiHeavySieveRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 61, 9);
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 87, 9);
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10);
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 88, 10);
         for (int i = 0; i < recipe.getOutputItems().size(); i++) {
-            final int slotX = 2 + i * 18;
-            final int slotY = 36;
+            final int slotX = 3 + i * 18;
+            final int slotY = 37;
             recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY);
         }
     }

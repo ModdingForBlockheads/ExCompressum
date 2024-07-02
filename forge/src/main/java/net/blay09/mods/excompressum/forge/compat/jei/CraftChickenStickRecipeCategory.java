@@ -54,8 +54,8 @@ public class CraftChickenStickRecipeCategory implements IRecipeCategory<CraftChi
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, CraftChickenStickRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 74, 9);
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 130, 20);
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 17, 21).addItemStack(recipe.getInput());
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 131, 21).addItemStack(recipe.getOutput());
     }
 
 }

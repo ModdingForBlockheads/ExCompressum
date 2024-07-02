@@ -77,7 +77,7 @@ public class JEIAddon implements IModPlugin {
         for (final var recipe : chickenStickRecipes) {
             jeiChickenStickRecipes.add(new JeiChickenStickRecipe(recipe));
         }
-        registry.addRecipes(ChickenStickRecipeCategory.TYPE, jeiChickenStickRecipes);
+        registry.addRecipes(ChickenStickJeiRecipeCategory.TYPE, jeiChickenStickRecipes);
 
         ArrayListMultimap<ResourceLocation, WoodenCrucibleRecipe> fluidOutputMap = ArrayListMultimap.create();
         final var woodenCrucibleRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
@@ -142,7 +142,7 @@ public class JEIAddon implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(ModItems.compressedIronHammer), CompressedHammerRecipeCategory.TYPE);
         registry.addRecipeCatalyst(new ItemStack(ModItems.compressedStoneHammer), CompressedHammerRecipeCategory.TYPE);
         registry.addRecipeCatalyst(new ItemStack(ModItems.compressedWoodenHammer), CompressedHammerRecipeCategory.TYPE);
-        registry.addRecipeCatalyst(new ItemStack(ModItems.chickenStick), ChickenStickRecipeCategory.TYPE);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.chickenStick), ChickenStickJeiRecipeCategory.TYPE);
 
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.autoHammer), HammerRecipeCategory.TYPE);
         registry.addRecipeCatalyst(ExNihilo.getInstance().getNihiloItem(ExNihiloProvider.NihiloItems.HAMMER_NETHERITE), HammerRecipeCategory.TYPE);
@@ -166,7 +166,7 @@ public class JEIAddon implements IModPlugin {
                 new CompressedHammerRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
                 new WoodenCrucibleRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
                 new CraftChickenStickRecipeCategory(registry.getJeiHelpers().getGuiHelper()),
-                new ChickenStickRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+                new ChickenStickJeiRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
     }
 
 }
