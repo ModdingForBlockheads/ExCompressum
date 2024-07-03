@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_compressed_end_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "excompressum:compressed_end_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:end_stone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_compressed_end_stone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:end_stone"
+    ]
+  }
+}

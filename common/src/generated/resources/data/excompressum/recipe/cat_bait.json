@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:lead"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:cat_bait"
+  }
+}

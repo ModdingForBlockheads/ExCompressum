@@ -6,6 +6,7 @@ import net.blay09.mods.excompressum.api.ExCompressumAPI;
 import net.blay09.mods.excompressum.block.ModBlocks;
 import net.blay09.mods.excompressum.block.entity.ModBlockEntities;
 import net.blay09.mods.excompressum.compat.Compat;
+import net.blay09.mods.excompressum.component.ModComponents;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.entity.ModEntities;
 import net.blay09.mods.excompressum.handler.ChickenStickHandler;
@@ -33,6 +34,7 @@ public class ExCompressum {
 
         ExCompressumConfig.initialize();
         ExRegistries.initialize();
+        ModComponents.initialize(Balm.getComponents());
         ModBlocks.initialize(Balm.getBlocks());
         ModBlockEntities.initialize(Balm.getBlockEntities());
         ModEntities.initialize(Balm.getEntities());

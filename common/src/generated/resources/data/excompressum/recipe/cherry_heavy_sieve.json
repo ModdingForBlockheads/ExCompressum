@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:cherry_log"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PPP",
+    "S S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:cherry_heavy_sieve"
+  }
+}

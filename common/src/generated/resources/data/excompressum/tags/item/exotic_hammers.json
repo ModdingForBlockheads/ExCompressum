@@ -1,0 +1,64 @@
+{
+  "values": [
+    {
+      "id": "exnihilosequentia:bamboo_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:andesite_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:basalt_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:blackstone_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:bone_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:calcite_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:cherry_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:deepslate_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:diorite_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:dripstone_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:granite_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:nether_brick_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:red_nether_brick_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:terracotta_hammer",
+      "required": false
+    },
+    {
+      "id": "exnihilosequentia:tuff_hammer",
+      "required": false
+    }
+  ]
+}

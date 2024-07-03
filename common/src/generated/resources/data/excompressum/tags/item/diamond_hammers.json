@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "exnihilosequentia:diamond_hammer",
+      "required": false
+    },
+    {
+      "id": "exdeorum:diamond_hammer",
+      "required": false
+    }
+  ]
+}

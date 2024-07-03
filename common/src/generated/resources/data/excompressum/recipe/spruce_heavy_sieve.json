@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:spruce_log"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PPP",
+    "S S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:spruce_heavy_sieve"
+  }
+}

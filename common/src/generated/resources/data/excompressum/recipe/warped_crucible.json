@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:warped_stem"
+    },
+    "S": {
+      "item": "minecraft:warped_slab"
+    }
+  },
+  "pattern": [
+    "P P",
+    "P P",
+    "PSP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:warped_crucible"
+  }
+}

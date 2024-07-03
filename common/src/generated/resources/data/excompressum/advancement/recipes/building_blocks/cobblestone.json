@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_compressed_cobblestone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "excompressum:compressed_cobblestone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:cobblestone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_compressed_cobblestone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:cobblestone"
+    ]
+  }
+}

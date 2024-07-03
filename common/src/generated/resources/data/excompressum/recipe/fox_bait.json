@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:sweet_berries"
+    },
+    {
+      "item": "minecraft:rabbit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:fox_bait"
+  }
+}

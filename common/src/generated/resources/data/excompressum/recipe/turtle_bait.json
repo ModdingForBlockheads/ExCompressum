@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:seagrass"
+    },
+    {
+      "item": "minecraft:sea_pickle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:turtle_bait"
+  }
+}

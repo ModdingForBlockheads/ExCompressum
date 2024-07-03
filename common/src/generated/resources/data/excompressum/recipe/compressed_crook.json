@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "tag": "excompressum:wooden_crooks"
+    }
+  },
+  "pattern": [
+    "CC",
+    " C",
+    " C"
+  ],
+  "result": {
+    "count": 1,
+    "id": "excompressum:compressed_crook"
+  }
+}

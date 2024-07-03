@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "exnihilosequentia:netherite_hammer",
+      "required": false
+    },
+    {
+      "id": "exdeorum:netherite_hammer",
+      "required": false
+    }
+  ]
+}
