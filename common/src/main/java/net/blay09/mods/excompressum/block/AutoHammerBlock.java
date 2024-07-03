@@ -108,16 +108,6 @@ public class AutoHammerBlock extends BaseEntityBlock implements IUglyfiable {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        CompoundTag tagCompound = stack.getTag();
-        if (tagCompound != null && tagCompound.contains("EnergyStored")) {
-            if (level.getBlockEntity(pos) instanceof AutoHammerBlockEntity autoHammer) {
-                autoHammer.getEnergyStorage().setEnergy(tagCompound.getInt("EnergyStored"));
-            }
-        }
-    }
-
-    @Override
     public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }

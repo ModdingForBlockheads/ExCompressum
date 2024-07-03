@@ -1,15 +1,11 @@
 package net.blay09.mods.excompressum.block.entity;
 
-import net.blay09.mods.excompressum.compat.Compat;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRegistry;
 import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;

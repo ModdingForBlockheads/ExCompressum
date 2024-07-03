@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,13 +23,13 @@ import java.util.Set;
 
 public class ClientProxy extends CommonProxy {
 
-    private final Set<GameProfile> skinRequested = Sets.newHashSet();
+    private final Set<ResolvableProfile> skinRequested = Sets.newHashSet();
 
     @Override
-    public void preloadSkin(GameProfile gameProfile) {
-        if (!skinRequested.contains(gameProfile)) {
-            Minecraft.getInstance().getSkinManager().getOrLoad(gameProfile);
-            skinRequested.add(gameProfile);
+    public void preloadSkin(ResolvableProfile profile) {
+        if (!skinRequested.contains(profile)) {
+            Minecraft.getInstance().getSkinManager().getOrLoad(profile.gameProfile());
+            skinRequested.add(profile);
         }
     }
 

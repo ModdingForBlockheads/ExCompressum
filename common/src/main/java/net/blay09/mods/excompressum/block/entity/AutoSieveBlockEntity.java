@@ -2,8 +2,10 @@ package net.blay09.mods.excompressum.block.entity;
 
 import net.blay09.mods.balm.api.energy.BalmEnergyStorageProvider;
 import net.blay09.mods.balm.api.energy.EnergyStorage;
+import net.blay09.mods.excompressum.component.ModComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,6 +69,21 @@ public class AutoSieveBlockEntity extends AbstractAutoSieveBlockEntity implement
     @Override
     public EnergyStorage getEnergyStorage() {
         return energyStorage;
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(ModComponents.energy.get(), energyStorage.getEnergy());
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        final var energyComponent = input.get(ModComponents.energy.get());
+        if (energyComponent != null) {
+            energyStorage.setEnergy(energyComponent);
+        }
     }
 
 }

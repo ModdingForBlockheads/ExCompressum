@@ -5,6 +5,7 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.CommonLootTableAccessor;
 import net.blay09.mods.excompressum.mixin.*;
+import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -16,8 +17,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.*;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.*;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
@@ -126,14 +126,14 @@ public class LootTableUtils {
     public static LootContext buildLootContext(ServerLevel level, ItemStack itemStack) {
         final var params = new HashMap<LootContextParam<?>, Object>();
         params.put(SOURCE_STACK, itemStack);
-        return new LootContext.Builder(new LootParams(level, params, Collections.emptyMap(), 0f)).create(null);
+        return new LootContext.Builder(new LootParams(level, params, Collections.emptyMap(), 0f)).create(Optional.empty());
     }
 
     public static List<MergedLootTableEntry> mergeLootTableEntries(List<LootTableEntry> entries) {
         List<MergedLootTableEntry> result = new ArrayList<>();
         ArrayListMultimap<ResourceLocation, LootTableEntry> entryMap = ArrayListMultimap.create();
         for (LootTableEntry entry : entries) {
-            if (entry.getItemStack().hasTag()) {
+            if (!entry.getItemStack().getComponents().isEmpty()) {
                 result.add(new MergedLootTableEntry(entry));
             } else {
                 final var itemId = Balm.getRegistries().getKey(entry.getItemStack().getItem());
@@ -143,7 +143,7 @@ public class LootTableUtils {
 
         for (ResourceLocation key : entryMap.keySet()) {
             List<LootTableEntry> mergableEntries = entryMap.get(key);
-            LootTableEntry firstEntry = mergableEntries.get(0);
+            LootTableEntry firstEntry = mergableEntries.getFirst();
             mergableEntries.sort(Comparator.comparing(LootTableEntry::getBaseChance).reversed());
             result.add(new MergedLootTableEntry(firstEntry.getItemStack(), mergableEntries));
         }
@@ -155,8 +155,8 @@ public class LootTableUtils {
         if (outputItem.getCount() > 0) {
             entryBuilder.apply(SetItemCountFunction.setCount(ConstantValue.exactly(outputItem.getCount())));
         }
-        if (outputItem.getTag() != null) {
-            entryBuilder.apply(SetNbtFunction.setTag(outputItem.getTag()));
+        for (final var component : outputItem.getComponents()) {
+            entryBuilder.apply(copyComponent(component));
         }
         if (chance != -1f) {
             entryBuilder.when(LootItemRandomChanceCondition.randomChance(chance));
@@ -169,9 +169,13 @@ public class LootTableUtils {
         if (itemStack.getCount() > 0) {
             entryBuilder.apply(SetItemCountFunction.setCount(amount));
         }
-        if (itemStack.getTag() != null) {
-            entryBuilder.apply(SetNbtFunction.setTag(itemStack.getTag()));
+        for (final var component : itemStack.getComponents()) {
+            entryBuilder.apply(copyComponent(component));
         }
         return entryBuilder;
+    }
+
+    private static <T> LootItemConditionalFunction.Builder<?> copyComponent(TypedDataComponent<T> component) {
+        return SetComponentsFunction.setComponent(component.type(), component.value());
     }
 }

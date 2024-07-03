@@ -1,13 +1,13 @@
 package net.blay09.mods.excompressum.client.render.blockentity;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.block.ModBlocks;
+import net.blay09.mods.excompressum.block.entity.AbstractAutoSieveBlockEntity;
+import net.blay09.mods.excompressum.block.entity.AutoHeavySieveBlockEntity;
+import net.blay09.mods.excompressum.block.entity.AutoSieveBlockEntity;
 import net.blay09.mods.excompressum.client.ModModels;
 import net.blay09.mods.excompressum.client.render.model.TinyHumanModel;
-import net.blay09.mods.excompressum.block.entity.AbstractAutoSieveBlockEntity;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -18,9 +18,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,10 +29,10 @@ import org.joml.Math;
 import org.joml.Quaternionf;
 
 import org.jetbrains.annotations.Nullable;
-import java.util.Map;
+
 import java.util.UUID;
 
-public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveBlockEntity> {
+public class AutoSieveRenderer<T extends AbstractAutoSieveBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final RandomSource random = RandomSource.create();
 
@@ -51,7 +51,7 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
     }
 
     @Override
-    public void render(AbstractAutoSieveBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+    public void render(T blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         Level level = blockEntity.getLevel();
         if (level == null || blockEntity.isUgly()) {
             return;
@@ -75,7 +75,7 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         poseStack.mulPose(new Quaternionf(new AxisAngle4f(Math.toRadians(90), 0, 1f, 0)));
         poseStack.translate(0f, -1.2f, 0.25f);
         poseStack.scale(0.75f, 0.75f, 0.75f);
-        final var skin = getPlayerSkin(blockEntity.getCustomSkin());
+        final var skin = getPlayerSkin(blockEntity.getSkinProfile());
         TinyHumanModel playerModel = getPlayerModel(skin);
         playerModel.animate(blockEntity, partialTicks);
         playerModel.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entitySolid(skin.texture())), combinedLight, combinedOverlay, 0xFFFFFFFF);
@@ -135,9 +135,9 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         poseStack.popPose();
     }
 
-    private PlayerSkin getPlayerSkin(@Nullable GameProfile customSkin) {
-        if (customSkin != null) {
-            return Minecraft.getInstance().getSkinManager().getInsecureSkin(customSkin);
+    private PlayerSkin getPlayerSkin(@Nullable ResolvableProfile profile) {
+        if (profile != null) {
+            return Minecraft.getInstance().getSkinManager().getInsecureSkin(profile.gameProfile());
         } else {
             return DefaultPlayerSkin.get(UUID.randomUUID());
         }
@@ -153,11 +153,11 @@ public class AutoSieveRenderer implements BlockEntityRenderer<AbstractAutoSieveB
         return tinyHumanModel;
     }
 
-    public static <T extends AbstractAutoSieveBlockEntity> BlockEntityRenderer<T> normal(BlockEntityRendererProvider.Context context) {
-        return (BlockEntityRenderer<T>) new AutoSieveRenderer(context, false);
+    public static AutoSieveRenderer<AutoSieveBlockEntity> normal(BlockEntityRendererProvider.Context context) {
+        return new AutoSieveRenderer<>(context, false);
     }
 
-    public static <T extends AbstractAutoSieveBlockEntity> BlockEntityRenderer<T> heavy(BlockEntityRendererProvider.Context context) {
-        return (BlockEntityRenderer<T>) new AutoSieveRenderer(context, true);
+    public static AutoSieveRenderer<AutoHeavySieveBlockEntity> heavy(BlockEntityRendererProvider.Context context) {
+        return new AutoSieveRenderer<>(context, true);
     }
 }

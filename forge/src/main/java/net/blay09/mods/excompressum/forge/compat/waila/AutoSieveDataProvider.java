@@ -9,8 +9,8 @@ public class AutoSieveDataProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if(accessor.getBlockEntity() instanceof AbstractAutoSieveBlockEntity autoSieve) {
-            if(autoSieve.getCustomSkin() != null) {
-                tooltip.addLine(Component.translatable("tooltip.excompressum.sieveSkin", autoSieve.getCustomSkin().getName()));
+            if(autoSieve.getSkinProfile() != null) {
+                tooltip.addLine(Component.translatable("tooltip.excompressum.sieveSkin", autoSieve.getSkinProfile().getName()));
             }
             if(autoSieve.getFoodBoost() > 1f) {
                 tooltip.addLine(Component.translatable("tooltip.excompressum.speedBoost", autoSieve.getFoodBoost()));

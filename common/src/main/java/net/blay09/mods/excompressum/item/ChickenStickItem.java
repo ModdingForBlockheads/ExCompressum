@@ -1,6 +1,7 @@
 package net.blay09.mods.excompressum.item;
 
 import net.blay09.mods.excompressum.ExCompressum;
+import net.blay09.mods.excompressum.component.ModComponents;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.tag.ModBlockTags;
@@ -9,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -86,7 +86,7 @@ public class ChickenStickItem extends DiggerItem {
     }
 
     public boolean isAngry(ItemStack itemStack) {
-        return itemStack.getTag() != null && itemStack.getTag().getBoolean("IsAngry");
+        return itemStack.has(ModComponents.angry.get());
     }
 
 }

@@ -1,9 +1,6 @@
 package net.blay09.mods.excompressum.block.entity;
 
-import com.google.common.collect.Iterables;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import net.blay09.mods.balm.api.Balm;
+import com.mojang.authlib.properties.PropertyMap;
 import net.blay09.mods.balm.api.container.BalmContainerProvider;
 import net.blay09.mods.balm.api.container.DefaultContainer;
 import net.blay09.mods.balm.api.container.DelegateContainer;
@@ -17,37 +14,45 @@ import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.menu.AutoSieveMenu;
 import net.blay09.mods.excompressum.menu.ModMenus;
 import net.blay09.mods.excompressum.registry.ExNihilo;
+import net.blay09.mods.excompressum.registry.autosieveskin.AutoSieveSkinRegistry;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.*;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.lang3.StringUtils;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmContainerProvider {
+import static net.minecraft.world.level.block.entity.SkullBlockEntity.CHECKED_MAIN_THREAD_EXECUTOR;
+
+public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider<BlockPos>, BalmContainerProvider {
 
     private static final int UPDATE_INTERVAL = 20;
     private static final int PARTICLE_TICKS = 30;
@@ -136,7 +141,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     };
 
     private ItemStack currentStack = ItemStack.EMPTY;
-    private GameProfile customSkin;
+    private ResolvableProfile skinProfile;
 
     private int ticksSinceSync;
     protected boolean isDirty;
@@ -323,12 +328,11 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         currentStack = ItemStack.parseOptional(provider, tag.getCompound("CurrentStack"));
         progress = tag.getFloat("Progress");
-        if (tag.contains("CustomSkin")) {
-            customSkin = NbtUtils.readGameProfile(tag.getCompound("CustomSkin"));
-            if (customSkin != null) {
-                ExCompressum.proxy.get().preloadSkin(customSkin);
-            }
-        }
+        ResolvableProfile.CODEC.parse(NbtOps.INSTANCE, tag.get("CustomSkin")).resultOrPartial(($$0x) -> {
+            ExCompressum.logger.error("Failed to load profile from auto sieve: {}", $$0x);
+        }).ifPresent(it -> {
+            setSkinProfile(it);
+        });
         foodBoost = tag.getFloat("FoodBoost");
         foodBoostTicks = tag.getInt("FoodBoostTicks");
         particleTicks = tag.getInt("ParticleTicks");
@@ -349,9 +353,8 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         tag.put("CurrentStack", currentStack.save(provider));
         tag.putFloat("Progress", progress);
-        if (customSkin != null) {
-            CompoundTag customSkinTag = new CompoundTag();
-            NbtUtils.writeGameProfile(customSkinTag, customSkin);
+        if (skinProfile != null) {
+            final var customSkinTag = ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, this.skinProfile).getOrThrow();
             tag.put("CustomSkin", customSkinTag);
         }
         tag.putFloat("FoodBoost", foodBoost);
@@ -397,41 +400,30 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         return currentStack;
     }
 
-    public void setCustomSkin(@Nullable GameProfile customSkin) {
-        this.customSkin = customSkin;
-        grabProfile();
+    public void setSkinProfile(@Nullable ResolvableProfile skinProfile) {
+        this.skinProfile = skinProfile;
+        updateSkinProfile();
+        // TODO remove?  if (skinProfile != null) {
+        // TODO remove?      ExCompressum.proxy.get().preloadSkin(skinProfile);
+        // TODO remove?  }
         isDirty = true;
         setChanged();
     }
 
     @Nullable
-    public GameProfile getCustomSkin() {
-        return customSkin;
+    public ResolvableProfile getSkinProfile() {
+        return skinProfile;
     }
 
-    private void grabProfile() {
-        // I hope this doesn't break anything lol
-        new Thread(() -> {
-            try {
-                if (!level.isClientSide && customSkin != null && !StringUtils.isEmpty(customSkin.getName())) {
-                    if (!customSkin.isComplete() || !customSkin.getProperties().containsKey("textures")) {
-                        Balm.getHooks().getServer().getProfileCache().get(customSkin.getName()).ifPresent(gameProfile -> {
-                            Property property = Iterables.getFirst(gameProfile.getProperties().get("textures"), null);
-                            if (property == null) {
-                                gameProfile = Balm.getHooks().getServer().getSessionService().fillProfileProperties(gameProfile, true);
-                            }
-                            customSkin = gameProfile;
-                            isDirty = true;
-                            setChanged();
-                        });
-                    }
-                }
-            } catch (ClassCastException ignored) {
-                // This is really dumb
-                // Vanilla's Yggdrasil can fail with a "com.google.gson.JsonPrimitive cannot be cast to com.google.gson.JsonObject" exception, likely their server was derping or whatever. I have no idea
-                // And there doesn't seem to be safety checks for that in Vanilla code so I have to do it here.
-            }
-        }).start();
+    private void updateSkinProfile() {
+        if (skinProfile != null && !this.skinProfile.isResolved()) {
+            skinProfile.resolve().thenAcceptAsync((result) -> {
+                skinProfile = result;
+                setChanged();
+            }, CHECKED_MAIN_THREAD_EXECUTOR);
+        } else {
+            setChanged();
+        }
     }
 
     public float getSpeedMultiplier() {
@@ -547,5 +539,35 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
 
     public ContainerData getContainerData() {
         return containerData;
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+        var profile = input.get(DataComponents.PROFILE);
+        if (profile == null) {
+            final var randomSkin = AutoSieveSkinRegistry.getRandomSkin();
+            if (randomSkin != null) {
+                setSkinProfile(new ResolvableProfile(Optional.of(randomSkin.getName()), Optional.of(randomSkin.getUuid()), new PropertyMap()));
+            }
+        } else {
+            setSkinProfile(profile);
+        }
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        if (skinProfile != null) {
+            builder.set(DataComponents.PROFILE, skinProfile);
+        }
+    }
+
+    @Override
+    public BlockPos getScreenOpeningData(ServerPlayer serverPlayer) {
+        return worldPosition;
+    }
+
+    @Override
+    public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
+        return BlockPos.STREAM_CODEC.cast();
     }
 }

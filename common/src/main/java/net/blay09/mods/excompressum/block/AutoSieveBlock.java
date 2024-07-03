@@ -40,19 +40,6 @@ public class AutoSieveBlock extends AutoSieveBaseBlock {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if(level.getBlockEntity(pos) instanceof AutoSieveBlockEntity autoSieve) {
-            CompoundTag tagCompound = stack.getTag();
-            if (tagCompound != null) {
-                if (tagCompound.contains("EnergyStored")) {
-                    autoSieve.getEnergyStorage().setEnergy(tagCompound.getInt("EnergyStored"));
-                }
-            }
-        }
-        super.setPlacedBy(level, pos, state, placer, stack);
-    }
-
-    @Override
     public BlockEntityType<?> getBlockEntityType() {
         return ModBlockEntities.autoSieve.get();
     }

@@ -1,11 +1,9 @@
 package net.blay09.mods.excompressum.block;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.serialization.MapCodec;
+import com.mojang.authlib.properties.PropertyMap;
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
-import net.blay09.mods.excompressum.item.ModItems;
 import net.blay09.mods.excompressum.registry.autosieveskin.AutoSieveSkinRegistry;
 import net.blay09.mods.excompressum.registry.autosieveskin.WhitelistEntry;
 import net.blay09.mods.excompressum.block.entity.AbstractAutoSieveBlockEntity;
@@ -14,17 +12,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,7 +25,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -100,7 +92,7 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
             }
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         } else if (heldItem == Items.NAME_TAG && itemStack.has(DataComponents.CUSTOM_NAME)) {
-            autoSieve.setCustomSkin(new GameProfile(null, itemStack.getDisplayName().getString()));
+            autoSieve.setSkinProfile(new ResolvableProfile(Optional.of(itemStack.get(DataComponents.CUSTOM_NAME).getString()), Optional.empty(), new PropertyMap()));
             return ItemInteractionResult.CONSUME_PARTIAL;
         }
 
@@ -141,19 +133,6 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
         }
 
         super.onRemove(state, level, pos, newState, isMoving);
-    }
-
-    @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        AbstractAutoSieveBlockEntity autoSieve = (AbstractAutoSieveBlockEntity) level.getBlockEntity(pos);
-        if (autoSieve != null) {
-            var profile = stack.get(DataComponents.PROFILE);
-            if (profile == null) {
-                final var randomSkin = AutoSieveSkinRegistry.getRandomSkin();
-                profile = new ResolvableProfile(Optional.of(randomSkin.getName()), Optional.of(randomSkin.getUuid()), null);
-            }
-            autoSieve.setCustomSkin(profile.gameProfile());
-        }
     }
 
     @Override

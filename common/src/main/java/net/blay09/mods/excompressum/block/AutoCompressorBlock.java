@@ -76,17 +76,6 @@ public class AutoCompressorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        CompoundTag tagCompound = stack.getTag();
-        if (tagCompound != null && tagCompound.contains("EnergyStored")) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof AutoCompressorBlockEntity autoCompressor) {
-                autoCompressor.getEnergyStorage().setEnergy(tagCompound.getInt("EnergyStored"));
-            }
-        }
-    }
-
-    @Override
     @SuppressWarnings("deprecation")
     public boolean hasAnalogOutputSignal(BlockState state) {
         return true;

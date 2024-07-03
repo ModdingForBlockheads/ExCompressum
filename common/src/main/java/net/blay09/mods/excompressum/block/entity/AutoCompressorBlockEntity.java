@@ -9,6 +9,7 @@ import net.blay09.mods.balm.api.container.SubContainer;
 import net.blay09.mods.balm.api.energy.BalmEnergyStorageProvider;
 import net.blay09.mods.balm.api.energy.EnergyStorage;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
+import net.blay09.mods.excompressum.component.ModComponents;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.menu.AutoCompressorMenu;
 import net.blay09.mods.excompressum.registry.ExRegistries;
@@ -17,12 +18,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -36,7 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmEnergyStorageProvider, BalmContainerProvider {
+public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider<BlockPos>, BalmEnergyStorageProvider, BalmContainerProvider {
 
     private final EnergyStorage energyStorage = new EnergyStorage(32000) {
         @Override
@@ -351,5 +355,28 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
 
     public ContainerData getContainerData() {
         return containerData;
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        builder.set(ModComponents.energy.get(), energyStorage.getEnergy());
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+        final var energyComponent = input.get(ModComponents.energy.get());
+        if (energyComponent != null) {
+            energyStorage.setEnergy(energyComponent);
+        }
+    }
+
+    @Override
+    public BlockPos getScreenOpeningData(ServerPlayer serverPlayer) {
+        return worldPosition;
+    }
+
+    @Override
+    public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
+        return BlockPos.STREAM_CODEC.cast();
     }
 }

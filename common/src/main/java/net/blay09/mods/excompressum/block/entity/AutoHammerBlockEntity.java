@@ -11,6 +11,7 @@ import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.block.AutoHammerBlock;
 import net.blay09.mods.excompressum.block.ModBlockStateProperties;
 import net.blay09.mods.excompressum.compat.Compat;
+import net.blay09.mods.excompressum.component.ModComponents;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.menu.AutoHammerMenu;
@@ -22,11 +23,16 @@ import net.blay09.mods.excompressum.utils.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -50,7 +56,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider, BalmContainerProvider, BalmEnergyStorageProvider {
+public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements BalmMenuProvider<BlockPos>, BalmContainerProvider, BalmEnergyStorageProvider {
 
     private static final int UPDATE_INTERVAL = 20;
 
@@ -305,15 +311,16 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         final float HAMMER_BOOST = 0.5f;
         final float EFFICIENCY_BOOST = 0.5f;
         float boost = 1f;
+        final var efficiencyEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.EFFICIENCY);
         ItemStack firstHammer = hammerSlots.getItem(0);
         if (!firstHammer.isEmpty() && isHammerUpgrade(firstHammer)) {
             boost += HAMMER_BOOST;
-            boost += EFFICIENCY_BOOST * EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY, firstHammer);
+            boost += EFFICIENCY_BOOST * EnchantmentHelper.getItemEnchantmentLevel(efficiencyEnchantment, firstHammer);
         }
         ItemStack secondHammer = hammerSlots.getItem(1);
         if (!secondHammer.isEmpty() && isHammerUpgrade(secondHammer)) {
             boost += HAMMER_BOOST;
-            boost += EFFICIENCY_BOOST * EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY, secondHammer);
+            boost += EFFICIENCY_BOOST * EnchantmentHelper.getItemEnchantmentLevel(efficiencyEnchantment, secondHammer);
         }
         return boost;
     }
@@ -324,13 +331,14 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
 
     public float getEffectiveLuck() {
         float luck = 0f;
+        final var fortuneEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
         ItemStack firstHammer = hammerSlots.getItem(0);
         if (!firstHammer.isEmpty() && isHammerUpgrade(firstHammer)) {
-            luck += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, firstHammer);
+            luck += EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, firstHammer);
         }
         ItemStack secondHammer = hammerSlots.getItem(1);
         if (!secondHammer.isEmpty() && isHammerUpgrade(secondHammer)) {
-            luck += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, secondHammer);
+            luck += EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, secondHammer);
         }
         return luck;
     }
@@ -506,5 +514,28 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
 
     public ContainerData getContainerData() {
         return containerData;
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        builder.set(ModComponents.energy.get(), energyStorage.getEnergy());
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+        final var energyComponent = input.get(ModComponents.energy.get());
+        if (energyComponent != null) {
+            energyStorage.setEnergy(energyComponent);
+        }
+    }
+
+    @Override
+    public BlockPos getScreenOpeningData(ServerPlayer serverPlayer) {
+        return worldPosition;
+    }
+
+    @Override
+    public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
+        return BlockPos.STREAM_CODEC.cast();
     }
 }
