@@ -1,7 +1,6 @@
 package net.blay09.mods.excompressum.forge.compat.exnihilosequentia;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
@@ -17,6 +16,7 @@ import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -58,7 +58,6 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         ItemStack stringMeshItem = findItem("string_mesh");
         if (!stringMeshItem.isEmpty()) {
             SieveMeshRegistryEntry stringMesh = new SieveMeshRegistryEntry(CommonMeshType.STRING, stringMeshItem, MeshType.STRING);
-            stringMesh.setMeshLevel(1);
             stringMesh.setModelName("string");
             SieveMeshRegistry.add(stringMesh);
         }
@@ -66,7 +65,6 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         ItemStack flintMeshItem = findItem("flint_mesh");
         if (!flintMeshItem.isEmpty()) {
             SieveMeshRegistryEntry flintMesh = new SieveMeshRegistryEntry(CommonMeshType.FLINT, flintMeshItem, MeshType.FLINT);
-            flintMesh.setMeshLevel(2);
             flintMesh.setModelName("flint");
             SieveMeshRegistry.add(flintMesh);
         }
@@ -74,7 +72,6 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         ItemStack ironMeshItem = findItem("iron_mesh");
         if (!ironMeshItem.isEmpty()) {
             SieveMeshRegistryEntry ironMesh = new SieveMeshRegistryEntry(CommonMeshType.IRON, ironMeshItem, MeshType.IRON);
-            ironMesh.setMeshLevel(3);
             ironMesh.setHeavy(true);
             ironMesh.setModelName("iron");
             SieveMeshRegistry.add(ironMesh);
@@ -83,7 +80,6 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         ItemStack diamondMeshItem = findItem("diamond_mesh");
         if (!diamondMeshItem.isEmpty()) {
             SieveMeshRegistryEntry diamondMesh = new SieveMeshRegistryEntry(CommonMeshType.DIAMOND, diamondMeshItem, MeshType.DIAMOND);
-            diamondMesh.setMeshLevel(4);
             diamondMesh.setHeavy(true);
             diamondMesh.setModelName("diamond");
             SieveMeshRegistry.add(diamondMesh);
@@ -92,7 +88,6 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         ItemStack emeraldMeshItem = findItem("emerald_mesh");
         if (!emeraldMeshItem.isEmpty()) {
             SieveMeshRegistryEntry emeraldMesh = new SieveMeshRegistryEntry(CommonMeshType.EMERALD, emeraldMeshItem, MeshType.EMERALD);
-            emeraldMesh.setMeshLevel(5);
             emeraldMesh.setHeavy(true);
             emeraldMesh.setModelName("emerald");
             SieveMeshRegistry.add(emeraldMesh);
@@ -101,7 +96,6 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         ItemStack netheriteMeshItem = findItem("netherite_mesh");
         if (!netheriteMeshItem.isEmpty()) {
             SieveMeshRegistryEntry mesh = new SieveMeshRegistryEntry(CommonMeshType.NETHERITE, netheriteMeshItem, MeshType.NETHERITE);
-            mesh.setMeshLevel(6);
             mesh.setHeavy(true);
             mesh.setModelName("netherite");
             SieveMeshRegistry.add(mesh);
@@ -109,17 +103,10 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     }
 
     private ItemStack findItem(String name) {
-        ResourceLocation location = new ResourceLocation(Compat.EXNIHILO_SEQUENTIA, name);
+        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(Compat.EXNIHILO_SEQUENTIA, name);
         Item item = Balm.getRegistries().getItem(location);
         return new ItemStack(item);
     }
-
-    private ItemStack findBlock(String name) {
-        ResourceLocation location = new ResourceLocation(Compat.EXNIHILO_SEQUENTIA, name);
-        Block block = Balm.getRegistries().getBlock(location);
-        return new ItemStack(block);
-    }
-
 
     @Override
     public boolean isHammerableCompressed(ItemStack itemStack) {
@@ -186,7 +173,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
 
     @Override
     public List<ItemStack> rollCrookRewards(ServerLevel level, BlockPos pos, BlockState state, @Nullable Entity entity, ItemStack tool, RandomSource rand) {
-        final float luck = getLuckFromTool(tool);
+        final float luck = getLuckFromTool(level, tool);
         if (state.getBlock() instanceof InfestedLeavesBlock) {
             List<ItemStack> list = new ArrayList<>();
             list.add(new ItemStack(Items.STRING, rand.nextInt(Config.getMaxBonusStringCount()) + Config.getMinStringCount()));
@@ -220,8 +207,9 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         return Collections.emptyList();
     }
 
-    private float getLuckFromTool(ItemStack tool) {
-        return EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, tool);
+    private float getLuckFromTool(Level level, ItemStack tool) {
+        final var fortuneEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+        return EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, tool);
     }
 
     @Override
@@ -295,7 +283,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
             final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
             Ingredient input = firstRecipe.getInput();
             final var lootTable = tableBuilder.build();
-            result.add(new HammerRecipeImpl(firstRecipe.getId(), input, lootTable));
+            result.add(new HammerRecipeImpl(input, lootTable));
         }
 
         return result;

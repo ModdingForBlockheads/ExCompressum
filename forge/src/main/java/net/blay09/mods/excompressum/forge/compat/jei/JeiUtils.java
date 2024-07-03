@@ -29,7 +29,8 @@ public class JeiUtils {
     }
 
     private static String formatChance(LootTableEntry entry) {
-        return chanceFormat.format((entry.getBaseChance() * 100f));
+        // TODO return chanceFormat.format((entry.getBaseChance() * 100f));
+        return "";
     }
 
 

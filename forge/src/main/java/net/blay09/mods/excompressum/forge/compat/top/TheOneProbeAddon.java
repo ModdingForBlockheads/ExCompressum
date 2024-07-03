@@ -45,7 +45,7 @@ public class TheOneProbeAddon  {
 
         @Override
         public ResourceLocation getID() {
-            return new ResourceLocation(ExCompressum.MOD_ID, ExCompressum.MOD_ID);
+            return ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, ExCompressum.MOD_ID);
         }
 
         @Override
@@ -80,7 +80,7 @@ public class TheOneProbeAddon  {
 
         private void addAutoSieveInfo(AbstractAutoSieveBlockEntity tileEntity, ProbeMode mode, IProbeInfo info) {
             if (tileEntity.getSkinProfile() != null) {
-                info.text(Component.translatable("tooltip.excompressum.sieveSkin", tileEntity.getSkinProfile().getName()));
+                info.text(Component.translatable("tooltip.excompressum.sieveSkin", tileEntity.getSkinProfile().gameProfile().getName()));
             }
             if (tileEntity.getFoodBoost() > 1f) {
                 info.text(Component.translatable("tooltip.excompressum.speedBoost", tileEntity.getFoodBoost()));

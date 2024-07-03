@@ -2,7 +2,6 @@ package net.blay09.mods.excompressum.forge.compat.jei;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -45,7 +44,7 @@ public class JEIAddon implements IModPlugin {
 
         final var heavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         for (final var recipe : heavySieveRecipes) {
-            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe));
+            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe.value()));
         }
         for (final var recipe : ExNihilo.getInstance().getHeavySieveRecipes()) {
             expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe));
@@ -53,8 +52,8 @@ public class JEIAddon implements IModPlugin {
 
         final var generatedHeavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
         for (final var recipe : generatedHeavySieveRecipes) {
-            loadGeneratedHeavySieveRecipe(level, false, recipe, expandedHeavySieveRecipes);
-            loadGeneratedHeavySieveRecipe(level, true, recipe, expandedHeavySieveRecipes);
+            loadGeneratedHeavySieveRecipe(level, false, recipe.value(), expandedHeavySieveRecipes);
+            loadGeneratedHeavySieveRecipe(level, true, recipe.value(), expandedHeavySieveRecipes);
         }
 
         registry.addRecipes(HeavySieveJeiRecipeCategory.TYPE, expandedHeavySieveRecipes);
@@ -68,7 +67,7 @@ public class JEIAddon implements IModPlugin {
         List<ExpandedCompressedHammerRecipe> expandedCompressedHammerRecipes = new ArrayList<>();
         final var compressedHammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         for (final var recipe : compressedHammerRecipes) {
-            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe));
+            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe.value()));
         }
         for (final var recipe : ExNihilo.getInstance().getCompressedHammerRecipes()) {
             expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe));
@@ -78,7 +77,7 @@ public class JEIAddon implements IModPlugin {
         List<ExpandedHammerRecipe> expandedHammerRecipes = new ArrayList<>();
         final var hammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         for (final var recipe : hammerRecipes) {
-            expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe));
+            expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe.value()));
         }
         for (final var recipe : ExNihilo.getInstance().getHammerRecipes()) {
             expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe));
@@ -88,14 +87,14 @@ public class JEIAddon implements IModPlugin {
         List<ExpandedChickenStickRecipe> expandedChickenStickRecipes = new ArrayList<>();
         final var chickenStickRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
         for (final var recipe : chickenStickRecipes) {
-            expandedChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe));
+            expandedChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe.value()));
         }
         registry.addRecipes(ChickenStickJeiRecipeCategory.TYPE, expandedChickenStickRecipes);
 
         ArrayListMultimap<ResourceLocation, WoodenCrucibleRecipe> fluidOutputMap = ArrayListMultimap.create();
         final var woodenCrucibleRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
-        for (final var entry : woodenCrucibleRecipes) {
-            fluidOutputMap.put(entry.getFluidId(), entry);
+        for (final var recipe : woodenCrucibleRecipes) {
+            fluidOutputMap.put(recipe.value().getFluidId(), recipe.value());
         }
 
         List<ExpandedWoodenCrucibleRecipe> expandedWoodenCrucibleRecipes = new ArrayList<>();
@@ -134,12 +133,10 @@ public class JEIAddon implements IModPlugin {
             final var source = Balm.getRegistries().getItem(generatedRecipe.getSourceItem());
             final var lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, waterLoggedState, source, rolls, mesh);
             if (!LootTableUtils.isLootTableEmpty(lootTable)) {
-                final var recipe = new HeavySieveRecipeImpl(generatedRecipe.getRecipeId(),
-                        generatedRecipe.getIngredient(),
+                final var recipe = new HeavySieveRecipeImpl(generatedRecipe.getIngredient(),
                         lootTable,
                         waterlogged,
-                        null,
-                        Sets.newHashSet(mesh.getMeshType()));
+                        List.of(mesh.getMeshType()));
                 outRecipes.add(new ExpandedHeavySieveRecipe(recipe));
             }
         }
@@ -170,7 +167,7 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(ExCompressum.MOD_ID, "jei");
+        return ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "jei");
     }
 
     @Override

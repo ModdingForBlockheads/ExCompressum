@@ -18,8 +18,8 @@ import javax.annotation.Nonnull;
 
 public class HammerJeiRecipeCategory implements IRecipeCategory<ExpandedHammerRecipe> {
 
-    private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
-    public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "hammer");
+    private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "hammer");
     public static final RecipeType<ExpandedHammerRecipe> TYPE = new RecipeType<>(UID, ExpandedHammerRecipe.class);
 
     private final IDrawable background;

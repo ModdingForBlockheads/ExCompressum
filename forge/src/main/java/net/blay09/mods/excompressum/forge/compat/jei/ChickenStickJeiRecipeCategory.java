@@ -16,8 +16,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class ChickenStickJeiRecipeCategory implements IRecipeCategory<ExpandedChickenStickRecipe> {
 
-    private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
-    public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "chicken_stick");
+    private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "chicken_stick");
     public static final RecipeType<ExpandedChickenStickRecipe> TYPE = new RecipeType<>(UID, ExpandedChickenStickRecipe.class);
 
     private final IDrawable background;

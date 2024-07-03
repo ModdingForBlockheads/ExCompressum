@@ -19,9 +19,9 @@ import javax.annotation.Nonnull;
 
 public class SieveJeiRecipeCategory implements IRecipeCategory<ExpandedSieveRecipe> {
 
-    public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "sieve");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "sieve");
     public static final RecipeType<ExpandedSieveRecipe> TYPE = new RecipeType<>(UID, ExpandedSieveRecipe.class);
-    private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_heavy_sieve.png");
+    private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "textures/gui/jei_heavy_sieve.png");
 
     private final IDrawable background;
     private final IDrawable icon;
