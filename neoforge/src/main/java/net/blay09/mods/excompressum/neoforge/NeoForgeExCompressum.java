@@ -4,7 +4,6 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.neoforge.NeoForgeLoadContext;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.neoforge.compat.top.TheOneProbeAddon;
-import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
@@ -22,8 +21,6 @@ public class NeoForgeExCompressum {
         Balm.initialize(ExCompressum.MOD_ID, context, ExCompressum::initialize);
 
         modEventBus.addListener(this::imc);
-
-        ExCompressum.lootTableLoader = (gson, resourceLocation, jsonElement) -> gson.fromJson(jsonElement, LootTable.class);
     }
 
     private void imc(InterModEnqueueEvent event) {
