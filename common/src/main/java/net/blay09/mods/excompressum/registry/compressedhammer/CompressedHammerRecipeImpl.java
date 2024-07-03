@@ -1,23 +1,29 @@
 package net.blay09.mods.excompressum.registry.compressedhammer;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.excompressum.api.recipe.CompressedHammerRecipe;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
+import net.blay09.mods.excompressum.registry.ExCompressumSerializers;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 public class CompressedHammerRecipeImpl extends ExCompressumRecipe<RecipeInput> implements CompressedHammerRecipe {
 
-    private Ingredient ingredient;
-    private LootTable lootTable;
+    private final Ingredient ingredient;
+    private final LootTable lootTable;
 
-    public CompressedHammerRecipeImpl(ResourceLocation id, Ingredient ingredient, LootTable lootTable) {
-        super(id, ModRecipeTypes.compressedHammerRecipeType);
+    public CompressedHammerRecipeImpl(Ingredient ingredient, LootTable lootTable) {
         this.ingredient = ingredient;
         this.lootTable = lootTable;
+    }
+
+    @Override
+    public RecipeType<?> getType() {
+        return ModRecipeTypes.compressedHammerRecipeType;
     }
 
     @Override
@@ -35,11 +41,25 @@ public class CompressedHammerRecipeImpl extends ExCompressumRecipe<RecipeInput> 
         return lootTable;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
-    }
+    public static class Serializer implements RecipeSerializer<CompressedHammerRecipeImpl> {
+        private static final MapCodec<CompressedHammerRecipeImpl> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.ingredient),
+                LootTable.DIRECT_CODEC.fieldOf("lootTable").forGetter(recipe -> recipe.lootTable)
+        ).apply(instance, CompressedHammerRecipeImpl::new));
 
-    public void setLootTable(LootTable lootTable) {
-        this.lootTable = lootTable;
+        public static final StreamCodec<RegistryFriendlyByteBuf, CompressedHammerRecipeImpl> STREAM_CODEC = StreamCodec.composite(
+                Ingredient.CONTENTS_STREAM_CODEC, CompressedHammerRecipeImpl::getIngredient,
+                ExCompressumSerializers.LOOT_TABLE_STREAM_CODEC, CompressedHammerRecipeImpl::getLootTable,
+                CompressedHammerRecipeImpl::new);
+
+        @Override
+        public MapCodec<CompressedHammerRecipeImpl> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, CompressedHammerRecipeImpl> streamCodec() {
+            return STREAM_CODEC;
+        }
     }
 }

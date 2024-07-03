@@ -20,7 +20,6 @@ public class SieveMeshRegistry {
     public static void registerDefaults(@Nullable Object backingMesh) {
         SieveMeshRegistryEntry ironMesh = new SieveMeshRegistryEntry(CommonMeshType.IRON, new ItemStack(ModItems.ironMesh), backingMesh);
         ironMesh.setHeavy(true);
-        ironMesh.setMeshLevel(3);
         ironMesh.setModelName("iron");
         add(ironMesh);
     }

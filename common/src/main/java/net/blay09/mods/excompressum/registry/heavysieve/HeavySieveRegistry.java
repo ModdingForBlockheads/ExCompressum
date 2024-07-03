@@ -5,7 +5,6 @@ import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.*;
-import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -25,14 +24,7 @@ public class HeavySieveRegistry {
             return false;
         }
 
-        if (recipe.getMinimumMesh() != null) {
-            SieveMeshRegistryEntry minimumMesh = SieveMeshRegistry.getEntry(recipe.getMinimumMesh());
-            if (minimumMesh != null && mesh.getMeshLevel() < minimumMesh.getMeshLevel()) {
-                return false;
-            }
-        }
-
-        if (recipe.getMeshes() != null && !recipe.getMeshes().contains(mesh.getMeshType())) {
+        if (!recipe.getMeshes().isEmpty() && !recipe.getMeshes().contains(mesh.getMeshType())) {
             return false;
         }
 
@@ -40,8 +32,8 @@ public class HeavySieveRegistry {
     }
 
     private static boolean testGeneratedRecipe(ItemStack itemStack, GeneratedHeavySieveRecipe generatedRecipe, BlockState sieve, SieveMeshRegistryEntry sieveMesh) {
-        Block sourceBlock = Balm.getRegistries().getBlock(generatedRecipe.getSource());
-        return generatedRecipe.getInput().test(itemStack) && ExNihilo.isSiftableWithMesh(sieve, new ItemStack(sourceBlock), sieveMesh);
+        Block sourceBlock = Balm.getRegistries().getBlock(generatedRecipe.getSourceItem());
+        return generatedRecipe.getIngredient().test(itemStack) && ExNihilo.isSiftableWithMesh(sieve, new ItemStack(sourceBlock), sieveMesh);
     }
 
     public static List<ItemStack> rollSieveRewards(Level level, LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
@@ -64,7 +56,7 @@ public class HeavySieveRegistry {
             final var recipe = recipeHolder.value();
             if (testGeneratedRecipe(itemStack, recipe, sieve, mesh)) {
                 int rolls = getGeneratedRollCount(recipe);
-                ItemLike source = Balm.getRegistries().getItem(recipe.getSource());
+                ItemLike source = Balm.getRegistries().getItem(recipe.getSourceItem());
                 LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, sieve, source, rolls, mesh);
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
@@ -79,7 +71,7 @@ public class HeavySieveRegistry {
     }
 
     public static Integer getGeneratedRollCount(GeneratedHeavySieveRecipe generatedRecipe) {
-        return generatedRecipe.getRolls() != null ? generatedRecipe.getRolls() : ExCompressumConfig.getActive().general.heavySieveDefaultRolls;
+        return generatedRecipe.getRolls() > 0 ? generatedRecipe.getRolls() : ExCompressumConfig.getActive().general.heavySieveDefaultRolls;
     }
 
     public boolean isSiftable(Level level, BlockState sieve, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh) {

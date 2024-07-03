@@ -11,7 +11,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -149,10 +148,10 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
     }
 
     private static ResourceLocation sequentia(String name) {
-        return new ResourceLocation(Compat.EXNIHILO_SEQUENTIA, name);
+        return ResourceLocation.fromNamespaceAndPath(Compat.EXNIHILO_SEQUENTIA, name);
     }
 
     private static ResourceLocation deorum(String name) {
-        return new ResourceLocation(Compat.EX_DEORUM, name);
+        return ResourceLocation.fromNamespaceAndPath(Compat.EX_DEORUM, name);
     }
 }

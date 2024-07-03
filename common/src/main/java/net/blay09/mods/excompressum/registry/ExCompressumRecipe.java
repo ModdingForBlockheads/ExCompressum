@@ -13,14 +13,6 @@ import net.minecraft.world.level.Level;
 
 public abstract class ExCompressumRecipe<T extends RecipeInput> implements Recipe<T> {
 
-    private final ResourceLocation id;
-    private final RecipeType<?> type;
-
-    public ExCompressumRecipe(ResourceLocation id, RecipeType<?> type) {
-        this.id = id;
-        this.type = type;
-    }
-
     @Override
     public boolean matches(T inv, Level level) {
         return false;
@@ -39,18 +31,6 @@ public abstract class ExCompressumRecipe<T extends RecipeInput> implements Recip
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return false;
-    }
-
-    public ResourceLocation getRecipeId() {
-        return id;
-    }
-
-    @Override
-    public abstract RecipeSerializer<?> getSerializer();
-
-    @Override
-    public RecipeType<?> getType() {
-        return type;
     }
 
 }

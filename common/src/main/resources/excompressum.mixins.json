@@ -13,7 +13,6 @@
     "LootPoolEntryContainerAccessor",
     "LootPoolSingletonContainerAccessor",
     "LootTableAccessor",
-    "LootTableReferenceAccessor",
     "SetItemCountFunctionAccessor",
     "TagEntryAccessor",
     "UniformGeneratorAccessor"

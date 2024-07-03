@@ -13,7 +13,7 @@ public class WoodenCrucibleRegistry {
         final var recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();
-            if (recipe.getInput().test(itemStack)) {
+            if (recipe.getIngredient().test(itemStack)) {
                 return recipe;
             }
         }

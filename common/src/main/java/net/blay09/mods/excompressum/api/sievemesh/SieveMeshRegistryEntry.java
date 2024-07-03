@@ -9,7 +9,6 @@ public class SieveMeshRegistryEntry {
 	private final ItemStack itemStack;
 	private final Object backingMesh;
 
-	private int meshLevel;
 	private boolean isHeavy;
 	private String modelName;
 
@@ -21,14 +20,6 @@ public class SieveMeshRegistryEntry {
 
 	public ItemStack getItemStack() {
 		return itemStack;
-	}
-
-	public int getMeshLevel() {
-		return meshLevel;
-	}
-
-	public void setMeshLevel(int meshLevel) {
-		this.meshLevel = meshLevel;
 	}
 
 	public boolean isHeavy() {

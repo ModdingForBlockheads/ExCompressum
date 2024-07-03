@@ -12,7 +12,7 @@ import java.util.List;
 @Mixin(LootPool.class)
 public interface LootPoolAccessor {
     @Accessor
-    LootItemCondition[] getConditions();
+    List<LootItemCondition> getConditions();
     @Accessor
-    LootPoolEntryContainer[] getEntries();
+    List<LootPoolEntryContainer> getEntries();
 }

@@ -17,7 +17,7 @@ public class ExpandedChickenStickRecipe {
     private final List<ItemStack> outputItems;
 
     public ExpandedChickenStickRecipe(ChickenStickRecipe recipe) {
-        ingredient = recipe.getInput();
+        ingredient = recipe.getIngredient();
         List<LootTableEntry> entries = LootTableUtils.getLootTableEntries(recipe.getLootTable());
         outputs = LootTableUtils.mergeLootTableEntries(entries);
         outputItems = outputs.stream().map(MergedLootTableEntry::getItemStack).collect(Collectors.toList());

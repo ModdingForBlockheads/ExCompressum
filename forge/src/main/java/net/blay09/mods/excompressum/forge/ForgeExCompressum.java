@@ -6,7 +6,6 @@ import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.client.ExCompressumClient;
 import net.blay09.mods.excompressum.forge.compat.top.TheOneProbeAddon;
-import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -22,8 +21,6 @@ public class ForgeExCompressum {
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> BalmClient.initialize(ExCompressum.MOD_ID, EmptyLoadContext.INSTANCE, ExCompressumClient::initialize));
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imc);
-
-        ExCompressum.lootTableLoader = (gson, resourceLocation, jsonElement) -> gson.fromJson(jsonElement, LootTable.class);
     }
 
     private void imc(InterModEnqueueEvent event) {

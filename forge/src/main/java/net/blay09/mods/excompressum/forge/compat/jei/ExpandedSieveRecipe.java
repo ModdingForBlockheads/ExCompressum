@@ -27,19 +27,10 @@ public class ExpandedSieveRecipe {
     public ExpandedSieveRecipe(SieveRecipe recipe) {
         this.recipe = recipe;
         meshItems = new ArrayList<>();
-        if (recipe.getMinimumMesh() != null) {
-            SieveMeshRegistryEntry minimumMesh = SieveMeshRegistry.getEntry(recipe.getMinimumMesh());
-            for (SieveMeshRegistryEntry mesh : SieveMeshRegistry.getEntries().values()) {
-                if (mesh.getMeshLevel() >= minimumMesh.getMeshLevel()) {
+        for (final var meshType : recipe.getMeshes()) {
+            for (final var mesh : SieveMeshRegistry.getEntries().values()) {
+                if (mesh.getMeshType() == meshType) {
                     meshItems.add(mesh.getItemStack());
-                }
-            }
-        } else if (recipe.getMeshes() != null) {
-            for (CommonMeshType meshType : recipe.getMeshes()) {
-                for (SieveMeshRegistryEntry mesh : SieveMeshRegistry.getEntries().values()) {
-                    if (mesh.getMeshType() == meshType) {
-                        meshItems.add(mesh.getItemStack());
-                    }
                 }
             }
         }

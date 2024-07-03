@@ -41,37 +41,37 @@ public class ModRecipeTypes {
             public String toString() {
                 return COMPRESSED_HAMMER.getPath();
             }
-        }, () -> compressedHammerRecipeSerializer = new CompressedHammerRecipeSerializer(), COMPRESSED_HAMMER);
+        }, () -> compressedHammerRecipeSerializer = new CompressedHammerRecipeImpl.Serializer(), COMPRESSED_HAMMER);
         recipes.registerRecipeType(() -> chickenStickRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return CHICKEN_STICK.getPath();
             }
-        }, () -> chickenStickRecipeSerializer = new ChickenStickRecipeSerializer(), CHICKEN_STICK);
+        }, () -> chickenStickRecipeSerializer = new ChickenStickRecipe.Serializer(), CHICKEN_STICK);
         recipes.registerRecipeType(() -> hammerRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return HAMMER.getPath();
             }
-        }, () -> hammerRecipeSerializer = new HammerRecipeSerializer(), HAMMER);
+        }, () -> hammerRecipeSerializer = new HammerRecipeImpl.Serializer(), HAMMER);
         recipes.registerRecipeType(() -> generatedHeavySieveRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return HEAVY_SIEVE_GENERATED.getPath();
             }
-        }, () -> generatedHeavySieveRecipeSerializer = new GeneratedHeavySieveRecipeSerializer(), HEAVY_SIEVE_GENERATED);
+        }, () -> generatedHeavySieveRecipeSerializer = new GeneratedHeavySieveRecipe.Serializer(), HEAVY_SIEVE_GENERATED);
         recipes.registerRecipeType(() -> heavySieveRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return HEAVY_SIEVE.getPath();
             }
-        }, () -> heavySieveRecipeSerializer = new HeavySieveRecipeSerializer(), HEAVY_SIEVE);
+        }, () -> heavySieveRecipeSerializer = new HeavySieveRecipeImpl.Serializer(), HEAVY_SIEVE);
         recipes.registerRecipeType(() -> woodenCrucibleRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return WOODEN_CRUCIBLE.getPath();
             }
-        }, () -> woodenCrucibleRecipeSerializer = new WoodenCrucibleRecipeSerializer(), WOODEN_CRUCIBLE);
+        }, () -> woodenCrucibleRecipeSerializer = new WoodenCrucibleRecipe.Serializer(), WOODEN_CRUCIBLE);
 
     }
 }

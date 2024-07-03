@@ -3,7 +3,6 @@ package net.blay09.mods.excompressum.loot;
 import com.google.common.collect.ArrayListMultimap;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
-import net.blay09.mods.excompressum.CommonLootTableAccessor;
 import net.blay09.mods.excompressum.mixin.*;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,11 +24,13 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public class LootTableUtils {
 
-    private static final LootContextParam<ItemStack> SOURCE_STACK = new LootContextParam<>(ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "source_stack"));
+    private static final LootContextParam<ItemStack> SOURCE_STACK = new LootContextParam<>(ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID,
+            "source_stack"));
 
     public static boolean isLootTableEmpty(@Nullable LootTable lootTable) {
         if (lootTable == null) {
@@ -45,13 +46,13 @@ public class LootTableUtils {
         }
 
         List<LootTableEntry> result = new ArrayList<>();
-        LootPool[] pools = ((CommonLootTableAccessor) lootTable).balm_getPools();
-        for (LootPool pool : pools) {
-            float poolBaseChance = getBaseChance(pool);
-            LootPoolEntryContainer[] entries = ((LootPoolAccessor) pool).getEntries();
+        final var pools = ((LootTableAccessor) lootTable).getPools();
+        for (final var pool : pools) {
+            final var poolBaseChance = getBaseChance(pool);
+            final var entries = ((LootPoolAccessor) pool).getEntries();
             for (LootPoolEntryContainer entry : entries) {
-                float entryBaseChance = getBaseChance(entry);
-                float baseChance = entryBaseChance > 0 ? entryBaseChance : poolBaseChance;
+                final var entryBaseChance = getBaseChance(entry);
+                final var baseChance = entryBaseChance.orElse(poolBaseChance.orElseGet(() -> ConstantValue.exactly(1f)));
                 NumberProvider countRange = getCountRange(entry);
                 if (entry instanceof LootItemAccessor lootItem) {
                     ItemStack itemStack = new ItemStack(lootItem.getItem());
@@ -70,21 +71,22 @@ public class LootTableUtils {
         return result;
     }
 
-    private static float getBaseChance(LootPool pool) {
+    private static Optional<NumberProvider> getBaseChance(LootPool pool) {
         return getBaseChance(((LootPoolAccessor) pool).getConditions());
     }
 
-    private static float getBaseChance(LootPoolEntryContainer entry) {
-        return getBaseChance(((LootPoolEntryContainerAccessor) entry).getConditions().clone());
+    private static Optional<NumberProvider> getBaseChance(LootPoolEntryContainer entry) {
+        return getBaseChance(((LootPoolEntryContainerAccessor) entry).getConditions());
     }
 
-    private static float getBaseChance(LootItemCondition[] conditions) {
-        for (LootItemCondition condition : conditions) {
+    private static Optional<NumberProvider> getBaseChance(List<LootItemCondition> conditions) {
+        for (final var condition : conditions) {
             if (condition instanceof LootItemRandomChanceConditionAccessor chanceCondition) {
-                return chanceCondition.getProbability();
+                return Optional.of(chanceCondition.getChance());
             }
         }
-        return 1f;
+
+        return Optional.empty();
     }
 
     private static NumberProvider getCountRange(LootPoolEntryContainer entry) {
@@ -144,7 +146,7 @@ public class LootTableUtils {
         for (ResourceLocation key : entryMap.keySet()) {
             List<LootTableEntry> mergableEntries = entryMap.get(key);
             LootTableEntry firstEntry = mergableEntries.getFirst();
-            mergableEntries.sort(Comparator.comparing(LootTableEntry::getBaseChance).reversed());
+            // TODO mergableEntries.sort(Comparator.comparing(LootTableEntry::getBaseChance).reversed());
             result.add(new MergedLootTableEntry(firstEntry.getItemStack(), mergableEntries));
         }
         return result;

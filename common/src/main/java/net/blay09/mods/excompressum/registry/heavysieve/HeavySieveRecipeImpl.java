@@ -1,38 +1,48 @@
 package net.blay09.mods.excompressum.registry.heavysieve;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
+import net.blay09.mods.excompressum.registry.ExCompressumSerializers;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.storage.loot.LootTable;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 import java.util.Set;
 
 public class HeavySieveRecipeImpl extends ExCompressumRecipe<RecipeInput> implements HeavySieveRecipe {
 
-    private Ingredient ingredient;
-    private LootTable lootTable;
-    private boolean waterlogged;
-    private CommonMeshType minimumMesh;
-    private Set<CommonMeshType> meshes;
+    private final Ingredient ingredient;
+    private final LootTable lootTable;
+    private final boolean waterlogged;
+    private final Set<CommonMeshType> meshes;
 
-    public HeavySieveRecipeImpl(ResourceLocation id, Ingredient ingredient, LootTable lootTable, boolean waterlogged, @Nullable CommonMeshType minimumMesh, @Nullable Set<CommonMeshType> meshes) {
-        super(id, ModRecipeTypes.heavySieveRecipeType);
+    public HeavySieveRecipeImpl(Ingredient ingredient, LootTable lootTable, boolean waterlogged, List<CommonMeshType> meshes) {
         this.ingredient = ingredient;
         this.lootTable = lootTable;
         this.waterlogged = waterlogged;
-        this.minimumMesh = minimumMesh;
-        this.meshes = meshes;
+        this.meshes = Set.copyOf(meshes);
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.heavySieveRecipeSerializer;
+    }
+
+    @Override
+    public RecipeType<?> getType() {
+        return ModRecipeTypes.heavySieveRecipeType;
     }
 
     @Override
@@ -45,37 +55,43 @@ public class HeavySieveRecipeImpl extends ExCompressumRecipe<RecipeInput> implem
         return lootTable;
     }
 
+    @Override
     public boolean isWaterlogged() {
         return waterlogged;
     }
 
-    @Nullable
-    public CommonMeshType getMinimumMesh() {
-        return minimumMesh;
-    }
-
-    @Nullable
+    @Override
     public Set<CommonMeshType> getMeshes() {
         return meshes;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public List<CommonMeshType> getMeshesList() {
+        return List.copyOf(meshes);
     }
 
-    public void setLootTable(LootTable lootTable) {
-        this.lootTable = lootTable;
-    }
+    public static class Serializer implements RecipeSerializer<HeavySieveRecipeImpl> {
+        private static final MapCodec<HeavySieveRecipeImpl> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.ingredient),
+                LootTable.DIRECT_CODEC.fieldOf("lootTable").forGetter(recipe -> recipe.lootTable),
+                Codec.BOOL.fieldOf("waterlogged").forGetter(recipe -> recipe.waterlogged),
+                CommonMeshType.CODEC.listOf().fieldOf("meshes").forGetter(recipe -> List.copyOf(recipe.meshes))
+        ).apply(instance, HeavySieveRecipeImpl::new));
 
-    public void setWaterlogged(boolean waterlogged) {
-        this.waterlogged = waterlogged;
-    }
+        public static final StreamCodec<RegistryFriendlyByteBuf, HeavySieveRecipeImpl> STREAM_CODEC = StreamCodec.composite(
+                Ingredient.CONTENTS_STREAM_CODEC, HeavySieveRecipeImpl::getIngredient,
+                ExCompressumSerializers.LOOT_TABLE_STREAM_CODEC, HeavySieveRecipeImpl::getLootTable,
+                ByteBufCodecs.BOOL, HeavySieveRecipeImpl::isWaterlogged,
+                CommonMeshType.LIST_STREAM_CODEC, HeavySieveRecipeImpl::getMeshesList,
+                HeavySieveRecipeImpl::new);
 
-    public void setMinimumMesh(@Nullable CommonMeshType minimumMesh) {
-        this.minimumMesh = minimumMesh;
-    }
+        @Override
+        public MapCodec<HeavySieveRecipeImpl> codec() {
+            return CODEC;
+        }
 
-    public void setMeshes(@Nullable Set<CommonMeshType> meshes) {
-        this.meshes = meshes;
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, HeavySieveRecipeImpl> streamCodec() {
+            return STREAM_CODEC;
+        }
     }
 }

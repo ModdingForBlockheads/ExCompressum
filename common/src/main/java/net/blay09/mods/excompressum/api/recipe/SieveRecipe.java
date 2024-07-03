@@ -13,10 +13,6 @@ public interface SieveRecipe {
 
     LootTable getLootTable();
 
-    ResourceLocation getRecipeId();
-
-    CommonMeshType getMinimumMesh();
-
     Set<CommonMeshType> getMeshes();
 
     boolean isWaterlogged();

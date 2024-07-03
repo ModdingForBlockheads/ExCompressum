@@ -29,7 +29,7 @@ public class ChickenStickRegistry {
     }
 
     private static boolean testRecipe(ItemStack itemStack, ChickenStickRecipe recipe) {
-        return recipe.getInput().test(itemStack);
+        return recipe.getIngredient().test(itemStack);
     }
 
     public boolean isHammerable(Level level, ItemStack itemStack) {

@@ -6,9 +6,9 @@ import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 public class LootTableEntry {
     private final ItemStack itemStack;
     private final NumberProvider countRange;
-    private final float baseChance;
+    private final NumberProvider baseChance;
 
-    public LootTableEntry(ItemStack itemStack, NumberProvider countRange, float baseChance) {
+    public LootTableEntry(ItemStack itemStack, NumberProvider countRange, NumberProvider baseChance) {
         this.itemStack = itemStack;
         this.countRange = countRange;
         this.baseChance = baseChance;
@@ -22,7 +22,7 @@ public class LootTableEntry {
         return countRange;
     }
 
-    public float getBaseChance() {
+    public NumberProvider getBaseChance() {
         return baseChance;
     }
 }

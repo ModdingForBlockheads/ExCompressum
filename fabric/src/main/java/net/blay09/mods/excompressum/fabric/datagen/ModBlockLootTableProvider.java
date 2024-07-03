@@ -1,12 +1,12 @@
 package net.blay09.mods.excompressum.fabric.datagen;
 
-import net.blay09.mods.excompressum.block.AutoSieveBlock;
 import net.blay09.mods.excompressum.block.ModBlockStateProperties;
 import net.blay09.mods.excompressum.block.ModBlocks;
 import net.blay09.mods.excompressum.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -14,9 +14,11 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
-    protected ModBlockLootTableProvider(FabricDataOutput dataOutput) {
-        super(dataOutput);
+    protected ModBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> provider) {
+        super(dataOutput, provider);
     }
 
     @Override

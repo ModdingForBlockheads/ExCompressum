@@ -4,7 +4,6 @@ import net.blay09.mods.excompressum.block.*;
 import net.blay09.mods.excompressum.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.MultiVariantGenerator;
@@ -13,7 +12,6 @@ import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Optional;
@@ -41,7 +39,7 @@ public class ModModelProvider extends FabricModelProvider {
         for (final var woodenCrucibleType : WoodenCrucibleType.values()) {
             final var woodenCrucible = ModBlocks.woodenCrucibles[woodenCrucibleType.ordinal()];
             final var model = createSimpleRetexturedModel(generators, woodenCrucible, woodenCrucibleType.getBaseBlock(),
-                    new ResourceLocation("excompressum", "block/wooden_crucible"));
+                    ResourceLocation.fromNamespaceAndPath("excompressum", "block/wooden_crucible"));
             final var stateGenerator = BlockModelGenerators.createSimpleBlock(woodenCrucible, model);
             generators.blockStateOutput.accept(stateGenerator);
         }
@@ -49,7 +47,7 @@ public class ModModelProvider extends FabricModelProvider {
         for (final var heavySieveType : HeavySieveType.values()) {
             final var woodenCrucible = ModBlocks.heavySieves[heavySieveType.ordinal()];
             final var model = createSimpleRetexturedModel(generators, woodenCrucible, heavySieveType.getBaseBlock(),
-                    new ResourceLocation("excompressum", "block/heavy_sieve"));
+                    ResourceLocation.fromNamespaceAndPath("excompressum", "block/heavy_sieve"));
             final var stateGenerator = BlockModelGenerators.createSimpleBlock(woodenCrucible, model);
             generators.blockStateOutput.accept(stateGenerator);
         }
@@ -83,8 +81,8 @@ public class ModModelProvider extends FabricModelProvider {
 
         for (Block bait : ModBlocks.baits) {
             final var modelLocation = ModelLocationUtils.getModelLocation(bait.asItem());
-            final var baitTexture = new ResourceLocation("excompressum", "item/bait");
-            final var baitOverlayTexture = new ResourceLocation("excompressum", "item/bait_overlay");
+            final var baitTexture = ResourceLocation.fromNamespaceAndPath("excompressum", "item/bait");
+            final var baitOverlayTexture = ResourceLocation.fromNamespaceAndPath("excompressum", "item/bait_overlay");
             itemModelGenerator.generateLayeredItem(modelLocation, baitTexture, baitOverlayTexture);
         }
     }
