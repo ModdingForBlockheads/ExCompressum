@@ -1,0 +1,7 @@
+dependencies {
+    implementation("net.blay09.mods:balm-common:${balm_version}") {
+        changing = balm_version.endsWith("SNAPSHOT")
+    }
+    compileOnly "mcp.mobius.waila:wthit-api:mojmap-$wthit_version"
+    compileOnly "mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version"
+}

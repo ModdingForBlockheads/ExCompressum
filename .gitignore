@@ -20,7 +20,8 @@ build
 # other
 eclipse
 run
-classes
+runs
+runserver
 logs
 
-shared/src/main/generated/.cache
+common/src/generated/resources/.cache
