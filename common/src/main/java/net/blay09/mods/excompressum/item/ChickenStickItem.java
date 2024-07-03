@@ -28,7 +28,7 @@ import java.util.List;
 public class ChickenStickItem extends DiggerItem {
 
     public ChickenStickItem(Item.Properties properties) {
-        super(0f, 0f, ChickenStickTier.INSTANCE, ModBlockTags.MINEABLE_WITH_HAMMER, properties.fireResistant());
+        super(ChickenStickTier.INSTANCE, ModBlockTags.MINEABLE_WITH_HAMMER, properties.fireResistant());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ChickenStickItem extends DiggerItem {
     }
 
     @Override
-    public boolean isCorrectToolForDrops(BlockState state) {
+    public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
         RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
         return ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock()));
     }
@@ -55,9 +55,9 @@ public class ChickenStickItem extends DiggerItem {
         RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
         if ((ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock())))) {
             if (isAngry(stack)) {
-                return speed * 1.5f;
+                return getTier().getSpeed() * 1.5f;
             }
-            return speed;
+            return getTier().getSpeed();
         }
         return 0.8f;
     }

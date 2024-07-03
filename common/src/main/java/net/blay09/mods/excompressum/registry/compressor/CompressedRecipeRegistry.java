@@ -1,12 +1,10 @@
 package net.blay09.mods.excompressum.registry.compressor;
 
 import net.blay09.mods.balm.api.Balm;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -31,11 +29,12 @@ public class CompressedRecipeRegistry {
         recipesSmall.clear();
         recipes.clear();
 
-        for (Recipe<?> recipe : recipeManager.getAllRecipesFor(RecipeType.CRAFTING)) {
-            NonNullList<Ingredient> ingredients = recipe.getIngredients();
+        for (final var recipeHolder : recipeManager.getAllRecipesFor(RecipeType.CRAFTING)) {
+            final var recipe = recipeHolder.value();
+            final var ingredients = recipe.getIngredients();
             int count = ingredients.size();
             if (count == 4 || count == 9) {
-                Ingredient first = ingredients.get(0);
+                final var first = ingredients.getFirst();
                 boolean passes = true;
                 for (int i = 1; i < count; i++) {
                     Ingredient other = ingredients.get(i);
@@ -66,7 +65,7 @@ public class CompressedRecipeRegistry {
 
     @Nullable
     public CompressedRecipe getRecipe(ItemStack itemStack) {
-        if (itemStack.getTag() != null) {
+        if (!itemStack.getComponentsPatch().isEmpty()) {
             return null;
         }
 

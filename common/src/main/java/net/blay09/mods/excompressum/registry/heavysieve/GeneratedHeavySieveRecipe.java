@@ -4,11 +4,12 @@ import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import org.jetbrains.annotations.Nullable;
 
-public class GeneratedHeavySieveRecipe extends ExCompressumRecipe {
+public class GeneratedHeavySieveRecipe extends ExCompressumRecipe<RecipeInput> {
 
     private Ingredient input;
     private ResourceLocation source;

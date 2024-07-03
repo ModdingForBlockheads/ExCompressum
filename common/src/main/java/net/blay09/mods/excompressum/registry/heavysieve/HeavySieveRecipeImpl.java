@@ -6,13 +6,14 @@ import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
-public class HeavySieveRecipeImpl extends ExCompressumRecipe implements HeavySieveRecipe {
+public class HeavySieveRecipeImpl extends ExCompressumRecipe<RecipeInput> implements HeavySieveRecipe {
 
     private Ingredient ingredient;
     private LootTable lootTable;

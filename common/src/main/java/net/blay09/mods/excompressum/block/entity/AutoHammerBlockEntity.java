@@ -220,15 +220,15 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                         if (level.random.nextFloat() <= ExCompressumConfig.getActive().automation.autoHammerDecay) {
                             ItemStack firstHammer = hammerSlots.getItem(0);
                             if (!firstHammer.isEmpty()) {
-                                if (firstHammer.hurt(1, level.random, null)) {
+                                firstHammer.hurtAndBreak(1, (ServerLevel) level, null, it -> {
                                     hammerSlots.setItem(0, ItemStack.EMPTY);
-                                }
+                                });
                             }
                             ItemStack secondHammer = hammerSlots.getItem(1);
                             if (!secondHammer.isEmpty()) {
-                                if (secondHammer.hurt(1, level.random, null)) {
+                                secondHammer.hurtAndBreak(1, (ServerLevel) level, null, it -> {
                                     hammerSlots.setItem(1, ItemStack.EMPTY);
-                                }
+                                });
                             }
                         }
                         Collection<ItemStack> rewards = rollHammerRewards(currentStack, getEffectiveTool(), level.random);

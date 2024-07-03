@@ -5,13 +5,14 @@ import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.Objects;
 
-public class WoodenCrucibleRecipe extends ExCompressumRecipe {
+public class WoodenCrucibleRecipe extends ExCompressumRecipe<RecipeInput> {
 
     private Ingredient input;
     private ResourceLocation fluid;

@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,6 +21,11 @@ public class StupidUtils {
     public static boolean hasSilkTouchModifier(LivingEntity entity) {
         final var silkTouch = entity.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH);
         return EnchantmentHelper.getEnchantmentLevel(silkTouch, entity) > 0;
+    }
+
+    public static boolean hasSilkTouchModifier(Level level, ItemStack itemStack) {
+        final var silkTouch = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH);
+        return EnchantmentHelper.getItemEnchantmentLevel(silkTouch, itemStack) > 0;
     }
 
     /**

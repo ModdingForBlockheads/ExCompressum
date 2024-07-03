@@ -3,6 +3,7 @@ package net.blay09.mods.excompressum.block;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.MapCodec;
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.item.ModItems;
 import net.blay09.mods.excompressum.registry.autosieveskin.AutoSieveSkinRegistry;
@@ -14,14 +15,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +30,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -54,6 +54,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUglyfiable {
 
@@ -75,47 +76,45 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (player.getItemInHand(hand).is(ModItems.uglySteelPlating)) {
-            return InteractionResult.PASS;
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+        if (itemStack.isEmpty()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
-        if (!level.isClientSide) {
-            ItemStack heldItemStack = player.getItemInHand(hand);
-            if (!heldItemStack.isEmpty()) {
-                AbstractAutoSieveBlockEntity tileEntity = (AbstractAutoSieveBlockEntity) level.getBlockEntity(pos);
-                if (tileEntity != null) {
-                    final var heldItem = heldItemStack.getItem();
-                    if (heldItemStack.has(DataComponents.FOOD) && ExCompressumConfig.getActive().automation.allowAutoSieveFoodSpeedBoosts) {
-                        final var food = heldItemStack.get(DataComponents.FOOD);
-                        if (tileEntity.getFoodBoost() <= 1f) {
-                            tileEntity.applyFoodBoost(food);
-                            if (!player.getAbilities().instabuild) {
-                                ItemStack returnStack = heldItem.finishUsingItem(heldItemStack, level, player); // TODO player here should be FakePlayer
-                                if (returnStack != heldItemStack) {
-                                    player.setItemInHand(hand, returnStack);
-                                }
-                            }
-                            level.levelEvent(2005, pos, 0);
-                        }
-                        return InteractionResult.SUCCESS;
-                    } else if (heldItem == Items.NAME_TAG && heldItemStack.has(DataComponents.CUSTOM_NAME)) {
-                        tileEntity.setCustomSkin(new GameProfile(null, heldItemStack.getDisplayName().getString()));
-                        if (!player.getAbilities().instabuild) {
-                            heldItemStack.shrink(1);
-                        }
-                        return InteractionResult.SUCCESS;
+        if (!(level.getBlockEntity(pos) instanceof AbstractAutoSieveBlockEntity autoSieve)) {
+            return ItemInteractionResult.FAIL;
+        }
+
+        final var heldItem = itemStack.getItem();
+        if (itemStack.has(DataComponents.FOOD) && ExCompressumConfig.getActive().automation.allowAutoSieveFoodSpeedBoosts) {
+            final var food = itemStack.get(DataComponents.FOOD);
+            if (autoSieve.getFoodBoost() <= 1f) {
+                autoSieve.applyFoodBoost(food);
+                if (!player.getAbilities().instabuild) {
+                    ItemStack returnStack = heldItem.finishUsingItem(itemStack, level, player); // TODO player here should be FakePlayer
+                    if (returnStack != itemStack) {
+                        player.setItemInHand(hand, returnStack);
                     }
                 }
+                level.levelEvent(2005, pos, 0);
             }
-            if (!player.isShiftKeyDown()) {
-                final BlockEntity blockEntity = level.getBlockEntity(pos);
-                if (blockEntity instanceof MenuProvider menuProvider) {
-                    Balm.getNetworking().openGui(player, menuProvider);
-                }
-            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        } else if (heldItem == Items.NAME_TAG && itemStack.has(DataComponents.CUSTOM_NAME)) {
+            autoSieve.setCustomSkin(new GameProfile(null, itemStack.getDisplayName().getString()));
+            return ItemInteractionResult.CONSUME_PARTIAL;
         }
-        return InteractionResult.SUCCESS;
+
+        return super.useItemOn(itemStack, state, level, pos, player, hand, blockHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
+        if (!player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof MenuProvider menuProvider) {
+            Balm.getNetworking().openGui(player, menuProvider);
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+
+        return super.useWithoutItem(state, level, pos, player, blockHitResult);
     }
 
     @Override
@@ -146,25 +145,14 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        AbstractAutoSieveBlockEntity tileEntity = (AbstractAutoSieveBlockEntity) level.getBlockEntity(pos);
-        if (tileEntity != null) {
-            boolean useRandomSkin = true;
-            CompoundTag tagCompound = stack.getTag();
-            if (tagCompound != null) {
-                if (tagCompound.contains("CustomSkin")) {
-                    GameProfile customSkin = NbtUtils.readGameProfile(tagCompound.getCompound("CustomSkin"));
-                    if (customSkin != null) {
-                        tileEntity.setCustomSkin(customSkin);
-                        useRandomSkin = false;
-                    }
-                }
+        AbstractAutoSieveBlockEntity autoSieve = (AbstractAutoSieveBlockEntity) level.getBlockEntity(pos);
+        if (autoSieve != null) {
+            var profile = stack.get(DataComponents.PROFILE);
+            if (profile == null) {
+                final var randomSkin = AutoSieveSkinRegistry.getRandomSkin();
+                profile = new ResolvableProfile(Optional.of(randomSkin.getName()), Optional.of(randomSkin.getUuid()), null);
             }
-            if (!level.isClientSide && useRandomSkin) {
-                WhitelistEntry randomSkin = AutoSieveSkinRegistry.getRandomSkin();
-                if (randomSkin != null) {
-                    tileEntity.setCustomSkin(new GameProfile(randomSkin.getUuid(), randomSkin.getName()));
-                }
-            }
+            autoSieve.setCustomSkin(profile.gameProfile());
         }
     }
 
@@ -192,12 +180,9 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        CompoundTag tagCompound = stack.getTag();
-        if (tagCompound != null && tagCompound.contains("CustomSkin")) {
-            GameProfile customSkin = NbtUtils.readGameProfile(tagCompound.getCompound("CustomSkin"));
-            if (customSkin != null) {
-                tooltip.add(getSkinTooltip(customSkin.getName()));
-            }
+        final var profile = stack.get(DataComponents.PROFILE);
+        if (profile != null) {
+            tooltip.add(getSkinTooltip(profile.gameProfile().getName()));
         } else {
             if (currentRandomName == null) {
                 updateRandomSkinName();

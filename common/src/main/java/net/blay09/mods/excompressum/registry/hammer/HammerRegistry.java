@@ -16,7 +16,8 @@ public class HammerRegistry {
         final var recipeManager = context.getLevel().getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (final var recipe : recipes) {
+        for (final var recipeHolder : recipes) {
+            final var recipe = recipeHolder.value();
             if (testRecipe(itemStack, recipe)) {
                 LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -38,8 +39,8 @@ public class HammerRegistry {
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
-        for (final var recipe : recipes) {
-            if (testRecipe(itemStack, recipe)) {
+        for (final var recipeHolder : recipes) {
+            if (testRecipe(itemStack, recipeHolder.value())) {
                 return true;
             }
         }

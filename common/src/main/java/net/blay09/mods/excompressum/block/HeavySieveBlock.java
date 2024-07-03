@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -86,40 +87,54 @@ public class HeavySieveBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (level.getBlockEntity(pos) instanceof HeavySieveBlockEntity heavySieve) {
-            ItemStack heldItem = player.getItemInHand(hand);
-            if (!heldItem.isEmpty()) {
-                SieveMeshRegistryEntry sieveMesh = SieveMeshRegistry.getEntry(heldItem);
-                if (sieveMesh != null && heavySieve.getMeshStack().isEmpty()) {
-                    heavySieve.setMeshStack(player.getAbilities().instabuild ? ContainerUtils.copyStackWithSize(heldItem, 1) : heldItem.split(1));
-                    return InteractionResult.SUCCESS;
-                }
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+        if (itemStack.isEmpty()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
 
-                if (heavySieve.addSiftable(player, heldItem)) {
-                    level.playSound(null, pos, SoundEvents.GRAVEL_STEP, SoundSource.BLOCKS, 0.5f, 1f);
-                    return InteractionResult.SUCCESS;
-                }
-            } else {
-                if (!level.isClientSide && player.isShiftKeyDown()) {
-                    ItemStack meshStack = heavySieve.getMeshStack();
-                    if (!meshStack.isEmpty() && heavySieve.getCurrentStack().isEmpty()) {
-                        if (player.getInventory().add(meshStack)) {
-                            level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, meshStack));
-                        }
-                        heavySieve.setMeshStack(ItemStack.EMPTY);
-                    }
-                }
-            }
+        if (!(level.getBlockEntity(pos) instanceof HeavySieveBlockEntity heavySieve)) {
+            return ItemInteractionResult.FAIL;
+        }
 
-            if (ExCompressumConfig.getActive().automation.allowHeavySieveAutomation || !Balm.getHooks().isFakePlayer(player)) {
-                if (heavySieve.processContents(player)) {
-                    level.playSound(null, pos, SoundEvents.SAND_STEP, SoundSource.BLOCKS, 0.3f, 0.6f);
+        final var sieveMesh = SieveMeshRegistry.getEntry(itemStack);
+        if (sieveMesh != null && heavySieve.getMeshStack().isEmpty()) {
+            heavySieve.setMeshStack(player.getAbilities().instabuild ? ContainerUtils.copyStackWithSize(itemStack, 1) : itemStack.split(1));
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+
+        if (heavySieve.addSiftable(player, itemStack)) {
+            level.playSound(null, pos, SoundEvents.GRAVEL_STEP, SoundSource.BLOCKS, 0.5f, 1f);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+
+        return super.useItemOn(itemStack, state, level, pos, player, hand, blockHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
+        if (!(level.getBlockEntity(pos) instanceof HeavySieveBlockEntity heavySieve)) {
+            return InteractionResult.FAIL;
+        }
+
+        if (!level.isClientSide && player.isShiftKeyDown()) {
+            ItemStack meshStack = heavySieve.getMeshStack();
+            if (!meshStack.isEmpty() && heavySieve.getCurrentStack().isEmpty()) {
+                if (player.getInventory().add(meshStack)) {
+                    level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, meshStack));
                 }
+                heavySieve.setMeshStack(ItemStack.EMPTY);
+                return InteractionResult.SUCCESS;
             }
         }
 
-        return InteractionResult.SUCCESS;
+        if (ExCompressumConfig.getActive().automation.allowHeavySieveAutomation || !Balm.getHooks().isFakePlayer(player)) {
+            if (heavySieve.processContents(player)) {
+                level.playSound(null, pos, SoundEvents.SAND_STEP, SoundSource.BLOCKS, 0.3f, 0.6f);
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
+
+        return super.useWithoutItem(state, level, pos, player, blockHitResult);
     }
 
     @Override

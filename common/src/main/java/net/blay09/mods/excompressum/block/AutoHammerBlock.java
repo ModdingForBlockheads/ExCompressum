@@ -70,11 +70,7 @@ public class AutoHammerBlock extends BaseEntityBlock implements IUglyfiable {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (player.getItemInHand(hand).is(ModItems.uglySteelPlating)) {
-            return InteractionResult.PASS;
-        }
-
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
         if (!player.isShiftKeyDown() && !level.isClientSide) {
             final BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof MenuProvider menuProvider) {

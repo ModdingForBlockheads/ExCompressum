@@ -49,7 +49,8 @@ public class HeavySieveRegistry {
         final var recipeManager = context.getLevel().getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (final var recipe : recipes) {
+        for (final var recipeHolder : recipes) {
+            final var recipe = recipeHolder.value();
             if (testRecipe(mesh, itemStack, waterlogged, recipe)) {
                 LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -59,10 +60,11 @@ public class HeavySieveRegistry {
         }
 
         final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
-        for (final var generatedRecipe : generatedRecipes) {
-            if (testGeneratedRecipe(itemStack, generatedRecipe, sieve, mesh)) {
-                int rolls = getGeneratedRollCount(generatedRecipe);
-                ItemLike source = Balm.getRegistries().getItem(generatedRecipe.getSource());
+        for (final var recipeHolder : generatedRecipes) {
+            final var recipe = recipeHolder.value();
+            if (testGeneratedRecipe(itemStack, recipe, sieve, mesh)) {
+                int rolls = getGeneratedRollCount(recipe);
+                ItemLike source = Balm.getRegistries().getItem(recipe.getSource());
                 LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, sieve, source, rolls, mesh);
                 if (lootTable != null) {
                     lootTable.getRandomItems(context, results::add);
@@ -84,14 +86,16 @@ public class HeavySieveRegistry {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
         final var recipeManager = level.getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
-        for (final var recipe : recipes) {
+        for (final var recipeHolder : recipes) {
+            final var recipe = recipeHolder.value();
             if (testRecipe(sieveMesh, itemStack, waterlogged, recipe)) {
                 return true;
             }
         }
 
         final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
-        for (final var recipe : generatedRecipes) {
+        for (final var recipeHolder : generatedRecipes) {
+            final var recipe = recipeHolder.value();
             if (testGeneratedRecipe(itemStack, recipe, sieve, sieveMesh)) {
                 return true;
             }

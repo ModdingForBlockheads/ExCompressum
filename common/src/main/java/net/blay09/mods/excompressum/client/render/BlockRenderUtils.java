@@ -75,7 +75,7 @@ public class BlockRenderUtils {
                     quad.getDirection(),
                     sprite,
                     quad.isShade());
-            vertex.putBulkData(pose, modifiedQuad, 1, 1, 1, light, overlay);
+            vertex.putBulkData(pose, modifiedQuad, 1f, 1f, 1f, 1f, light, overlay);
         }
     }
 
@@ -83,7 +83,7 @@ public class BlockRenderUtils {
         // Only works for DefaultVertexFormats.BLOCK, might need to be fixed in the future
         int[] newData = new int[data.length];
         System.arraycopy(data, 0, newData, 0, data.length);
-        for (int off = 0; off + 7 < newData.length; off += DefaultVertexFormat.BLOCK.getIntegerSize()) {
+        for (int off = 0; off + 7 < newData.length; off += DefaultVertexFormat.BLOCK.getVertexSize()) {
             newData[off + 4] = Float.floatToRawIntBits(((Float.intBitsToFloat(data[off + 4]) - oldSprite.getU0()) * newSprite.contents()
                     .width() / oldSprite.contents().width()) + newSprite.getU0());
             newData[off + 5] = Float.floatToRawIntBits(((Float.intBitsToFloat(data[off + 5]) - oldSprite.getV0()) * newSprite.contents()

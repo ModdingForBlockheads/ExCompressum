@@ -12,8 +12,10 @@ import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRegistry;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -136,7 +138,7 @@ public class HeavySieveBlockEntity extends BalmBlockEntity {
                         level.playSound(null, worldPosition, SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.5f, 2.5f);
                         meshStack = ItemStack.EMPTY;
                     } else {
-                        meshStack.hurtAndBreak(1, player, it -> {
+                        meshStack.hurtAndBreak(1, (ServerLevel) level, (ServerPlayer) player, it -> {
                             level.playSound(null, worldPosition, SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.5f, 2.5f);
                             meshStack = ItemStack.EMPTY;
                         });
@@ -157,20 +159,18 @@ public class HeavySieveBlockEntity extends BalmBlockEntity {
     }
 
     @Override
-    public void load(CompoundTag tagCompound) {
-        super.load(tagCompound);
-        currentStack = ItemStack.of(tagCompound.getCompound("Content"));
-        meshStack = ItemStack.of(tagCompound.getCompound("Mesh"));
+    public void loadAdditional(CompoundTag tagCompound, HolderLookup.Provider provider) {
+        currentStack = ItemStack.parseOptional(provider, tagCompound.getCompound("Content"));
+        meshStack = ItemStack.parseOptional(provider, tagCompound.getCompound("Mesh"));
         progress = tagCompound.getFloat("Progress");
         particleTicks = tagCompound.getInt("ParticleTicks");
         particleCount = tagCompound.getInt("ParticleCount");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tagCompound) {
-        super.saveAdditional(tagCompound);
-        tagCompound.put("Content", currentStack.save(new CompoundTag()));
-        tagCompound.put("Mesh", meshStack.save(new CompoundTag()));
+    public void saveAdditional(CompoundTag tagCompound, HolderLookup.Provider provider) {
+        tagCompound.put("Content", currentStack.save(provider));
+        tagCompound.put("Mesh", meshStack.save(provider));
         tagCompound.putFloat("Progress", progress);
         tagCompound.putInt("ParticleTicks", particleTicks);
         tagCompound.putInt("ParticleCount", particleCount);
@@ -178,7 +178,7 @@ public class HeavySieveBlockEntity extends BalmBlockEntity {
 
     @Override
     public void writeUpdateTag(CompoundTag tag) {
-        saveAdditional(tag);
+        saveAdditional(tag, level.registryAccess());
     }
 
     public ItemStack getCurrentStack() {

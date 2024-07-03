@@ -4,10 +4,11 @@ import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public class ChickenStickRecipe extends ExCompressumRecipe {
+public class ChickenStickRecipe extends ExCompressumRecipe<RecipeInput> {
 
     private Ingredient input;
     private LootTable lootTable;

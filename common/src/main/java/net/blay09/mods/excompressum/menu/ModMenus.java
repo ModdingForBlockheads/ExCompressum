@@ -39,6 +39,6 @@ public class ModMenus {
     }
 
     private static ResourceLocation id(String path) {
-        return new ResourceLocation(ExCompressum.MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, path);
     }
 }

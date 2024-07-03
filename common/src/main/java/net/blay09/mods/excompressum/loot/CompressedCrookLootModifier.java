@@ -3,12 +3,11 @@ package net.blay09.mods.excompressum.loot;
 import net.blay09.mods.balm.api.loot.BalmLootModifier;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.tag.ModItemTags;
+import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -35,7 +34,7 @@ public class CompressedCrookLootModifier implements BalmLootModifier {
             return;
         }
 
-        ServerLevel world = context.getLevel();
+        ServerLevel level = context.getLevel();
         Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
         if (tool == null || !tool.is(ModItemTags.COMPRESSED_CROOKS)) {
@@ -44,14 +43,14 @@ public class CompressedCrookLootModifier implements BalmLootModifier {
 
         BlockPos pos = BlockPos.containing(origin);
 
-        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0) {
+        if (StupidUtils.hasSilkTouchModifier(level, tool)) {
             return;
         }
 
         synchronized (activeContexts) {
             activeContexts.add(context);
         }
-        List<ItemStack> loot = ExNihilo.getInstance().rollCrookRewards(world, pos, state, entity, tool, context.getRandom());
+        List<ItemStack> loot = ExNihilo.getInstance().rollCrookRewards(level, pos, state, entity, tool, context.getRandom());
         synchronized (activeContexts) {
             activeContexts.remove(context);
         }

@@ -24,6 +24,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -242,11 +243,11 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                             if (ExNihilo.getInstance().doMeshesHaveDurability()) {
                                 ItemStack meshStack = meshSlots.getItem(0);
                                 if (!meshStack.isEmpty()) {
-                                    if (meshStack.hurt(1, level.random, null)) {
+                                    meshStack.hurtAndBreak(1, (ServerLevel) level, null, it -> {
                                         level.playSound(null, worldPosition, SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.5f, 2.5f);
                                         meshStack.shrink(1);
                                         meshSlots.setItem(0, ItemStack.EMPTY);
-                                    }
+                                    });
                                 }
                             }
                         } else {

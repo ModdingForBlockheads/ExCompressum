@@ -16,7 +16,8 @@ public class CompressedHammerRegistry {
         final var recipeManager = level.getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (final var recipe : recipes) {
+        for (final var recipeHolder : recipes) {
+            final var recipe = recipeHolder.value();
             if (testRecipe(itemStack, recipe)) {
                 final var lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -40,7 +41,8 @@ public class CompressedHammerRegistry {
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
-        for (final var recipe : recipes) {
+        for (final var recipeHolder : recipes) {
+            final var recipe = recipeHolder.value();
             if (testRecipe(itemStack, recipe)) {
                 return true;
             }

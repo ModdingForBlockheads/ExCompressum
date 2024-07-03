@@ -45,15 +45,14 @@ public class AutoCompressorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
         if (!player.isShiftKeyDown() && !level.isClientSide) {
-            final BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof MenuProvider menuProvider) {
+            if (level.getBlockEntity(pos) instanceof MenuProvider menuProvider) {
                 Balm.getNetworking().openGui(player, menuProvider);
             }
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

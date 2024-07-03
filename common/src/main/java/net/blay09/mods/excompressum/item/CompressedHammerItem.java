@@ -8,7 +8,7 @@ import net.minecraft.world.item.Tier;
 public class CompressedHammerItem extends DiggerItem {
 
     public CompressedHammerItem(Tier tier, Item.Properties properties) {
-        super(6f, -3.2f, tier, ModBlockTags.MINEABLE_WITH_HAMMER, properties);
+        super(tier, ModBlockTags.MINEABLE_WITH_HAMMER, properties);
     }
 
 }

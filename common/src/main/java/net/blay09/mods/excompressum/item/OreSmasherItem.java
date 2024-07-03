@@ -1,12 +1,10 @@
 package net.blay09.mods.excompressum.item;
 
-import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.api.ExCompressumAPI;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.compressor.CompressedRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,18 +24,18 @@ import java.util.Collection;
 public class OreSmasherItem extends DiggerItem {
 
     public OreSmasherItem(Item.Properties properties) {
-        super(0f, 0f, Tiers.DIAMOND, BlockTags.MINEABLE_WITH_SHOVEL, properties);
+        super(Tiers.DIAMOND, BlockTags.MINEABLE_WITH_SHOVEL, properties);
     }
 
     @Override
-    public boolean isCorrectToolForDrops(BlockState state) {
+    public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
         return ExCompressumAPI.getExNihilo().isHammerableOre(new ItemStack(state.getBlock()));
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if (ExCompressumAPI.getExNihilo().isHammerableOre(new ItemStack(state.getBlock()))) {
-            return speed;
+            return getTier().getSpeed();
         }
 
         return 0.8f;
@@ -97,7 +95,7 @@ public class OreSmasherItem extends DiggerItem {
 
     @Override
     public boolean mineBlock(ItemStack itemStack, Level level, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        if (!level.isClientSide && isCorrectToolForDrops(state) && ExNihilo.getInstance().isHammerable(state)) {
+        if (!level.isClientSide && isCorrectToolForDrops(itemStack, state) && ExNihilo.getInstance().isHammerable(state)) {
             level.removeBlock(pos, false);
             Collection<ItemStack> rewards = ExNihilo.getInstance().rollHammerRewards(level, state, itemStack, level.random);
             for (ItemStack rewardStack : rewards) {

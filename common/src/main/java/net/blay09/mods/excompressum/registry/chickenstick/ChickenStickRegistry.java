@@ -13,10 +13,10 @@ import java.util.List;
 public class ChickenStickRegistry {
 
     public static List<ItemStack> rollHammerRewards(Level level, LootContext context, ItemStack itemStack) {
-        RecipeManager recipeManager = level.getRecipeManager();
-        List<ChickenStickRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
+        final var recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
         List<ItemStack> results = new ArrayList<>();
-        for (ChickenStickRecipe recipe : recipes) {
+        for (final var recipeHolder : recipes) {
+            final var recipe = recipeHolder.value();
             if (testRecipe(itemStack, recipe)) {
                 LootTable lootTable = recipe.getLootTable();
                 if (lootTable != null) {
@@ -37,9 +37,9 @@ public class ChickenStickRegistry {
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
-        List<ChickenStickRecipe> recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
-        for (ChickenStickRecipe recipe : recipes) {
-            if (testRecipe(itemStack, recipe)) {
+        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
+        for (final var recipeHolder : recipes) {
+            if (testRecipe(itemStack, recipeHolder.value())) {
                 return true;
             }
         }

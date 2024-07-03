@@ -5,10 +5,11 @@ import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public class CompressedHammerRecipeImpl extends ExCompressumRecipe implements CompressedHammerRecipe {
+public class CompressedHammerRecipeImpl extends ExCompressumRecipe<RecipeInput> implements CompressedHammerRecipe {
 
     private Ingredient ingredient;
     private LootTable lootTable;

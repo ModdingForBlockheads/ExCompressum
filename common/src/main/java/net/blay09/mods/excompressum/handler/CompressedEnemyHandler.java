@@ -68,7 +68,7 @@ public class CompressedEnemyHandler {
                     @SuppressWarnings("unchecked") final EntityType<? extends LivingEntity> entityType = (EntityType<? extends LivingEntity>) entity.getType();
 
                     for (int i = 0; i < ExCompressumConfig.getActive().compressedMobs.compressedMobSize; i++) {
-                        final var newEntity = entityType.create(((ServerLevel) level), null, null, entity.blockPosition(), MobSpawnType.CONVERSION, false, false);
+                        final var newEntity = entityType.create((ServerLevel) level, null, entity.blockPosition(), MobSpawnType.CONVERSION, false, false);
                         if (newEntity == null) {
                             return;
                         }
