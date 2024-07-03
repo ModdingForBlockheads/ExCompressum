@@ -20,12 +20,12 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 public class ModRecipeTypes {
 
-    public static final ResourceLocation COMPRESSED_HAMMER = new ResourceLocation(ExCompressum.MOD_ID, "compressed_hammer");
-    public static final ResourceLocation CHICKEN_STICK = new ResourceLocation(ExCompressum.MOD_ID, "chicken_stick");
-    public static final ResourceLocation HAMMER = new ResourceLocation(ExCompressum.MOD_ID, "hammer");
-    public static final ResourceLocation HEAVY_SIEVE_GENERATED = new ResourceLocation(ExCompressum.MOD_ID, "heavy_sieve_generated");
-    public static final ResourceLocation HEAVY_SIEVE = new ResourceLocation(ExCompressum.MOD_ID, "heavy_sieve");
-    public static final ResourceLocation WOODEN_CRUCIBLE = new ResourceLocation(ExCompressum.MOD_ID, "wooden_crucible");
+    public static final ResourceLocation COMPRESSED_HAMMER = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "compressed_hammer");
+    public static final ResourceLocation CHICKEN_STICK = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "chicken_stick");
+    public static final ResourceLocation HAMMER = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "hammer");
+    public static final ResourceLocation HEAVY_SIEVE_GENERATED = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "heavy_sieve_generated");
+    public static final ResourceLocation HEAVY_SIEVE = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "heavy_sieve");
+    public static final ResourceLocation WOODEN_CRUCIBLE = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "wooden_crucible");
 
     public static RecipeType<CompressedHammerRecipeImpl> compressedHammerRecipeType;
     public static RecipeType<ChickenStickRecipe> chickenStickRecipeType;

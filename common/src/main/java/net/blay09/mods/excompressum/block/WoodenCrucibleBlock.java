@@ -9,6 +9,7 @@ import net.blay09.mods.excompressum.block.entity.WoodenCrucibleBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -60,31 +61,49 @@ public class WoodenCrucibleBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (level.getBlockEntity(pos) instanceof WoodenCrucibleBlockEntity woodenCrucible) {
-            ItemStack heldItem = player.getItemInHand(hand);
-            ItemStack outputStack = ContainerUtils.extractItem(woodenCrucible, 0, 64, false);
-            if (!outputStack.isEmpty()) {
-                if (!player.getInventory().add(outputStack)) {
-                    level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, outputStack));
-                }
-
-                return InteractionResult.SUCCESS;
-            }
-
-            if (!heldItem.isEmpty()) {
-                if (woodenCrucible.addItem(heldItem, false, false)) {
-                    if (!player.getAbilities().instabuild) {
-                        heldItem.shrink(1);
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-            }
-
-            Balm.getHooks().useFluidTank(state, level, pos, player, hand, hit);
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+        if (itemStack.isEmpty()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
-        return InteractionResult.SUCCESS;
+        if (!(level.getBlockEntity(pos) instanceof WoodenCrucibleBlockEntity woodenCrucible)) {
+            return ItemInteractionResult.FAIL;
+        }
+
+        final var outputStack = ContainerUtils.extractItem(woodenCrucible, 0, 64, false);
+        if (!outputStack.isEmpty()) {
+            if (!player.getInventory().add(outputStack)) {
+                level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, outputStack));
+            }
+
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        if (woodenCrucible.addItem(itemStack, false, false)) {
+            return ItemInteractionResult.CONSUME_PARTIAL;
+        }
+
+        Balm.getHooks().useFluidTank(state, level, pos, player, hand, blockHitResult);
+
+        return super.useItemOn(itemStack, state, level, pos, player, hand, blockHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
+        if (!(level.getBlockEntity(pos) instanceof WoodenCrucibleBlockEntity woodenCrucible)) {
+            return InteractionResult.FAIL;
+        }
+
+        final var outputStack = ContainerUtils.extractItem(woodenCrucible, 0, 64, false);
+        if (!outputStack.isEmpty()) {
+            if (!player.getInventory().add(outputStack)) {
+                level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, outputStack));
+            }
+
+            return InteractionResult.SUCCESS;
+        }
+
+        return super.useWithoutItem(state, level, pos, player, blockHitResult);
     }
 
     @Override

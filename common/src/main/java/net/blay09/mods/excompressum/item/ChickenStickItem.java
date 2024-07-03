@@ -67,7 +67,7 @@ public class ChickenStickItem extends DiggerItem {
             ResourceLocation location = null;
             final List<? extends String> chickenStickSounds = ExCompressumConfig.getActive().tools.chickenStickSounds;
             if (!chickenStickSounds.isEmpty()) {
-                location = new ResourceLocation(chickenStickSounds.get(level.getRandom().nextInt(chickenStickSounds.size())));
+                location = ResourceLocation.parse(chickenStickSounds.get(level.getRandom().nextInt(chickenStickSounds.size())));
             }
             if (location != null) {
                 SoundEvent soundEvent = BuiltInRegistries.SOUND_EVENT.get(location);

@@ -14,8 +14,7 @@ public class AutoHammerUpgradeSlot extends Slot {
 
     public AutoHammerUpgradeSlot(Container container, int index, int xPosition, int yPosition, boolean isCompressed) {
         super(container, index, xPosition, yPosition);
-        noItemIconSprite = new ResourceLocation("minecraft",
-                isCompressed ? "excompressum_icons/empty_compressed_hammer_slot" : "excompressum_icons/empty_hammer_slot");
+        noItemIconSprite = ResourceLocation.withDefaultNamespace(isCompressed ? "excompressum_icons/empty_compressed_hammer_slot" : "excompressum_icons/empty_hammer_slot");
         noItemIcon = Pair.of(TextureAtlas.LOCATION_BLOCKS, noItemIconSprite);
     }
 

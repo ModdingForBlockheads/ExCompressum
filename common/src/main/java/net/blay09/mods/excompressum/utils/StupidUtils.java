@@ -1,5 +1,6 @@
 package net.blay09.mods.excompressum.utils;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 public class StupidUtils {
 
@@ -18,7 +18,8 @@ public class StupidUtils {
      * Removed from Vanilla's EnchantmentHelper for some stupid reason.
      */
     public static boolean hasSilkTouchModifier(LivingEntity entity) {
-        return EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, entity) > 0;
+        final var silkTouch = entity.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH);
+        return EnchantmentHelper.getEnchantmentLevel(silkTouch, entity) > 0;
     }
 
     /**

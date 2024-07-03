@@ -31,6 +31,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public class BaitBlock extends BaseEntityBlock {
@@ -64,17 +65,19 @@ public class BaitBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (level.getBlockEntity(pos) instanceof BaitBlockEntity bait) {
-            EnvironmentalConditionResult environmentStatus = bait.checkSpawnConditions(true);
-            if (!level.isClientSide) {
-                final var chatComponent = Component.translatable(environmentStatus.langKey, environmentStatus.params);
-                chatComponent.withStyle(environmentStatus != EnvironmentalConditionResult.CanSpawn ? ChatFormatting.RED : ChatFormatting.GREEN);
-                player.sendSystemMessage(chatComponent);
-            }
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
+        if (!(level.getBlockEntity(pos) instanceof BaitBlockEntity bait)) {
+            return InteractionResult.FAIL;
         }
 
-        return InteractionResult.SUCCESS;
+        final var environmentStatus = bait.checkSpawnConditions(true);
+        if (!level.isClientSide) {
+            final var chatComponent = Component.translatable(environmentStatus.langKey, environmentStatus.params);
+            chatComponent.withStyle(environmentStatus != EnvironmentalConditionResult.CanSpawn ? ChatFormatting.RED : ChatFormatting.GREEN);
+            player.sendSystemMessage(chatComponent);
+        }
+
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
@@ -96,7 +99,13 @@ public class BaitBlock extends BaseEntityBlock {
         if (!ExCompressumConfig.getActive().client.disableParticles) {
             if (level.getBlockEntity(pos) instanceof BaitBlockEntity bait && bait.checkSpawnConditions(false) == EnvironmentalConditionResult.CanSpawn) {
                 if (rand.nextFloat() <= 0.2f) {
-                    level.addParticle(ParticleTypes.SMOKE, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat() * 0.5f, pos.getZ() + rand.nextFloat(), 0.0, 0.0, 0.0);
+                    level.addParticle(ParticleTypes.SMOKE,
+                            pos.getX() + rand.nextFloat(),
+                            pos.getY() + rand.nextFloat() * 0.5f,
+                            pos.getZ() + rand.nextFloat(),
+                            0.0,
+                            0.0,
+                            0.0);
                 }
             }
         }

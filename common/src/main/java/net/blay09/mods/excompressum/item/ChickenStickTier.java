@@ -1,8 +1,12 @@
 package net.blay09.mods.excompressum.item;
 
+import net.blay09.mods.excompressum.tag.ModBlockTags;
+import net.blay09.mods.excompressum.tag.ModItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 
 public enum ChickenStickTier implements Tier {
     INSTANCE;
@@ -20,6 +24,11 @@ public enum ChickenStickTier implements Tier {
     @Override
     public float getAttackDamageBonus() {
         return 0;
+    }
+
+    @Override
+    public TagKey<Block> getIncorrectBlocksForDrops() {
+        return ModBlockTags.INCORRECT_FOR_CHICKEN_STICK;
     }
 
     @Override
