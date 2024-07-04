@@ -1,1 +1,3 @@
-- Updated to Minecraft 1.20.1
+- Added Fabricae Ex Nihilo support
+- Fixed Jade integration
+- Added JEI support on Fabric too
