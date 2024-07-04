@@ -1,10 +1,9 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.recipeviewers;
 
 import com.mojang.datafixers.util.Pair;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,8 @@ public class ExpandedWoodenCrucibleRecipe {
         return fluid;
     }
 
-    public FluidStack getFluidStack() {
-        return new FluidStack(fluid, 1000);
+    public int getAmount() {
+        return 1000;
     }
 
     public WoodenCrucibleRecipe getEntryAt(int index) {

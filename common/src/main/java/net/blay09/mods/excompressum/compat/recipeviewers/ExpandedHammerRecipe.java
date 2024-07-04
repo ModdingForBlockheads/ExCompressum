@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.recipeviewers;
 
 import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
 import net.blay09.mods.excompressum.loot.LootTableEntry;

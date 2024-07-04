@@ -30,6 +30,9 @@
     ],
     "modmenu": [
       "net.blay09.mods.excompressum.fabric.compat.ModMenuIntegration"
+    ],
+    "jei_mod_plugin": [
+      "net.blay09.mods.excompressum.compat.jei.JEIAddon"
     ]
   },
   "mixins": [

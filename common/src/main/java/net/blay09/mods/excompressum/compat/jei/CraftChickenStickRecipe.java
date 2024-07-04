@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.jei;
 
 import net.blay09.mods.excompressum.component.ModComponents;
 import net.blay09.mods.excompressum.item.ModItems;

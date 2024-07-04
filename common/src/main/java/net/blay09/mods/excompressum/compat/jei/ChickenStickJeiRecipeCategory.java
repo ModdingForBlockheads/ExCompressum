@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.jei;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -9,33 +9,31 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.blay09.mods.excompressum.ExCompressum;
-import net.blay09.mods.excompressum.block.ModBlocks;
+import net.blay09.mods.excompressum.compat.recipeviewers.ExpandedChickenStickRecipe;
+import net.blay09.mods.excompressum.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
-public class CompressedHammerJeiRecipeCategory implements IRecipeCategory<ExpandedCompressedHammerRecipe> {
+public class ChickenStickJeiRecipeCategory implements IRecipeCategory<ExpandedChickenStickRecipe> {
 
     private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "compressed_hammer");
-    public static final RecipeType<ExpandedCompressedHammerRecipe> TYPE = new RecipeType<>(UID, ExpandedCompressedHammerRecipe.class);
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "chicken_stick");
+    public static final RecipeType<ExpandedChickenStickRecipe> TYPE = new RecipeType<>(UID, ExpandedChickenStickRecipe.class);
 
     private final IDrawable background;
     private final IDrawable icon;
 
-    public CompressedHammerJeiRecipeCategory(IGuiHelper guiHelper) {
+    public ChickenStickJeiRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(texture, 0, 0, 166, 63);
-        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.autoCompressedHammer));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.chickenStick));
     }
 
     @Override
-    public RecipeType<ExpandedCompressedHammerRecipe> getRecipeType() {
+    public RecipeType<ExpandedChickenStickRecipe> getRecipeType() {
         return TYPE;
     }
 
-    @Nonnull
     @Override
     public Component getTitle() {
         return Component.translatable(UID.toString());
@@ -52,8 +50,9 @@ public class CompressedHammerJeiRecipeCategory implements IRecipeCategory<Expand
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedCompressedHammerRecipe recipe, IFocusGroup iFocusGroup) {
+    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedChickenStickRecipe recipe, IFocusGroup focusGroup) {
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 75, 10).addIngredients(recipe.getIngredient());
+
         final var outputItems = recipe.getOutputItems();
         for (int i = 0; i < outputItems.size(); i++) {
             final int slotX = 3 + i * 18;

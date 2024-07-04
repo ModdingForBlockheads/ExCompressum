@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.jei;
 
 import net.blay09.mods.excompressum.loot.LootTableEntry;
 import net.blay09.mods.excompressum.loot.LootTableUtils;

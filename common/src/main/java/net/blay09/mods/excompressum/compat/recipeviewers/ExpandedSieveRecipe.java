@@ -1,8 +1,6 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.recipeviewers;
 
-import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
-import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
-import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
+import net.blay09.mods.excompressum.api.recipe.SieveRecipe;
 import net.blay09.mods.excompressum.loot.LootTableEntry;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.loot.MergedLootTableEntry;
@@ -10,19 +8,20 @@ import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class ExpandedHeavySieveRecipe {
+public class ExpandedSieveRecipe {
 
-    private final HeavySieveRecipe recipe;
+    private final SieveRecipe recipe;
     private final Ingredient ingredient;
     private final List<ItemStack> meshItems;
     private final List<MergedLootTableEntry> outputs;
     private final List<ItemStack> outputItems;
     private final boolean waterlogged;
 
-    public ExpandedHeavySieveRecipe(HeavySieveRecipe recipe) {
+    public ExpandedSieveRecipe(SieveRecipe recipe) {
         this.recipe = recipe;
         meshItems = new ArrayList<>();
         for (final var meshType : recipe.getMeshes()) {
@@ -32,7 +31,6 @@ public class ExpandedHeavySieveRecipe {
                 }
             }
         }
-
         ingredient = recipe.getIngredient();
         List<LootTableEntry> entries = LootTableUtils.getLootTableEntries(recipe.getLootTable());
         outputs = LootTableUtils.mergeLootTableEntries(entries);
@@ -40,7 +38,7 @@ public class ExpandedHeavySieveRecipe {
         waterlogged = recipe.isWaterlogged();
     }
 
-    public HeavySieveRecipe getRecipe() {
+    public SieveRecipe getRecipe() {
         return recipe;
     }
 

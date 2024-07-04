@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.jei;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -11,29 +11,30 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.block.ModBlocks;
+import net.blay09.mods.excompressum.compat.recipeviewers.ExpandedHeavySieveRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class SieveJeiRecipeCategory implements IRecipeCategory<ExpandedSieveRecipe> {
+public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeavySieveRecipe> {
 
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "sieve");
-    public static final RecipeType<ExpandedSieveRecipe> TYPE = new RecipeType<>(UID, ExpandedSieveRecipe.class);
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "heavy_sieve");
+    public static final RecipeType<ExpandedHeavySieveRecipe> TYPE = new RecipeType<>(UID, ExpandedHeavySieveRecipe.class);
     private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "textures/gui/jei_heavy_sieve.png");
 
     private final IDrawable background;
     private final IDrawable icon;
 
-    public SieveJeiRecipeCategory(IJeiHelpers jeiHelpers) {
+    public HeavySieveJeiRecipeCategory(IJeiHelpers jeiHelpers) {
         final IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
         this.background = guiHelper.createDrawable(texture, 0, 0, 166, 129);
-        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.autoSieve));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.heavySieves[0]));
     }
 
     @Override
-    public RecipeType<ExpandedSieveRecipe> getRecipeType() {
+    public RecipeType<ExpandedHeavySieveRecipe> getRecipeType() {
         return TYPE;
     }
 
@@ -55,7 +56,7 @@ public class SieveJeiRecipeCategory implements IRecipeCategory<ExpandedSieveReci
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedSieveRecipe recipe, IFocusGroup focusGroup) {
+    public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedHeavySieveRecipe recipe, IFocusGroup focusGroup) {
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 62, 10).addIngredients(recipe.getIngredient());
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, 88, 10).addItemStacks(recipe.getMeshItems());
         final var outputItems = recipe.getOutputItems();
