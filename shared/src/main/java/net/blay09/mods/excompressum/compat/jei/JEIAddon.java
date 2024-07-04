@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.jei;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -11,6 +11,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.ExCompressum;
+import net.blay09.mods.excompressum.compat.recipeviewers.*;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.block.HeavySieveBlock;
 import net.blay09.mods.excompressum.block.ModBlocks;

@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.jei;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -10,12 +10,12 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.block.ModBlocks;
+import net.blay09.mods.excompressum.compat.recipeviewers.ExpandedWoodenCrucibleRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<ExpandedWoodenCrucibleRecipe> {
 
@@ -56,7 +56,7 @@ public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<Expanded
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder recipeLayoutBuilder, ExpandedWoodenCrucibleRecipe recipe, IFocusGroup focusGroup) {
-        recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 75, 10).addFluidStack(recipe.getFluid(), recipe.getFluidStack().getAmount());
+        recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 75, 10).addFluidStack(recipe.getFluid(), recipe.getAmount());
 
         final var inputs = recipe.getInputs();
         for (int i = 0; i < inputs.size(); i++) {

@@ -1,7 +1,6 @@
-package net.blay09.mods.excompressum.forge.compat.jei;
+package net.blay09.mods.excompressum.compat.recipeviewers;
 
 import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
-import net.blay09.mods.excompressum.api.recipe.SieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.loot.LootTableEntry;
@@ -11,20 +10,19 @@ import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class ExpandedSieveRecipe {
+public class ExpandedHeavySieveRecipe {
 
-    private final SieveRecipe recipe;
+    private final HeavySieveRecipe recipe;
     private final Ingredient ingredient;
     private final List<ItemStack> meshItems;
     private final List<MergedLootTableEntry> outputs;
     private final List<ItemStack> outputItems;
     private final boolean waterlogged;
 
-    public ExpandedSieveRecipe(SieveRecipe recipe) {
+    public ExpandedHeavySieveRecipe(HeavySieveRecipe recipe) {
         this.recipe = recipe;
         meshItems = new ArrayList<>();
         if (recipe.getMinimumMesh() != null) {
@@ -50,7 +48,7 @@ public class ExpandedSieveRecipe {
         waterlogged = recipe.isWaterlogged();
     }
 
-    public SieveRecipe getRecipe() {
+    public HeavySieveRecipe getRecipe() {
         return recipe;
     }
 
