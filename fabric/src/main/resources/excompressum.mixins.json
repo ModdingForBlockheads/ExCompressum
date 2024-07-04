@@ -4,7 +4,18 @@
   "package": "net.blay09.mods.excompressum.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LootTableAccessor"
+    "BinomialDistributionGeneratorAccessor",
+    "ConstantValueAccessor",
+    "LootItemAccessor",
+    "LootItemRandomChanceConditionAccessor",
+    "LootPoolAccessor",
+    "LootPoolEntryContainerAccessor",
+    "LootPoolSingletonContainerAccessor",
+    "LootTableAccessor",
+    "LootTableReferenceAccessor",
+    "SetItemCountFunctionAccessor",
+    "TagEntryAccessor",
+    "UniformGeneratorAccessor"
   ],
   "client": [
   ],

@@ -39,6 +39,7 @@
     ]
   },
   "mixins": [
+    "excompressum.mixins.json"
   ],
   "depends": {
     "balm-fabric": ">=7.0.0",

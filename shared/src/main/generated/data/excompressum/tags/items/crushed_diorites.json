@@ -4,6 +4,10 @@
     {
       "id": "exnihilosequentia:crushed_diorite",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crushed_diorite",
+      "required": false
     }
   ]
 }

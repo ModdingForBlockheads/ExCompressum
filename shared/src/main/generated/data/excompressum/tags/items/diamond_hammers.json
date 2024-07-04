@@ -8,6 +8,10 @@
     {
       "id": "exdeorum:diamond_hammer",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:diamond_hammer",
+      "required": false
     }
   ]
 }

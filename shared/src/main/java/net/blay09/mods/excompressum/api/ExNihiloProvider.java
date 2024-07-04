@@ -25,11 +25,11 @@ public interface ExNihiloProvider {
 
     boolean isHammerableCompressed(ItemStack itemStack);
 
-    boolean isHammerable(BlockState state);
+    boolean isHammerable(Level level, BlockState state);
 
     List<ItemStack> rollHammerRewards(Level level, BlockState state, ItemStack tool, RandomSource rand);
 
-    boolean isSiftableWithMesh(BlockState sieveState, BlockState state, @Nullable SieveMeshRegistryEntry sieveMesh);
+    boolean isSiftableWithMesh(Level level, BlockState sieveState, BlockState state, @Nullable SieveMeshRegistryEntry sieveMesh);
 
     boolean isHeavySiftableWithMesh(BlockState sieveState, BlockState state, @Nullable SieveMeshRegistryEntry sieveMesh);
 

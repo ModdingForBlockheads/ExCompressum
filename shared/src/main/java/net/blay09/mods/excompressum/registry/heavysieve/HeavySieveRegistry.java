@@ -39,9 +39,9 @@ public class HeavySieveRegistry {
         return recipe.getIngredient().test(itemStack);
     }
 
-    private static boolean testGeneratedRecipe(ItemStack itemStack, GeneratedHeavySieveRecipe generatedRecipe, BlockState sieve, SieveMeshRegistryEntry sieveMesh) {
+    private static boolean testGeneratedRecipe(Level level, ItemStack itemStack, GeneratedHeavySieveRecipe generatedRecipe, BlockState sieve, SieveMeshRegistryEntry sieveMesh) {
         Block sourceBlock = Balm.getRegistries().getBlock(generatedRecipe.getSource());
-        return generatedRecipe.getInput().test(itemStack) && ExNihilo.isSiftableWithMesh(sieve, new ItemStack(sourceBlock), sieveMesh);
+        return generatedRecipe.getInput().test(itemStack) && ExNihilo.isSiftableWithMesh(level, sieve, new ItemStack(sourceBlock), sieveMesh);
     }
 
     public static List<ItemStack> rollSieveRewards(Level level, LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
@@ -60,7 +60,7 @@ public class HeavySieveRegistry {
 
         final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
         for (final var generatedRecipe : generatedRecipes) {
-            if (testGeneratedRecipe(itemStack, generatedRecipe, sieve, mesh)) {
+            if (testGeneratedRecipe(level, itemStack, generatedRecipe, sieve, mesh)) {
                 int rolls = getGeneratedRollCount(generatedRecipe);
                 ItemLike source = Balm.getRegistries().getItem(generatedRecipe.getSource());
                 LootTable lootTable = ExNihilo.getInstance().generateHeavySieveLootTable(level, sieve, source, rolls, mesh);
@@ -92,7 +92,7 @@ public class HeavySieveRegistry {
 
         final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
         for (final var recipe : generatedRecipes) {
-            if (testGeneratedRecipe(itemStack, recipe, sieve, sieveMesh)) {
+            if (testGeneratedRecipe(level, itemStack, recipe, sieve, sieveMesh)) {
                 return true;
             }
         }

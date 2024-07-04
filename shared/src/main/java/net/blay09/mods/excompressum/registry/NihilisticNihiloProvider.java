@@ -30,7 +30,7 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 	}
 
 	@Override
-	public boolean isHammerable(BlockState state) {
+	public boolean isHammerable(Level level, BlockState state) {
 		return false;
 	}
 
@@ -40,7 +40,7 @@ public class NihilisticNihiloProvider implements ExNihiloProvider {
 	}
 
 	@Override
-	public boolean isSiftableWithMesh(BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh) {
+	public boolean isSiftableWithMesh(Level level, BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh) {
 		return false;
 	}
 

@@ -8,6 +8,10 @@
     {
       "id": "exdeorum:dust",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:dust",
+      "required": false
     }
   ]
 }

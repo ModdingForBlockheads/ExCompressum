@@ -1,7 +1,6 @@
 package net.blay09.mods.excompressum.forge.compat.exnihilosequentia;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
@@ -53,7 +52,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     public ExNihiloSequentiaAddon() {
         ExNihilo.setInstance(this);
 
-        SieveMeshRegistry.registerDefaults(MeshType.STRING);
+        SieveMeshRegistry.registerDefaults(MeshType.IRON);
 
         ItemStack stringMeshItem = findItem("string_mesh");
         if (!stringMeshItem.isEmpty()) {
@@ -114,20 +113,13 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
         return new ItemStack(item);
     }
 
-    private ItemStack findBlock(String name) {
-        ResourceLocation location = new ResourceLocation(Compat.EXNIHILO_SEQUENTIA, name);
-        Block block = Balm.getRegistries().getBlock(location);
-        return new ItemStack(block);
-    }
-
-
     @Override
     public boolean isHammerableCompressed(ItemStack itemStack) {
         return false;
     }
 
     @Override
-    public boolean isHammerable(BlockState state) {
+    public boolean isHammerable(Level level, BlockState state) {
         return ExNihiloRegistries.HAMMER_REGISTRY.isHammerable(state.getBlock());
     }
 
@@ -145,7 +137,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     }
 
     @Override
-    public boolean isSiftableWithMesh(BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh) {
+    public boolean isSiftableWithMesh(Level level, BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh) {
         boolean waterlogged = sieveState.hasProperty(BlockStateProperties.WATERLOGGED) && sieveState.getValue(BlockStateProperties.WATERLOGGED);
         MeshType mesh = sieveMesh != null ? (MeshType) sieveMesh.getBackingMesh() : MeshType.NONE;
         return ExNihiloRegistries.SIEVE_REGISTRY.isBlockSiftable(state.getBlock(), mesh, waterlogged);

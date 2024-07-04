@@ -31,9 +31,16 @@ public class BatZapperItem extends Item {
         if (context.getPlayer() != null && context.getPlayer().getAbilities().instabuild) {
             final var blockEntity = context.getLevel().getBlockEntity(context.getClickedPos());
             if (blockEntity != null) {
-                final var energyStorage = Balm.getProviders().getProvider(blockEntity, EnergyStorage.class);
-                if (energyStorage != null) {
-                    energyStorage.setEnergy(energyStorage.getCapacity());
+                if (blockEntity instanceof BalmEnergyStorageProvider energyStorageProvider) {
+                    final var energyStorage = energyStorageProvider.getEnergyStorage();
+                    if (energyStorage != null) {
+                        energyStorage.setEnergy(energyStorage.getCapacity());
+                    }
+                } else {
+                    final var energyStorage = Balm.getProviders().getProvider(blockEntity, EnergyStorage.class);
+                    if (energyStorage != null) {
+                        energyStorage.setEnergy(energyStorage.getCapacity());
+                    }
                 }
             }
         }

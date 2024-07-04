@@ -8,6 +8,10 @@
     {
       "id": "exdeorum:wooden_hammer",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:wooden_hammer",
+      "required": false
     }
   ]
 }

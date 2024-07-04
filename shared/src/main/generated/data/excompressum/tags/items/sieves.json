@@ -80,6 +80,50 @@
     {
       "id": "exdeorum:crimson_sieve",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:acacia_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:birch_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:dark_oak_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:jungle_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:oak_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:spruce_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:cherry_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:mangrove_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:warped_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crimson_sieve",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:bamboo_sieve",
+      "required": false
     }
   ]
 }

@@ -50,7 +50,7 @@ public class HammerLootModifier implements BalmLootModifier {
             return;
         }
 
-        if (ExNihilo.getInstance().isHammerable(state)) {
+        if (ExNihilo.getInstance().isHammerable(context.getLevel(), state)) {
             synchronized (activeContexts) {
                 activeContexts.add(context);
             }

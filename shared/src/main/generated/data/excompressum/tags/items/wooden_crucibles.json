@@ -90,6 +90,50 @@
     {
       "id": "exdeorum:warped_crucible",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:acacia_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:birch_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:cherry_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:dark_oak_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:jungle_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:mangrove_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:oak_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:spruce_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crimson_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:warped_crucible",
+      "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:bamboo_crucible",
+      "required": false
     }
   ]
 }

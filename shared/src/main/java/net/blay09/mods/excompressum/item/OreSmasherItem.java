@@ -100,7 +100,7 @@ public class OreSmasherItem extends DiggerItem {
 
     @Override
     public boolean mineBlock(ItemStack itemStack, Level level, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        if (!level.isClientSide && isCorrectToolForDrops(state) && ExNihilo.getInstance().isHammerable(state)) {
+        if (!level.isClientSide && isCorrectToolForDrops(state) && ExNihilo.getInstance().isHammerable(level, state)) {
             level.removeBlock(pos, false);
             Collection<ItemStack> rewards = ExNihilo.getInstance().rollHammerRewards(level, state, itemStack, level.random);
             for (ItemStack rewardStack : rewards) {

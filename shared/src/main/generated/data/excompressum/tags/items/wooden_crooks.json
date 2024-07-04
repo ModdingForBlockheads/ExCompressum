@@ -8,6 +8,10 @@
     {
       "id": "exdeorum:crook",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:wooden_crook",
+      "required": false
     }
   ]
 }

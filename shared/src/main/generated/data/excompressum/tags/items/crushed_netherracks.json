@@ -8,6 +8,10 @@
     {
       "id": "exdeorum:crushed_netherrack",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crushed_netherrack",
+      "required": false
     }
   ]
 }

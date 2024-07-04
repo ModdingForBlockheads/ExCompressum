@@ -22,8 +22,7 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
 
     @Override
     protected void addTags(HolderLookup.Provider lookup) {
-        getOrCreateTagBuilder(ModItemTags.SIEVES)
-                .addOptional(sequentia("acacia_sieve"))
+        getOrCreateTagBuilder(ModItemTags.SIEVES).addOptional(sequentia("acacia_sieve"))
                 .addOptional(sequentia("birch_sieve"))
                 .addOptional(sequentia("dark_oak_sieve"))
                 .addOptional(sequentia("jungle_sieve"))
@@ -42,7 +41,18 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
                 .addOptional(deorum("cherry_sieve"))
                 .addOptional(deorum("mangrove_sieve"))
                 .addOptional(deorum("warped_sieve"))
-                .addOptional(deorum("crimson_sieve"));
+                .addOptional(deorum("crimson_sieve"))
+                .addOptional(fabricae("acacia_sieve"))
+                .addOptional(fabricae("birch_sieve"))
+                .addOptional(fabricae("dark_oak_sieve"))
+                .addOptional(fabricae("jungle_sieve"))
+                .addOptional(fabricae("oak_sieve"))
+                .addOptional(fabricae("spruce_sieve"))
+                .addOptional(fabricae("cherry_sieve"))
+                .addOptional(fabricae("mangrove_sieve"))
+                .addOptional(fabricae("warped_sieve"))
+                .addOptional(fabricae("crimson_sieve"))
+                .addOptional(fabricae("bamboo_sieve"));
 
         final var heavySieves = getOrCreateTagBuilder(ModItemTags.HEAVY_SIEVES);
         for (Block heavySieve : ModBlocks.heavySieves) {
@@ -67,13 +77,25 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
                 .addTag(ModItemTags.DIAMOND_HAMMERS)
                 .addTag(ModItemTags.NETHERITE_HAMMERS)
                 .addTag(ModItemTags.EXOTIC_HAMMERS);
-        getOrCreateTagBuilder(ModItemTags.WOODEN_HAMMERS).addOptional(sequentia("wooden_hammer")).addOptional(deorum("wooden_hammer"));
-        getOrCreateTagBuilder(ModItemTags.STONE_HAMMERS).addOptional(sequentia("stone_hammer")).addOptional(deorum("stone_hammer"));
-        getOrCreateTagBuilder(ModItemTags.IRON_HAMMERS).addOptional(sequentia("iron_hammer")).addOptional(deorum("iron_hammer"));
-        getOrCreateTagBuilder(ModItemTags.COPPER_HAMMERS).addOptional(sequentia("copper_hammer"));
-        getOrCreateTagBuilder(ModItemTags.GOLDEN_HAMMERS).addOptional(sequentia("golden_hammer")).addOptional(deorum("golden_hammer"));
-        getOrCreateTagBuilder(ModItemTags.DIAMOND_HAMMERS).addOptional(sequentia("diamond_hammer")).addOptional(deorum("diamond_hammer"));
-        getOrCreateTagBuilder(ModItemTags.NETHERITE_HAMMERS).addOptional(sequentia("netherite_hammer")).addOptional(deorum("netherite_hammer"));
+        getOrCreateTagBuilder(ModItemTags.WOODEN_HAMMERS).addOptional(sequentia("wooden_hammer"))
+                .addOptional(deorum("wooden_hammer"))
+                .addOptional(fabricae("wooden_hammer"));
+        getOrCreateTagBuilder(ModItemTags.STONE_HAMMERS).addOptional(sequentia("stone_hammer"))
+                .addOptional(deorum("stone_hammer"))
+                .addOptional(fabricae("stone_hammer"));
+        getOrCreateTagBuilder(ModItemTags.IRON_HAMMERS).addOptional(sequentia("iron_hammer"))
+                .addOptional(deorum("iron_hammer"))
+                .addOptional(fabricae("iron_hammer"));
+        getOrCreateTagBuilder(ModItemTags.COPPER_HAMMERS).addOptional(sequentia("copper_hammer")).addOptional(deorum("copper_hammer"));
+        getOrCreateTagBuilder(ModItemTags.GOLDEN_HAMMERS).addOptional(sequentia("golden_hammer"))
+                .addOptional(deorum("golden_hammer"))
+                .addOptional(fabricae("golden_hammer"));
+        getOrCreateTagBuilder(ModItemTags.DIAMOND_HAMMERS).addOptional(sequentia("diamond_hammer"))
+                .addOptional(deorum("diamond_hammer"))
+                .addOptional(fabricae("diamond_hammer"));
+        getOrCreateTagBuilder(ModItemTags.NETHERITE_HAMMERS).addOptional(sequentia("netherite_hammer"))
+                .addOptional(deorum("netherite_hammer"))
+                .addOptional(fabricae("netherite_hammer"));
         getOrCreateTagBuilder(ModItemTags.EXOTIC_HAMMERS).addOptional(sequentia("bamboo_hammer"))
                 .addOptional(sequentia("andesite_hammer"))
                 .addOptional(sequentia("basalt_hammer"))
@@ -114,11 +136,23 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
                 .addOptional(deorum("spruce_crucible"))
                 .addOptional(deorum("crimson_crucible"))
                 .addOptional(deorum("warped_crucible"));
+        woodenCrucibles.addOptional(fabricae("acacia_crucible"))
+                .addOptional(fabricae("birch_crucible"))
+                .addOptional(fabricae("cherry_crucible"))
+                .addOptional(fabricae("dark_oak_crucible"))
+                .addOptional(fabricae("jungle_crucible"))
+                .addOptional(fabricae("mangrove_crucible"))
+                .addOptional(fabricae("oak_crucible"))
+                .addOptional(fabricae("spruce_crucible"))
+                .addOptional(fabricae("crimson_crucible"))
+                .addOptional(fabricae("warped_crucible"))
+                .addOptional(fabricae("bamboo_crucible"));
 
-        getOrCreateTagBuilder(ModItemTags.WOODEN_CROOKS).addOptional(sequentia("wooden_crook")).addOptional(deorum("crook"));
+        getOrCreateTagBuilder(ModItemTags.WOODEN_CROOKS).addOptional(sequentia("wooden_crook"))
+                .addOptional(deorum("crook"))
+                .addOptional(fabricae("wooden_crook"));
 
-        getOrCreateTagBuilder(ModItemTags.COMPRESSED_HAMMERS)
-                .add(ModItems.compressedWoodenHammer,
+        getOrCreateTagBuilder(ModItemTags.COMPRESSED_HAMMERS).add(ModItems.compressedWoodenHammer,
                         ModItems.compressedStoneHammer,
                         ModItems.compressedIronHammer,
                         ModItems.compressedDiamondHammer,
@@ -140,12 +174,12 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
             baits.add(bait.asItem());
         }
 
-        getOrCreateTagBuilder(ModItemTags.CRUSHED_ANDESITES).addOptional(sequentia("crushed_andesite"));
-        getOrCreateTagBuilder(ModItemTags.CRUSHED_DIORITES).addOptional(sequentia("crushed_diorite"));
-        getOrCreateTagBuilder(ModItemTags.CRUSHED_GRANITES).addOptional(sequentia("crushed_granite"));
-        getOrCreateTagBuilder(ModItemTags.CRUSHED_NETHERRACKS).addOptional(sequentia("crushed_netherrack")).addOptional(deorum("crushed_netherrack"));
-        getOrCreateTagBuilder(ModItemTags.CRUSHED_END_STONES).addOptional(sequentia("crushed_end_stone")).addOptional(deorum("crushed_end_stone"));
-        getOrCreateTagBuilder(ModItemTags.DUSTS).addOptional(sequentia("dust")).addOptional(deorum("dust"));
+        getOrCreateTagBuilder(ModItemTags.CRUSHED_ANDESITES).addOptional(sequentia("crushed_andesite")).addOptional(fabricae("crushed_andesite"));
+        getOrCreateTagBuilder(ModItemTags.CRUSHED_DIORITES).addOptional(sequentia("crushed_diorite")).addOptional(fabricae("crushed_diorite"));
+        getOrCreateTagBuilder(ModItemTags.CRUSHED_GRANITES).addOptional(sequentia("crushed_granite")).addOptional(fabricae("crushed_granite"));
+        getOrCreateTagBuilder(ModItemTags.CRUSHED_NETHERRACKS).addOptional(sequentia("crushed_netherrack")).addOptional(deorum("crushed_netherrack")).addOptional(fabricae("crushed_netherrack"));
+        getOrCreateTagBuilder(ModItemTags.CRUSHED_END_STONES).addOptional(sequentia("crushed_end_stone")).addOptional(deorum("crushed_end_stone")).addOptional(fabricae("crushed_endstone"));
+        getOrCreateTagBuilder(ModItemTags.DUSTS).addOptional(sequentia("dust")).addOptional(deorum("dust")).addOptional(fabricae("dust"));
     }
 
     private static ResourceLocation sequentia(String name) {
@@ -154,5 +188,9 @@ public class ModItemTagProvider extends FabricTagProvider<Item> {
 
     private static ResourceLocation deorum(String name) {
         return new ResourceLocation(Compat.EX_DEORUM, name);
+    }
+
+    private static ResourceLocation fabricae(String name) {
+        return new ResourceLocation(Compat.FABRICAE_EX_NIHILO, name);
     }
 }
