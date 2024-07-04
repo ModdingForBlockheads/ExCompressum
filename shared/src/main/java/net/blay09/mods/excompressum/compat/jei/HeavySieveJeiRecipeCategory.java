@@ -16,8 +16,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeavySieveRecipe> {
 
     public static final ResourceLocation UID = new ResourceLocation(ExCompressum.MOD_ID, "heavy_sieve");
@@ -38,13 +36,11 @@ public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeav
         return TYPE;
     }
 
-    @Nonnull
     @Override
     public Component getTitle() {
         return Component.translatable(UID.toString());
     }
 
-    @Nonnull
     @Override
     public IDrawable getBackground() {
         return background;

@@ -15,8 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class HammerJeiRecipeCategory implements IRecipeCategory<ExpandedHammerRecipe> {
 
     private static final ResourceLocation texture = new ResourceLocation(ExCompressum.MOD_ID, "textures/gui/jei_hammer.png");
@@ -36,7 +34,6 @@ public class HammerJeiRecipeCategory implements IRecipeCategory<ExpandedHammerRe
         return TYPE;
     }
 
-    @Nonnull
     @Override
     public Component getTitle() {
         return Component.translatable(UID.toString());
