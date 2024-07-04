@@ -108,7 +108,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
     }
 
     @Override
-    public boolean isHammerable(BlockState state) {
+    public boolean isHammerable(Level level, BlockState state) {
         return RecipeUtil.getHammerRecipe(StupidUtils.getItemStackFromState(state).getItem()) != null;
     }
 
@@ -129,7 +129,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
     }
 
     @Override
-    public boolean isSiftableWithMesh(BlockState sieveState, BlockState state, @Nullable SieveMeshRegistryEntry sieveMesh) {
+    public boolean isSiftableWithMesh(Level level, BlockState sieveState, BlockState state, @Nullable SieveMeshRegistryEntry sieveMesh) {
         if (sieveMesh == null) {
             return false;
         }

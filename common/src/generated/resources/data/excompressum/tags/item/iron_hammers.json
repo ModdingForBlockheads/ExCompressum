@@ -7,6 +7,10 @@
     {
       "id": "exdeorum:iron_hammer",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:iron_hammer",
+      "required": false
     }
   ]
 }

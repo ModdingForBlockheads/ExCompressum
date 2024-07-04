@@ -7,6 +7,10 @@
     {
       "id": "exdeorum:crushed_end_stone",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crushed_endstone",
+      "required": false
     }
   ]
 }

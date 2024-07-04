@@ -48,6 +48,7 @@ repositories {
         url = 'https://jitpack.io'
         content {
             includeGroup "com.github.BlueMap-Minecraft"
+            includeGroup "com.github.mattidragon"
         }
     }
 

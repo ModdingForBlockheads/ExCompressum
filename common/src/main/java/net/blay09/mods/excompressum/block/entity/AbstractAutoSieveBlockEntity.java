@@ -313,7 +313,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     }
 
     public boolean isSiftableWithMesh(ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
-        return ExNihilo.isSiftableWithMesh(getBlockState(), itemStack, sieveMesh);
+        return ExNihilo.isSiftableWithMesh(level, getBlockState(), itemStack, sieveMesh);
     }
 
     private boolean isMesh(ItemStack itemStack) {

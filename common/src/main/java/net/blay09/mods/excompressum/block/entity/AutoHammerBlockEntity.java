@@ -449,7 +449,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         }
 
         final var recipeManager = level.getRecipeManager();
-        return ExNihilo.isHammerable(itemStack) || ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack);
+        return ExNihilo.isHammerable(level, itemStack) || ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack);
     }
 
     public Collection<ItemStack> rollHammerRewards(ItemStack itemStack, ItemStack toolItem, RandomSource rand) {

@@ -53,7 +53,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     public ExNihiloSequentiaAddon() {
         ExNihilo.setInstance(this);
 
-        SieveMeshRegistry.registerDefaults(MeshType.STRING);
+        SieveMeshRegistry.registerDefaults(MeshType.IRON);
 
         ItemStack stringMeshItem = findItem("string_mesh");
         if (!stringMeshItem.isEmpty()) {
@@ -114,7 +114,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     }
 
     @Override
-    public boolean isHammerable(BlockState state) {
+    public boolean isHammerable(Level level, BlockState state) {
         return ExNihiloRegistries.HAMMER_REGISTRY.isHammerable(state.getBlock());
     }
 
@@ -132,7 +132,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     }
 
     @Override
-    public boolean isSiftableWithMesh(BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh) {
+    public boolean isSiftableWithMesh(Level level, BlockState sieveState, BlockState state, SieveMeshRegistryEntry sieveMesh) {
         boolean waterlogged = sieveState.hasProperty(BlockStateProperties.WATERLOGGED) && sieveState.getValue(BlockStateProperties.WATERLOGGED);
         MeshType mesh = sieveMesh != null ? (MeshType) sieveMesh.getBackingMesh() : MeshType.NONE;
         return ExNihiloRegistries.SIEVE_REGISTRY.isBlockSiftable(state.getBlock(), mesh, waterlogged);

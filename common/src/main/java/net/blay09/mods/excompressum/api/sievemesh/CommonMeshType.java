@@ -15,6 +15,7 @@ import java.util.function.IntFunction;
 public enum CommonMeshType implements StringRepresentable {
     STRING,
     FLINT,
+    COPPER,
     IRON,
     GOLD,
     DIAMOND,

@@ -30,14 +30,14 @@ public abstract class ExNihilo {
         return instance;
     }
 
-    public static boolean isHammerable(ItemStack itemStack) {
+    public static boolean isHammerable(Level level, ItemStack itemStack) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
-        return state != null && instance.isHammerable(state);
+        return state != null && instance.isHammerable(level, state);
     }
 
-    public static boolean isSiftableWithMesh(BlockState sieveState, ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
+    public static boolean isSiftableWithMesh(Level level, BlockState sieveState, ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
-        return state != null && instance.isSiftableWithMesh(sieveState, state, sieveMesh);
+        return state != null && instance.isSiftableWithMesh(level, sieveState, state, sieveMesh);
     }
 
     public static Collection<ItemStack> rollSieveRewards(Level level, BlockState sieveState, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {

@@ -3,6 +3,10 @@
     {
       "id": "exnihilosequentia:crushed_granite",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crushed_granite",
+      "required": false
     }
   ]
 }

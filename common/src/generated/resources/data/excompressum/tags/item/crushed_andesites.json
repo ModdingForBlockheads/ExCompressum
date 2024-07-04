@@ -3,6 +3,10 @@
     {
       "id": "exnihilosequentia:crushed_andesite",
       "required": false
+    },
+    {
+      "id": "fabricaeexnihilo:crushed_andesite",
+      "required": false
     }
   ]
 }

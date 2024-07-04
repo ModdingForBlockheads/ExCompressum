@@ -3,6 +3,10 @@
     {
       "id": "exnihilosequentia:copper_hammer",
       "required": false
+    },
+    {
+      "id": "exdeorum:copper_hammer",
+      "required": false
     }
   ]
 }

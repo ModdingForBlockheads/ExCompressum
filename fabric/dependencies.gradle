@@ -8,4 +8,6 @@ dependencies {
     }
     modCompileOnly "com.terraformersmc:modmenu:$modmenu_version"
     modCompileOnly "curse.maven:jade-324717:$jade_fabric_version"
+    modCompileOnly "curse.maven:fabricae-ex-nihilo-596911:5298550"
+    // modRuntimeOnly("com.github.mattidragon:configtoolkit:1.0.0")
 }
