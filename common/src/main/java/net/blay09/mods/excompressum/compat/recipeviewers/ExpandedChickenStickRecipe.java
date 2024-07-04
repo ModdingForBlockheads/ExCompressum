@@ -4,6 +4,7 @@ import net.blay09.mods.excompressum.loot.LootTableEntry;
 import net.blay09.mods.excompressum.loot.LootTableUtils;
 import net.blay09.mods.excompressum.loot.MergedLootTableEntry;
 import net.blay09.mods.excompressum.registry.chickenstick.ChickenStickRecipe;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -12,11 +13,13 @@ import java.util.stream.Collectors;
 
 public class ExpandedChickenStickRecipe {
 
+    private final ResourceLocation id;
     private final Ingredient ingredient;
     private final List<MergedLootTableEntry> outputs;
     private final List<ItemStack> outputItems;
 
-    public ExpandedChickenStickRecipe(ChickenStickRecipe recipe) {
+    public ExpandedChickenStickRecipe(ResourceLocation id, ChickenStickRecipe recipe) {
+        this.id = id;
         ingredient = recipe.getIngredient();
         List<LootTableEntry> entries = LootTableUtils.getLootTableEntries(recipe.getLootTable());
         outputs = LootTableUtils.mergeLootTableEntries(entries);
@@ -33,5 +36,9 @@ public class ExpandedChickenStickRecipe {
 
     public List<ItemStack> getOutputItems() {
         return outputItems;
+    }
+
+    public ResourceLocation getId() {
+        return id;
     }
 }

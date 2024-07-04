@@ -15,6 +15,7 @@ import net.blay09.mods.excompressum.compat.recipeviewers.ExpandedHeavySieveRecip
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 
 public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeavySieveRecipe> {
@@ -62,6 +63,11 @@ public class HeavySieveJeiRecipeCategory implements IRecipeCategory<ExpandedHeav
             final int slotY = 37 + (i / 9 * 18);
             recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addItemStack(outputItems.get(i));
         }
+    }
+
+    @Override
+    public @Nullable ResourceLocation getRegistryName(ExpandedHeavySieveRecipe recipe) {
+        return recipe.getId();
     }
 
 }

@@ -14,6 +14,7 @@ import net.blay09.mods.excompressum.compat.recipeviewers.ExpandedWoodenCrucibleR
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<ExpandedWoodenCrucibleRecipe> {
 
@@ -60,6 +61,11 @@ public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<Expanded
             final int slotY = 37 + (i / 9 * 18);
             recipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addItemStack(inputs.get(i));
         }
+    }
+
+    @Override
+    public @Nullable ResourceLocation getRegistryName(ExpandedWoodenCrucibleRecipe recipe) {
+        return recipe.getId();
     }
 
 }

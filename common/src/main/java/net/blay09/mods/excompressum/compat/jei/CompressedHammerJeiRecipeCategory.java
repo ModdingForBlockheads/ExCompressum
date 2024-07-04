@@ -14,6 +14,7 @@ import net.blay09.mods.excompressum.compat.recipeviewers.ExpandedCompressedHamme
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class CompressedHammerJeiRecipeCategory implements IRecipeCategory<ExpandedCompressedHammerRecipe> {
 
@@ -60,4 +61,8 @@ public class CompressedHammerJeiRecipeCategory implements IRecipeCategory<Expand
         }
     }
 
+    @Override
+    public @Nullable ResourceLocation getRegistryName(ExpandedCompressedHammerRecipe recipe) {
+        return recipe.getId();
+    }
 }

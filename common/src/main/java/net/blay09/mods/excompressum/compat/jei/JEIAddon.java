@@ -45,10 +45,10 @@ public class JEIAddon implements IModPlugin {
 
         final var heavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         for (final var recipe : heavySieveRecipes) {
-            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe.value()));
+            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe.id(), recipe.value()));
         }
         for (final var recipe : ExNihilo.getInstance().getHeavySieveRecipes()) {
-            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe));
+            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(null, recipe));
         }
 
         final var generatedHeavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
@@ -61,34 +61,34 @@ public class JEIAddon implements IModPlugin {
 
         final var expandedSieveRecipes = new ArrayList<ExpandedSieveRecipe>();
         for (final var recipe : ExNihilo.getInstance().getSieveRecipes()) {
-            expandedSieveRecipes.add(new ExpandedSieveRecipe(recipe));
+            expandedSieveRecipes.add(new ExpandedSieveRecipe(null, recipe));
         }
         registry.addRecipes(SieveJeiRecipeCategory.TYPE, expandedSieveRecipes);
 
         List<ExpandedCompressedHammerRecipe> expandedCompressedHammerRecipes = new ArrayList<>();
         final var compressedHammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         for (final var recipe : compressedHammerRecipes) {
-            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe.value()));
+            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe.id(), recipe.value()));
         }
         for (final var recipe : ExNihilo.getInstance().getCompressedHammerRecipes()) {
-            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe));
+            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(null, recipe));
         }
         registry.addRecipes(CompressedHammerJeiRecipeCategory.TYPE, expandedCompressedHammerRecipes);
 
         List<ExpandedHammerRecipe> expandedHammerRecipes = new ArrayList<>();
         final var hammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         for (final var recipe : hammerRecipes) {
-            expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe.value()));
+            expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe.id(), recipe.value()));
         }
         for (final var recipe : ExNihilo.getInstance().getHammerRecipes()) {
-            expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe));
+            expandedHammerRecipes.add(new ExpandedHammerRecipe(null, recipe));
         }
         registry.addRecipes(HammerJeiRecipeCategory.TYPE, expandedHammerRecipes);
 
         List<ExpandedChickenStickRecipe> expandedChickenStickRecipes = new ArrayList<>();
         final var chickenStickRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
         for (final var recipe : chickenStickRecipes) {
-            expandedChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe.value()));
+            expandedChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe.id(), recipe.value()));
         }
         registry.addRecipes(ChickenStickJeiRecipeCategory.TYPE, expandedChickenStickRecipes);
 
@@ -118,7 +118,7 @@ public class JEIAddon implements IModPlugin {
             final int pageSize = 45;
             final var pages = Lists.partition(inputs, pageSize);
             for (final var page : pages) {
-                expandedWoodenCrucibleRecipes.add(new ExpandedWoodenCrucibleRecipe(fluid, page));
+                expandedWoodenCrucibleRecipes.add(new ExpandedWoodenCrucibleRecipe(null, fluid, page));
             }
         }
 
@@ -138,7 +138,7 @@ public class JEIAddon implements IModPlugin {
                         lootTable,
                         waterlogged,
                         List.of(mesh.getMeshType()));
-                outRecipes.add(new ExpandedHeavySieveRecipe(recipe));
+                outRecipes.add(new ExpandedHeavySieveRecipe(null, recipe));
             }
         }
     }

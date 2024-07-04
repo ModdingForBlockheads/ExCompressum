@@ -13,6 +13,7 @@ import net.blay09.mods.excompressum.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class CraftChickenStickJeiRecipeCategory implements IRecipeCategory<CraftChickenStickRecipe> {
 
@@ -54,4 +55,8 @@ public class CraftChickenStickJeiRecipeCategory implements IRecipeCategory<Craft
         recipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 131, 21).addItemStack(recipe.getOutput());
     }
 
+    @Override
+    public @Nullable ResourceLocation getRegistryName(CraftChickenStickRecipe recipe) {
+        return UID;
+    }
 }

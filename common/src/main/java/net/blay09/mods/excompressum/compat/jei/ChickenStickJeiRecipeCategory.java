@@ -14,6 +14,7 @@ import net.blay09.mods.excompressum.item.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class ChickenStickJeiRecipeCategory implements IRecipeCategory<ExpandedChickenStickRecipe> {
 
@@ -61,4 +62,8 @@ public class ChickenStickJeiRecipeCategory implements IRecipeCategory<ExpandedCh
         }
     }
 
+    @Override
+    public @Nullable ResourceLocation getRegistryName(ExpandedChickenStickRecipe recipe) {
+        return recipe.getId();
+    }
 }
