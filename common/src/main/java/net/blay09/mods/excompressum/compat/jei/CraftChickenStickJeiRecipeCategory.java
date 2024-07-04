@@ -14,8 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class CraftChickenStickJeiRecipeCategory implements IRecipeCategory<CraftChickenStickRecipe> {
 
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "craft_chicken_stick");
@@ -35,13 +33,11 @@ public class CraftChickenStickJeiRecipeCategory implements IRecipeCategory<Craft
         return TYPE;
     }
 
-    @Nonnull
     @Override
     public Component getTitle() {
         return Component.translatable("item.excompressum.chicken_stick");
     }
 
-    @Nonnull
     @Override
     public IDrawable getBackground() {
         return background;

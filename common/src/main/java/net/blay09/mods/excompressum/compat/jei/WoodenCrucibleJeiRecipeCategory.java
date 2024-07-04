@@ -15,8 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<ExpandedWoodenCrucibleRecipe> {
 
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "wooden_crucible");
@@ -37,13 +35,11 @@ public class WoodenCrucibleJeiRecipeCategory implements IRecipeCategory<Expanded
         return TYPE;
     }
 
-    @Nonnull
     @Override
     public Component getTitle() {
         return Component.translatable(UID.toString());
     }
 
-    @Nonnull
     @Override
     public IDrawable getBackground() {
         return background;
