@@ -52,9 +52,6 @@ subprojects {
 
         // For JEI
         maven { url "https://maven.blamejared.com/" }
-
-        // For WTHIT
-        maven { url "https://maven.bai.lol" }
     }
 
     tasks.withType(JavaCompile).configureEach {
