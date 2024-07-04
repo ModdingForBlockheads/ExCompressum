@@ -31,6 +31,9 @@
     "modmenu": [
       "net.blay09.mods.excompressum.fabric.compat.ModMenuIntegration"
     ],
+    "jade": [
+      "net.blay09.mods.excompressum.fabric.compat.jade.FabricJadeExCompressumPlugin"
+    ],
     "jei_mod_plugin": [
       "net.blay09.mods.excompressum.compat.jei.JEIAddon"
     ]
