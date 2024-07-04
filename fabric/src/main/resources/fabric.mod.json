@@ -53,10 +53,6 @@
       "links": {
         "modmenu.discord": "https://discord.gg/VAfZ2Nau6j"
       }
-    },
-    "waila:plugins": {
-      "id": "excompressum:wthit",
-      "initializer": "net.blay09.mods.excompressum.compat.WTHITIntegration"
     }
   }
 }

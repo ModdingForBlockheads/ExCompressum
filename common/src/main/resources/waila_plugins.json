@@ -1,7 +1,0 @@
-{
-  "waystones:plugin": {
-    "initializer": "net.blay09.mods.excompressum.compat.WTHITIntegration",
-    "side": "*",
-    "required": []
-  }
-}

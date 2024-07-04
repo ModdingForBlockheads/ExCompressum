@@ -3,7 +3,6 @@ dependencies {
         changing = balm_version.contains("SNAPSHOT")
     }
     compileOnly("mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version")
-    compileOnly("mcp.mobius.waila:wthit-api:forge-$wthit_version")
     compileOnly("curse.maven:the-one-probe-245211:$theoneprobe_version")
 
     compileOnly("novamachina.novacore:novacore:1.20.1-1.0.0-build.3")
