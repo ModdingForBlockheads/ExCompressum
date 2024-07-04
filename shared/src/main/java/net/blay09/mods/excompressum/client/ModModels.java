@@ -20,6 +20,7 @@ public class ModModels {
 
         meshes.put("string", models.loadModel(location("block/string_mesh")));
         meshes.put("flint", models.loadModel(location("block/flint_mesh")));
+        meshes.put("copper", models.loadModel(location("block/copper_mesh")));
         meshes.put("iron", models.loadModel(location("block/iron_mesh")));
         meshes.put("gold", models.loadModel(location("block/gold_mesh")));
         meshes.put("diamond", models.loadModel(location("block/diamond_mesh")));
