@@ -9,9 +9,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 @Mod(value = ExCompressum.MOD_ID, dist = Dist.CLIENT)
-public class NeoForgeExCompresssumClient {
+public class NeoForgeExCompressumClient {
 
-    public NeoForgeExCompresssumClient(IEventBus modEventBus) {
+    public NeoForgeExCompressumClient(IEventBus modEventBus) {
         final var context = new NeoForgeLoadContext(modEventBus);
         BalmClient.initialize(ExCompressum.MOD_ID, context, ExCompressumClient::initialize);
     }
