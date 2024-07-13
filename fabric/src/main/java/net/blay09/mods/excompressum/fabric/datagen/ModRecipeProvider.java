@@ -357,7 +357,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
                 .save(exporter);
 
-        shapeless(RecipeCategory.MISC, ModItems.uncompressedCoal)
+        shapeless(RecipeCategory.MISC, ModItems.uncompressedCoal, 9)
                 .requires(Items.COAL)
                 .unlockedBy("has_coal", has(Items.COAL))
                 .save(exporter);
