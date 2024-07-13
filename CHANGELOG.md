@@ -1,3 +1,1 @@
-- Added Fabricae Ex Nihilo support
-- Fixed Jade integration
-- Added JEI support on Fabric too
+- Fixed uncompressed coal recipe only resulting in one uncompressed coal
