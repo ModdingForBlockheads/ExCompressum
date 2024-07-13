@@ -1,1 +1,1 @@
-- Updated to Minecraft 1.21
+- Fixed uncompressed coal recipe only resulting in one uncompressed coal
