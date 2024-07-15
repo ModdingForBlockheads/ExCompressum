@@ -1,1 +1,1 @@
-- Fixed uncompressed coal recipe only resulting in one uncompressed coal
+- Fixed breaking compressed sand (and some others) only resulting in one item instead of 9
