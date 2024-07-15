@@ -12,13 +12,13 @@
           {
             "type": "minecraft:tag",
             "name": "excompressum:crushed_netherracks",
-            "expand": true,
-            "functions": [
-              {
-                "function": "minecraft:set_count",
-                "count": 9
-              }
-            ]
+            "expand": true
+          }
+        ],
+        "functions": [
+          {
+            "function": "minecraft:set_count",
+            "count": 9
           }
         ],
         "conditions": []
