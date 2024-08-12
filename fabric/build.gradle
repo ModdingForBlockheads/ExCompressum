@@ -7,7 +7,10 @@ plugins {
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.officialMojangMappings()
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+    }
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 }
@@ -69,7 +72,7 @@ task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
 modrinth {
     token = project.findProperty("modrinth.token") ?: System.getenv("MODRINTH_TOKEN") ?: "none"
     projectId = project.modrinth_project_id
-    versionType = "release"
+    versionType = project.modrinth_release_type
     versionNumber = project.version + "+fabric-" + project.minecraft_version
     uploadFile = remapJar
     changelog = rootProject.file("CHANGELOG.md").text
