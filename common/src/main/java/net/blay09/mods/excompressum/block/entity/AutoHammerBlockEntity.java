@@ -374,14 +374,14 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         tag.put("EnergyStorage", energyStorage.serialize());
 
-        tag.put("CurrentStack", currentStack.save(provider));
+        tag.put("CurrentStack", currentStack.saveOptional(provider));
         tag.putFloat("Progress", progress);
         tag.put("ItemHandler", backingContainer.serialize(provider));
 
         tag.putBoolean("IsDisabledByRedstone", isDisabledByRedstone);
 
         if (!finishedStack.isEmpty()) {
-            tag.put("FinishedStack", finishedStack.save(provider));
+            tag.put("FinishedStack", finishedStack.saveOptional(provider));
         }
 
         final var overflowList = new ListTag();
@@ -396,9 +396,9 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         final var provider = level.registryAccess();
         saveAdditional(tag, provider);
         ItemStack firstHammer = hammerSlots.getItem(0);
-        tag.put("FirstHammer", firstHammer.save(provider));
+        tag.put("FirstHammer", firstHammer.saveOptional(provider));
         ItemStack secondHammer = hammerSlots.getItem(1);
-        tag.put("SecondHammer", secondHammer.save(provider));
+        tag.put("SecondHammer", secondHammer.saveOptional(provider));
     }
 
     public boolean isProcessing() {

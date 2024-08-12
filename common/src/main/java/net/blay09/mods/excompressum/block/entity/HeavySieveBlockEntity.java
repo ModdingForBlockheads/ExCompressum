@@ -169,8 +169,8 @@ public class HeavySieveBlockEntity extends BalmBlockEntity {
 
     @Override
     public void saveAdditional(CompoundTag tagCompound, HolderLookup.Provider provider) {
-        tagCompound.put("Content", currentStack.save(provider));
-        tagCompound.put("Mesh", meshStack.save(provider));
+        tagCompound.put("Content", currentStack.saveOptional(provider));
+        tagCompound.put("Mesh", meshStack.saveOptional(provider));
         tagCompound.putFloat("Progress", progress);
         tagCompound.putInt("ParticleTicks", particleTicks);
         tagCompound.putInt("ParticleCount", particleCount);

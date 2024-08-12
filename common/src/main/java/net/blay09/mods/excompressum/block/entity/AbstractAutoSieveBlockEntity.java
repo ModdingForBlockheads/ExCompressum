@@ -351,7 +351,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        tag.put("CurrentStack", currentStack.save(provider));
+        tag.put("CurrentStack", currentStack.saveOptional(provider));
         tag.putFloat("Progress", progress);
         if (skinProfile != null) {
             final var customSkinTag = ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, this.skinProfile).getOrThrow();
@@ -375,7 +375,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         final var provider = level.registryAccess();
         saveAdditional(tag, provider);
         ItemStack meshStack = meshSlots.getItem(0);
-        tag.put("MeshStack", meshStack.save(provider));
+        tag.put("MeshStack", meshStack.saveOptional(provider));
     }
 
     public float getEnergyPercentage() {
