@@ -1,9 +1,9 @@
 package net.blay09.mods.excompressum.menu;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +15,7 @@ public class AutoHammerUpgradeSlot extends Slot {
     public AutoHammerUpgradeSlot(Container container, int index, int xPosition, int yPosition, boolean isCompressed) {
         super(container, index, xPosition, yPosition);
         noItemIconSprite = ResourceLocation.withDefaultNamespace(isCompressed ? "excompressum_icons/empty_compressed_hammer_slot" : "excompressum_icons/empty_hammer_slot");
-        noItemIcon = Pair.of(TextureAtlas.LOCATION_BLOCKS, noItemIconSprite);
+        noItemIcon = Pair.of(InventoryMenu.BLOCK_ATLAS, noItemIconSprite);
     }
 
     @Nullable
