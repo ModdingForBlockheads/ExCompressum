@@ -32,24 +32,24 @@ public abstract class ExNihilo {
 
     public static boolean isHammerable(Level level, ItemStack itemStack) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
-        return state != null && instance.isHammerable(level, state);
+        return state != null && getInstance().isHammerable(level, state);
     }
 
     public static boolean isSiftableWithMesh(Level level, BlockState sieveState, ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
-        return state != null && instance.isSiftableWithMesh(level, sieveState, state, sieveMesh);
+        return state != null && getInstance().isSiftableWithMesh(level, sieveState, state, sieveMesh);
     }
 
     public static Collection<ItemStack> rollSieveRewards(Level level, BlockState sieveState, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
         BlockState state = StupidUtils.getStateFromItemStack(itemStack);
         if (state != null) {
-            return instance.rollSieveRewards(level, sieveState, state, sieveMesh, luck, rand);
+            return getInstance().rollSieveRewards(level, sieveState, state, sieveMesh, luck, rand);
         }
         return Collections.emptyList();
     }
 
     public static boolean hasNihiloMod() {
-        return !(instance instanceof NihilisticNihiloProvider);
+        return !(getInstance() instanceof NihilisticNihiloProvider);
     }
 
 }
