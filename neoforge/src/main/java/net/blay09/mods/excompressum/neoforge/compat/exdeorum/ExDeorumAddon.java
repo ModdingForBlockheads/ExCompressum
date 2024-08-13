@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.exdeorum;
+package net.blay09.mods.excompressum.neoforge.compat.exdeorum;
 
 import com.google.common.collect.ArrayListMultimap;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -246,20 +246,20 @@ public class ExDeorumAddon implements ExNihiloProvider {
 
         ArrayListMultimap<IntList, thedarkcolour.exdeorum.recipe.hammer.HammerRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : RecipeUtil.getCachedHammerRecipes()) {
-            groupedRecipes.put(hammerRecipe.getIngredient().getStackingIds(), hammerRecipe);
+            groupedRecipes.put(hammerRecipe.value().ingredient().getStackingIds(), hammerRecipe.value());
         }
 
         for (final var packedStacks : groupedRecipes.keySet()) {
             final var tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
                 final var poolBuilder = LootPool.lootPool();
-                final var entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
+                final var entryBuilder = buildLootEntry(hammerRecipe.result(), hammerRecipe.resultAmount);
                 poolBuilder.add(entryBuilder);
                 tableBuilder.withPool(poolBuilder);
             }
 
-            final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
-            final var input = firstRecipe.getIngredient();
+            final var firstRecipe = groupedRecipes.get(packedStacks).getFirst();
+            final var input = firstRecipe.ingredient();
             final var lootTableProvider = tableBuilder.build();
             result.add(new HammerRecipeImpl(input, lootTableProvider));
         }
@@ -267,8 +267,8 @@ public class ExDeorumAddon implements ExNihiloProvider {
         return result;
     }
 
-    private LootPoolSingletonContainer.Builder<?> buildLootEntry(Item item, NumberProvider amount) {
-        return LootTableUtils.buildLootEntry(new ItemStack(item), amount);
+    private LootPoolSingletonContainer.Builder<?> buildLootEntry(ItemStack itemStack, NumberProvider amount) {
+        return LootTableUtils.buildLootEntry(itemStack, amount);
     }
 
     @Override
@@ -277,20 +277,20 @@ public class ExDeorumAddon implements ExNihiloProvider {
 
         ArrayListMultimap<IntList, thedarkcolour.exdeorum.recipe.hammer.CompressedHammerRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : RecipeUtil.getCachedCompressedHammerRecipes()) {
-            groupedRecipes.put(hammerRecipe.getIngredient().getStackingIds(), hammerRecipe);
+            groupedRecipes.put(hammerRecipe.value().ingredient().getStackingIds(), hammerRecipe.value());
         }
 
         for (final var packedStacks : groupedRecipes.keySet()) {
             final var tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
                 final var poolBuilder = LootPool.lootPool();
-                final var entryBuilder = buildLootEntry(hammerRecipe.result, hammerRecipe.resultAmount);
+                final var entryBuilder = buildLootEntry(hammerRecipe.result(), hammerRecipe.resultAmount);
                 poolBuilder.add(entryBuilder);
                 tableBuilder.withPool(poolBuilder);
             }
 
-            final var firstRecipe = groupedRecipes.get(packedStacks).get(0);
-            final var input = firstRecipe.getIngredient();
+            final var firstRecipe = groupedRecipes.get(packedStacks).getFirst();
+            final var input = firstRecipe.ingredient();
             final var lootTableProvider = tableBuilder.build();
             result.add(new CompressedHammerRecipeImpl(input, lootTableProvider));
         }

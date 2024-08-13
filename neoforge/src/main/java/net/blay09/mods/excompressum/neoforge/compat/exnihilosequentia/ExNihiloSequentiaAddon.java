@@ -1,4 +1,4 @@
-package net.blay09.mods.excompressum.forge.compat.exnihilosequentia;
+package net.blay09.mods.excompressum.neoforge.compat.exnihilosequentia;
 
 import com.google.common.collect.ArrayListMultimap;
 import it.unimi.dsi.fastutil.ints.IntList;
