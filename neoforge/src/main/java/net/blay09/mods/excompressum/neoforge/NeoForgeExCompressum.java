@@ -3,6 +3,7 @@ package net.blay09.mods.excompressum.neoforge;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.neoforge.NeoForgeBalm;
 import net.blay09.mods.balm.neoforge.NeoForgeLoadContext;
+import net.blay09.mods.balm.neoforge.container.BalmInvWrapper;
 import net.blay09.mods.balm.neoforge.energy.NeoForgeEnergyStorage;
 import net.blay09.mods.balm.neoforge.fluid.NeoForgeFluidTank;
 import net.blay09.mods.excompressum.ExCompressum;
@@ -37,6 +38,25 @@ public class NeoForgeExCompressum {
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.autoHammer.get(),
+                (blockEntity, context) -> new BalmInvWrapper(blockEntity.getContainer(context)));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.autoCompressedHammer.get(),
+                (blockEntity, context) -> new BalmInvWrapper(blockEntity.getContainer(context)));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.autoSieve.get(),
+                (blockEntity, context) -> new BalmInvWrapper(blockEntity.getContainer(context)));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.autoHeavySieve.get(),
+                (blockEntity, context) -> new BalmInvWrapper(blockEntity.getContainer(context)));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.autoCompressor.get(),
+                (blockEntity, context) -> new BalmInvWrapper(blockEntity.getContainer(context)));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.rationingAutoCompressor.get(),
+                (blockEntity, context) -> new BalmInvWrapper(blockEntity.getContainer(context)));
+
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK,
                 ModBlockEntities.woodenCrucible.get(),
                 (blockEntity, context) -> new NeoForgeFluidTank(blockEntity.getFluidTank()));
