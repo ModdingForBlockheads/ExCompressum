@@ -1,1 +1,1 @@
-- Fix machines not being registered as item handlers on NeoForge
+- Updated to Minecraft 1.21.3
