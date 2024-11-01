@@ -3,6 +3,7 @@ package net.blay09.mods.excompressum.registry.heavysieve;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.sun.jna.platform.win32.WinBase;
 import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
@@ -11,11 +12,8 @@ import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.*;
 
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.List;
@@ -36,13 +34,23 @@ public class HeavySieveRecipeImpl extends ExCompressumRecipe<RecipeInput> implem
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<HeavySieveRecipeImpl> getSerializer() {
         return ModRecipeTypes.heavySieveRecipeSerializer;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<HeavySieveRecipeImpl> getType() {
         return ModRecipeTypes.heavySieveRecipeType;
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredient);
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipeTypes.heavySieveRecipeBookCategory;
     }
 
     @Override

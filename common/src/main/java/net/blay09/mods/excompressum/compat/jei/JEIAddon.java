@@ -41,21 +41,19 @@ public class JEIAddon implements IModPlugin {
         List<ExpandedHeavySieveRecipe> expandedHeavySieveRecipes = new ArrayList<>();
 
         final var level = Minecraft.getInstance().level;
-        final var recipeManager = level.getRecipeManager();
-
-        final var heavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
-        for (final var recipe : heavySieveRecipes) {
-            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe.id(), recipe.value()));
-        }
-        for (final var recipe : ExNihilo.getInstance().getHeavySieveRecipes()) {
-            expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(null, recipe));
-        }
-
-        final var generatedHeavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
-        for (final var recipe : generatedHeavySieveRecipes) {
-            loadGeneratedHeavySieveRecipe(level, false, recipe.value(), expandedHeavySieveRecipes);
-            loadGeneratedHeavySieveRecipe(level, true, recipe.value(), expandedHeavySieveRecipes);
-        }
+        // final var recipeManager = level.getRecipeManager();
+        // final var heavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
+        // for (final var recipe : heavySieveRecipes) {
+        //     expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(recipe.id(), recipe.value()));
+        // }
+        // for (final var recipe : ExNihilo.getInstance().getHeavySieveRecipes()) {
+        //     expandedHeavySieveRecipes.add(new ExpandedHeavySieveRecipe(null, recipe));
+        // }
+        // final var generatedHeavySieveRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
+        // for (final var recipe : generatedHeavySieveRecipes) {
+        //     loadGeneratedHeavySieveRecipe(level, false, recipe.value(), expandedHeavySieveRecipes);
+        //     loadGeneratedHeavySieveRecipe(level, true, recipe.value(), expandedHeavySieveRecipes);
+        // }
 
         registry.addRecipes(HeavySieveJeiRecipeCategory.TYPE, expandedHeavySieveRecipes);
 
@@ -66,37 +64,37 @@ public class JEIAddon implements IModPlugin {
         registry.addRecipes(SieveJeiRecipeCategory.TYPE, expandedSieveRecipes);
 
         List<ExpandedCompressedHammerRecipe> expandedCompressedHammerRecipes = new ArrayList<>();
-        final var compressedHammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
-        for (final var recipe : compressedHammerRecipes) {
-            expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe.id(), recipe.value()));
-        }
+        // final var compressedHammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
+        // for (final var recipe : compressedHammerRecipes) {
+        //     expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(recipe.id(), recipe.value()));
+        // }
         for (final var recipe : ExNihilo.getInstance().getCompressedHammerRecipes()) {
             expandedCompressedHammerRecipes.add(new ExpandedCompressedHammerRecipe(null, recipe));
         }
         registry.addRecipes(CompressedHammerJeiRecipeCategory.TYPE, expandedCompressedHammerRecipes);
 
         List<ExpandedHammerRecipe> expandedHammerRecipes = new ArrayList<>();
-        final var hammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
-        for (final var recipe : hammerRecipes) {
-            expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe.id(), recipe.value()));
-        }
+        // final var hammerRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
+        // for (final var recipe : hammerRecipes) {
+        //     expandedHammerRecipes.add(new ExpandedHammerRecipe(recipe.id(), recipe.value()));
+        // }
         for (final var recipe : ExNihilo.getInstance().getHammerRecipes()) {
             expandedHammerRecipes.add(new ExpandedHammerRecipe(null, recipe));
         }
         registry.addRecipes(HammerJeiRecipeCategory.TYPE, expandedHammerRecipes);
 
         List<ExpandedChickenStickRecipe> expandedChickenStickRecipes = new ArrayList<>();
-        final var chickenStickRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
-        for (final var recipe : chickenStickRecipes) {
-            expandedChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe.id(), recipe.value()));
-        }
+        // final var chickenStickRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
+        // for (final var recipe : chickenStickRecipes) {
+        //     expandedChickenStickRecipes.add(new ExpandedChickenStickRecipe(recipe.id(), recipe.value()));
+        // }
         registry.addRecipes(ChickenStickJeiRecipeCategory.TYPE, expandedChickenStickRecipes);
 
         ArrayListMultimap<ResourceLocation, WoodenCrucibleRecipe> fluidOutputMap = ArrayListMultimap.create();
-        final var woodenCrucibleRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
-        for (final var recipe : woodenCrucibleRecipes) {
-            fluidOutputMap.put(recipe.value().getFluidId(), recipe.value());
-        }
+        // final var woodenCrucibleRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
+        // for (final var recipe : woodenCrucibleRecipes) {
+        //     fluidOutputMap.put(recipe.value().getFluidId(), recipe.value());
+        // }
 
         List<ExpandedWoodenCrucibleRecipe> expandedWoodenCrucibleRecipes = new ArrayList<>();
         for (final var fluidName : fluidOutputMap.keySet()) {
@@ -108,9 +106,9 @@ public class JEIAddon implements IModPlugin {
             final var recipes = fluidOutputMap.get(fluidName);
             List<Pair<WoodenCrucibleRecipe, ItemStack>> inputs = new ArrayList<>();
             for (final var meltable : recipes) {
-                for (final var matchingStack : meltable.getIngredient().getItems()) {
-                    inputs.add(Pair.of(meltable, matchingStack));
-                }
+                // for (final var matchingStack : meltable.getIngredient().items()) {
+                //     inputs.add(Pair.of(meltable, matchingStack));
+                // }
             }
 
             inputs.sort(Comparator.comparingInt((Pair<WoodenCrucibleRecipe, ItemStack> pair) -> pair.getFirst().getAmount()).reversed());

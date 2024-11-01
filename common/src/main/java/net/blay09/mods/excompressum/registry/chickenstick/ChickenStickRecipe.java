@@ -8,10 +8,7 @@ import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRecipeImpl;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 public class ChickenStickRecipe extends ExCompressumRecipe<RecipeInput> {
@@ -25,13 +22,23 @@ public class ChickenStickRecipe extends ExCompressumRecipe<RecipeInput> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<ChickenStickRecipe> getSerializer() {
         return ModRecipeTypes.chickenStickRecipeSerializer;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<ChickenStickRecipe> getType() {
         return ModRecipeTypes.chickenStickRecipeType;
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredient);
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipeTypes.chickenStickRecipeBookCategory;
     }
 
     public Ingredient getIngredient() {

@@ -19,12 +19,12 @@ public class StupidUtils {
      * Removed from Vanilla's EnchantmentHelper for some stupid reason.
      */
     public static boolean hasSilkTouchModifier(LivingEntity entity) {
-        final var silkTouch = entity.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH);
+        final var silkTouch = entity.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH);
         return EnchantmentHelper.getEnchantmentLevel(silkTouch, entity) > 0;
     }
 
     public static boolean hasSilkTouchModifier(Level level, ItemStack itemStack) {
-        final var silkTouch = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH);
+        final var silkTouch = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH);
         return EnchantmentHelper.getItemEnchantmentLevel(silkTouch, itemStack) > 0;
     }
 

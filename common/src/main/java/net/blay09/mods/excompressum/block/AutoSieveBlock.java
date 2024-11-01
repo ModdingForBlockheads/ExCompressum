@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import org.jetbrains.annotations.Nullable;
 
 public class AutoSieveBlock extends AutoSieveBaseBlock {
@@ -50,12 +51,12 @@ public class AutoSieveBlock extends AutoSieveBaseBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean isMoving) {
         updateRedstoneState(level, pos);
     }
 
     private void updateRedstoneState(Level level, BlockPos pos) {
-        if(level.getBlockEntity(pos) instanceof AbstractAutoSieveBlockEntity autoSieve) {
+        if (level.getBlockEntity(pos) instanceof AbstractAutoSieveBlockEntity autoSieve) {
             autoSieve.setDisabledByRedstone(level.hasNeighborSignal(pos));
         }
     }

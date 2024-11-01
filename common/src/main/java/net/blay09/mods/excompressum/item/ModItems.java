@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 
 public class ModItems {
     public static DeferredObject<CreativeModeTab> creativeModeTab;
@@ -30,12 +30,12 @@ public class ModItems {
 
     public static void initialize(BalmItems items) {
         items.registerItem(() -> chickenStick = new ChickenStickItem(items.itemProperties()), id("chicken_stick"));
-        items.registerItem(() -> compressedWoodenHammer = new CompressedHammerItem(Tiers.WOOD, items.itemProperties()), id("compressed_wooden_hammer"));
-        items.registerItem(() -> compressedStoneHammer = new CompressedHammerItem(Tiers.STONE, items.itemProperties()), id("compressed_stone_hammer"));
-        items.registerItem(() -> compressedIronHammer = new CompressedHammerItem(Tiers.IRON, items.itemProperties()), id("compressed_iron_hammer"));
-        items.registerItem(() -> compressedGoldenHammer = new CompressedHammerItem(Tiers.GOLD, items.itemProperties()), id("compressed_golden_hammer"));
-        items.registerItem(() -> compressedDiamondHammer = new CompressedHammerItem(Tiers.DIAMOND, items.itemProperties()), id("compressed_diamond_hammer"));
-        items.registerItem(() -> compressedNetheriteHammer = new CompressedHammerItem(Tiers.NETHERITE, items.itemProperties()),
+        items.registerItem(() -> compressedWoodenHammer = new CompressedHammerItem(ToolMaterial.WOOD, 6f, -3.2f, items.itemProperties()), id("compressed_wooden_hammer"));
+        items.registerItem(() -> compressedStoneHammer = new CompressedHammerItem(ToolMaterial.STONE, 7f, -3.2f, items.itemProperties()), id("compressed_stone_hammer"));
+        items.registerItem(() -> compressedIronHammer = new CompressedHammerItem(ToolMaterial.IRON, 6f, -3.1f, items.itemProperties()), id("compressed_iron_hammer"));
+        items.registerItem(() -> compressedGoldenHammer = new CompressedHammerItem(ToolMaterial.GOLD, 6f, -3f, items.itemProperties()), id("compressed_golden_hammer"));
+        items.registerItem(() -> compressedDiamondHammer = new CompressedHammerItem(ToolMaterial.DIAMOND, 5f, -3f, items.itemProperties()), id("compressed_diamond_hammer"));
+        items.registerItem(() -> compressedNetheriteHammer = new CompressedHammerItem(ToolMaterial.NETHERITE, 5f, -3f, items.itemProperties()),
                 id("compressed_netherite_hammer"));
         items.registerItem(() -> compressedCrook = new CompressedCrookItem(items.itemProperties()), id("compressed_crook"));
         items.registerItem(() -> ironMesh = new IronMeshItem(items.itemProperties()), id("iron_mesh"));

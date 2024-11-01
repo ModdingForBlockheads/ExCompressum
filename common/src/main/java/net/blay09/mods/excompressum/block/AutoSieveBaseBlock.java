@@ -27,6 +27,8 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -37,7 +39,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -50,7 +52,7 @@ import java.util.Optional;
 
 public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUglyfiable {
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty UGLY = ModBlockStateProperties.UGLY;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -68,13 +70,13 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (itemStack.isEmpty()) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         if (!(level.getBlockEntity(pos) instanceof AbstractAutoSieveBlockEntity autoSieve)) {
-            return ItemInteractionResult.FAIL;
+            return InteractionResult.FAIL;
         }
 
         final var heldItem = itemStack.getItem();
@@ -90,10 +92,12 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
                 }
                 level.levelEvent(2005, pos, 0);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         } else if (heldItem == Items.NAME_TAG && itemStack.has(DataComponents.CUSTOM_NAME)) {
-            autoSieve.setSkinProfile(new ResolvableProfile(Optional.of(itemStack.get(DataComponents.CUSTOM_NAME).getString()), Optional.empty(), new PropertyMap()));
-            return ItemInteractionResult.CONSUME_PARTIAL;
+            autoSieve.setSkinProfile(new ResolvableProfile(Optional.of(itemStack.get(DataComponents.CUSTOM_NAME).getString()),
+                    Optional.empty(),
+                    new PropertyMap()));
+            return InteractionResult.CONSUME;
         }
 
         return super.useItemOn(itemStack, state, level, pos, player, hand, blockHitResult);
@@ -103,7 +107,7 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
         if (!player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof MenuProvider menuProvider) {
             Balm.getNetworking().openGui(player, menuProvider);
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
 
         return super.useWithoutItem(state, level, pos, player, blockHitResult);
@@ -203,11 +207,11 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
-        if (stateIn.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos facingPos, BlockState facingState, RandomSource randomSource) {
+        if (state.getValue(WATERLOGGED)) {
+            scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, facingPos, facingState, randomSource);
     }
 
     @Override

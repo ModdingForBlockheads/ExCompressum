@@ -7,6 +7,7 @@ import net.blay09.mods.excompressum.block.entity.AbstractAutoSieveBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -35,14 +36,14 @@ public class AutoSieveScreen extends AbstractContainerScreen<AutoSieveMenu> {
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        guiGraphics.blit(texture, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+        guiGraphics.blit(RenderType::guiTextured, texture, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
 
         AbstractAutoSieveBlockEntity tileEntity = menu.getAutoSieve();
         if (tileEntity.isProcessing()) {
-            guiGraphics.blit(texture, leftPos + 32, topPos + 36, 176, 0, (int) (tileEntity.getProgress() * 15f), 14);
+            guiGraphics.blit(RenderType::guiTextured, texture, leftPos + 32, topPos + 36, 176, 0, (int) (tileEntity.getProgress() * 15f), 14, 256, 256);
         }
         if (tileEntity.isDisabledByRedstone()) {
-            guiGraphics.blit(texture, leftPos + 34, topPos + 52, 176, 14, 15, 16);
+            guiGraphics.blit(RenderType::guiTextured, texture, leftPos + 34, topPos + 52, 176, 14, 15, 16, 256, 256);
         }
 
         renderEnergyBar(guiGraphics);
@@ -73,7 +74,7 @@ public class AutoSieveScreen extends AbstractContainerScreen<AutoSieveMenu> {
     protected void renderEnergyBar(GuiGraphics guiGraphics) {
         AbstractAutoSieveBlockEntity tileEntity = menu.getAutoSieve();
         float energyPercentage = tileEntity.getEnergyPercentage();
-        guiGraphics.blit(texture, leftPos + 152, topPos + 8 + (70 - (int) (energyPercentage * 70)), 176 + 15, 0, 16, (int) (energyPercentage * 70));
+        guiGraphics.blit(RenderType::guiTextured, texture, leftPos + 152, topPos + 8 + (70 - (int) (energyPercentage * 70)), 176 + 15, 0, 16, (int) (energyPercentage * 70), 256, 256);
     }
 
     protected void renderPowerTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {

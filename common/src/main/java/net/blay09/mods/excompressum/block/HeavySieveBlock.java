@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.excompressum.block.entity.ModBlockEntities;
-import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.block.entity.HeavySieveBlockEntity;
@@ -13,16 +12,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -87,24 +84,24 @@ public class HeavySieveBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (itemStack.isEmpty()) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         if (!(level.getBlockEntity(pos) instanceof HeavySieveBlockEntity heavySieve)) {
-            return ItemInteractionResult.FAIL;
+            return InteractionResult.FAIL;
         }
 
         final var sieveMesh = SieveMeshRegistry.getEntry(itemStack);
         if (sieveMesh != null && heavySieve.getMeshStack().isEmpty()) {
             heavySieve.setMeshStack(player.getAbilities().instabuild ? ContainerUtils.copyStackWithSize(itemStack, 1) : itemStack.split(1));
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
 
         if (heavySieve.addSiftable(player, itemStack)) {
             level.playSound(null, pos, SoundEvents.GRAVEL_STEP, SoundSource.BLOCKS, 0.5f, 1f);
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
 
         return super.useItemOn(itemStack, state, level, pos, player, hand, blockHitResult);
@@ -130,7 +127,7 @@ public class HeavySieveBlock extends BaseEntityBlock {
         if (ExCompressumConfig.getActive().automation.allowHeavySieveAutomation || !Balm.getHooks().isFakePlayer(player)) {
             if (heavySieve.processContents(player)) {
                 level.playSound(null, pos, SoundEvents.SAND_STEP, SoundSource.BLOCKS, 0.3f, 0.6f);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             }
         }
 
@@ -159,11 +156,11 @@ public class HeavySieveBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos facingPos, BlockState facingState, RandomSource randomSource) {
         if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+            scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, facingPos, facingState, randomSource);
     }
 
     @Override

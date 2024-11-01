@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +24,7 @@ import java.util.Collection;
 public class OreSmasherItem extends DiggerItem {
 
     public OreSmasherItem(Item.Properties properties) {
-        super(Tiers.DIAMOND, BlockTags.MINEABLE_WITH_SHOVEL, properties);
+        super(ToolMaterial.DIAMOND, BlockTags.MINEABLE_WITH_SHOVEL, 6f, -3.2f, properties);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class OreSmasherItem extends DiggerItem {
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if (ExCompressumAPI.getExNihilo().isHammerableOre(new ItemStack(state.getBlock()))) {
-            return getTier().getSpeed();
+            return ToolMaterial.DIAMOND.speed();
         }
 
         return 0.8f;

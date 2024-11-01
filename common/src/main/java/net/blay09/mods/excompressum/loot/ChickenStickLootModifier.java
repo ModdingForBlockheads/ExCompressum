@@ -24,12 +24,12 @@ public class ChickenStickLootModifier implements BalmLootModifier {
             }
         }
 
-        BlockState state = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+        BlockState state = context.getOptionalParameter(LootContextParams.BLOCK_STATE);
         if (state == null) {
             return;
         }
 
-        ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
+        ItemStack tool = context.getOptionalParameter(LootContextParams.TOOL);
         if(tool == null || !tool.is(ModItemTags.CHICKEN_STICKS)) {
             return;
         }

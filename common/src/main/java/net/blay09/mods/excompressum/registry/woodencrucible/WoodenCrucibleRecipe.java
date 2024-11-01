@@ -11,10 +11,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -46,13 +43,23 @@ public class WoodenCrucibleRecipe extends ExCompressumRecipe<RecipeInput> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<WoodenCrucibleRecipe> getSerializer() {
         return ModRecipeTypes.woodenCrucibleRecipeSerializer;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<WoodenCrucibleRecipe> getType() {
         return ModRecipeTypes.woodenCrucibleRecipeType;
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredient);
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipeTypes.woodenCrucibleRecipeBookCategory;
     }
 
     public boolean matchesFluid(Fluid fluid) {

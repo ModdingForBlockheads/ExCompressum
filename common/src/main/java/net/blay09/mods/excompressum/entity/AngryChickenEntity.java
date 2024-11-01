@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Random;
 
 public class AngryChickenEntity extends PathfinderMob {
@@ -65,8 +66,8 @@ public class AngryChickenEntity extends PathfinderMob {
     }
 
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void customServerAiStep(ServerLevel serverLevel) {
+        super.customServerAiStep(serverLevel);
         bossInfo.setProgress(getHealth() / getMaxHealth());
     }
 
@@ -122,7 +123,7 @@ public class AngryChickenEntity extends PathfinderMob {
         super.tickDeath();
 
         if (deathTime == 18) {
-            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(level());
+            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(level(), EntitySpawnReason.EVENT);
             if (lightningBolt != null) {
                 lightningBolt.setVisualOnly(true);
                 lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPosition()));

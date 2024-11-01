@@ -74,20 +74,20 @@ public class BaitBlock extends BaseEntityBlock {
         if (!level.isClientSide) {
             final var chatComponent = Component.translatable(environmentStatus.langKey, environmentStatus.params);
             chatComponent.withStyle(environmentStatus != EnvironmentalConditionResult.CanSpawn ? ChatFormatting.RED : ChatFormatting.GREEN);
-            player.sendSystemMessage(chatComponent);
+            player.displayClientMessage(chatComponent, false);
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (placer instanceof Player && level.getBlockEntity(pos) instanceof BaitBlockEntity bait) {
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof BaitBlockEntity bait) {
             final var environmentStatus = bait.checkSpawnConditions(true);
             if (!level.isClientSide) {
                 final var chatComponent = Component.translatable(environmentStatus.langKey, environmentStatus.params);
                 chatComponent.withStyle(environmentStatus != EnvironmentalConditionResult.CanSpawn ? ChatFormatting.RED : ChatFormatting.GREEN);
-                placer.sendSystemMessage(chatComponent);
+                player.displayClientMessage(chatComponent, false);
             }
         }
     }

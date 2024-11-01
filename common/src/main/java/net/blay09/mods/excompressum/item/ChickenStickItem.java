@@ -12,12 +12,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -27,8 +27,10 @@ import java.util.List;
 
 public class ChickenStickItem extends DiggerItem {
 
+    public static final ToolMaterial CHICKEN_STICK_TIER = new ToolMaterial();
+
     public ChickenStickItem(Item.Properties properties) {
-        super(ChickenStickTier.INSTANCE, ModBlockTags.MINEABLE_WITH_HAMMER, properties.fireResistant());
+        super(CHICKEN_STICK_TIER, ModBlockTags.MINEABLE_WITH_HAMMER, 6f, -3.2f, properties.fireResistant());
     }
 
     @Override
@@ -38,10 +40,10 @@ public class ChickenStickItem extends DiggerItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         tryPlayChickenSound(level, player.blockPosition());
         player.swing(hand);
-        return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(hand));
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -55,9 +57,9 @@ public class ChickenStickItem extends DiggerItem {
         RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
         if ((ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock())))) {
             if (isAngry(stack)) {
-                return getTier().getSpeed() * 1.5f;
+                return CHICKEN_STICK_TIER.speed() * 1.5f;
             }
-            return getTier().getSpeed();
+            return CHICKEN_STICK_TIER.speed();
         }
         return 0.8f;
     }
@@ -70,7 +72,7 @@ public class ChickenStickItem extends DiggerItem {
                 location = ResourceLocation.parse(chickenStickSounds.get(level.getRandom().nextInt(chickenStickSounds.size())));
             }
             if (location != null) {
-                SoundEvent soundEvent = BuiltInRegistries.SOUND_EVENT.get(location);
+                final var soundEvent = BuiltInRegistries.SOUND_EVENT.getValue(location);
                 if (soundEvent != null) {
                     level.playSound(null, pos, soundEvent, SoundSource.PLAYERS, 1f, level.getRandom().nextFloat() * 0.1f + 0.9f);
                 } else {

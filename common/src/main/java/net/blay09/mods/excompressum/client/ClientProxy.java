@@ -1,23 +1,19 @@
 package net.blay09.mods.excompressum.client;
 
 import com.google.common.collect.Sets;
-import com.mojang.authlib.GameProfile;
 import net.blay09.mods.excompressum.CommonProxy;
 import net.blay09.mods.excompressum.client.render.HammeringParticle;
 import net.blay09.mods.excompressum.client.render.SievingParticle;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.world.item.component.ResolvableProfile;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -79,7 +75,7 @@ public class ClientProxy extends CommonProxy {
         }
 
         // Do not render sieve particles if minimal particles are configured.
-        ParticleStatus particleStatus = Minecraft.getInstance().options.particles().get();
+        final var particleStatus = Minecraft.getInstance().options.particles().get();
         if (particleStatus == ParticleStatus.MINIMAL) {
             return;
         }
@@ -112,20 +108,4 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
-    /**
-     * @deprecated Can't remove yet because we need it in ChickenStickItem isCorrectToolForDrops/getDestroySpeed where we don't have level access. maybe we can use ExRegistries instead
-     */
-    @Override
-    @Deprecated
-    public RecipeManager getRecipeManager(@Nullable Level level) {
-        if (level == null) {
-            level = Minecraft.getInstance().level;
-        }
-
-        if (level == null) {
-            return new RecipeManager(level.registryAccess());
-        }
-
-        return level.getRecipeManager();
-    }
 }

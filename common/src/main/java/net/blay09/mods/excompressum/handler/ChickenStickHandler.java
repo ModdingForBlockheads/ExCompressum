@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.item.ItemStack;
@@ -46,7 +47,7 @@ public class ChickenStickHandler {
                         event.getPlayer().setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                     }
 
-                    AngryChickenEntity angryChicken = ModEntities.angryChicken.get().create(level);
+                    AngryChickenEntity angryChicken = ModEntities.angryChicken.get().create(level, EntitySpawnReason.CONVERSION);
                     angryChicken.moveTo(chicken.getX(), chicken.getY(), chicken.getZ(), chicken.getYRot(), chicken.getXRot());
                     angryChicken.absMoveTo(chicken.getX(), chicken.getY(), chicken.getZ(), chicken.getYRot(), chicken.getXRot());
                     angryChicken.setYHeadRot(chicken.yHeadRot);

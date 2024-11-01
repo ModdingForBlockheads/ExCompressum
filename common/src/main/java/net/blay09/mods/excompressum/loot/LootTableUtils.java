@@ -9,6 +9,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.context.ContextKey;
+import net.minecraft.util.context.ContextKeySet;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -17,7 +20,6 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.functions.*;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -29,8 +31,10 @@ import java.util.*;
 
 public class LootTableUtils {
 
-    private static final LootContextParam<ItemStack> SOURCE_STACK = new LootContextParam<>(ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID,
+    private static final ContextKey<ItemStack> SOURCE_STACK = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID,
             "source_stack"));
+
+    private static final ContextKeySet CONTEXT_KEY_SET = new ContextKeySet.Builder().required(SOURCE_STACK).build();
 
     public static boolean isLootTableEmpty(@Nullable LootTable lootTable) {
         if (lootTable == null) {
@@ -60,7 +64,7 @@ public class LootTableUtils {
                     result.add(new LootTableEntry(itemStack, countRange, baseChance));
                 } else if (entry instanceof TagEntryAccessor tagEntry) {
                     TagKey<Item> tag = tagEntry.getTag();
-                    BuiltInRegistries.ITEM.getOrCreateTag(tag).forEach(itemHolder -> {
+                    BuiltInRegistries.ITEM.getTagOrEmpty(tag).forEach(itemHolder -> {
                         ItemStack itemStack = new ItemStack(itemHolder.value());
                         itemStack.setCount(Math.max(1, (int) getMaxCount(countRange)));
                         result.add(new LootTableEntry(itemStack, countRange, baseChance));
@@ -126,9 +130,9 @@ public class LootTableUtils {
     }
 
     public static LootContext buildLootContext(ServerLevel level, ItemStack itemStack) {
-        final var params = new HashMap<LootContextParam<?>, Object>();
-        params.put(SOURCE_STACK, itemStack);
-        return new LootContext.Builder(new LootParams(level, params, Collections.emptyMap(), 0f)).create(Optional.empty());
+        final var params = new ContextMap.Builder();
+        params.withParameter(SOURCE_STACK, itemStack);
+        return new LootContext.Builder(new LootParams(level, params.create(CONTEXT_KEY_SET), Collections.emptyMap(), 0f)).create(Optional.empty());
     }
 
     public static List<MergedLootTableEntry> mergeLootTableEntries(List<LootTableEntry> entries) {

@@ -10,14 +10,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CompressedCrookItem extends DiggerItem {
 
     public CompressedCrookItem(Item.Properties properties) {
-        super(Tiers.WOOD, ModBlockTags.MINEABLE_WITH_CROOK, properties
-                .durability((int) (Tiers.WOOD.getUses() * 2 * ExCompressumConfig.getActive().tools.compressedCrookDurabilityMultiplier)));
+        super(ToolMaterial.WOOD, ModBlockTags.MINEABLE_WITH_CROOK, 6f, -3.2f, properties
+                .durability((int) (ToolMaterial.WOOD.durability() * 2 * ExCompressumConfig.getActive().tools.compressedCrookDurabilityMultiplier)));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CompressedCrookItem extends DiggerItem {
     @Override
     public float getDestroySpeed(ItemStack itemStack, BlockState state) {
         final var speed = ExCompressumConfig.getActive().tools.compressedCrookSpeedMultiplier;
-        return state.is(ModBlockTags.MINEABLE_WITH_CROOK) ? (float) (getTier().getSpeed() * speed) : 0f;
+        return state.is(ModBlockTags.MINEABLE_WITH_CROOK) ? (float) (ToolMaterial.WOOD.speed() * speed) : 0f;
     }
 
 }

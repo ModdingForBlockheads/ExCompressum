@@ -41,7 +41,7 @@ public class BlockRenderUtils {
     /**
      * Renders the break effect for a block state.
      *
-     * @param breakProgress How much the block already broke. 0 means no break. This should not be lower than 0 and not be greater than 10.
+     * @param breakProgress  How much the block already broke. 0 means no break. This should not be lower than 0 and not be greater than 10.
      * @param positionRandom The long value to randomize the position. This can be obtained via {@code BlockState#getPositionRandom}.
      */
     public static void renderBlockBreak(BlockState state, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay, int breakProgress, long positionRandom) {
@@ -70,11 +70,12 @@ public class BlockRenderUtils {
 
     private static void renderBlockBreakQuad(PoseStack.Pose pose, VertexConsumer vertex, List<BakedQuad> list, int light, int overlay, TextureAtlasSprite sprite) {
         for (BakedQuad quad : list) {
-            BakedQuad modifiedQuad = new BakedQuad(modifyBlockBreakQuadData(quad.getVertices(), quad.getSprite(), sprite),
+            final var modifiedQuad = new BakedQuad(modifyBlockBreakQuadData(quad.getVertices(), quad.getSprite(), sprite),
                     quad.getTintIndex(),
                     quad.getDirection(),
                     sprite,
-                    quad.isShade());
+                    quad.isShade(),
+                    quad.getLightEmission());
             vertex.putBulkData(pose, modifiedQuad, 1f, 1f, 1f, 1f, light, overlay);
         }
     }

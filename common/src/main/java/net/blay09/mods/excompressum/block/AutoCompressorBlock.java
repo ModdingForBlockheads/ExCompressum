@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +53,7 @@ public class AutoCompressorBlock extends BaseEntityBlock {
             }
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -101,8 +102,8 @@ public class AutoCompressorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        updateRedstoneState(world, pos);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean isMoving) {
+        updateRedstoneState(level, pos);
     }
 
     private void updateRedstoneState(Level world, BlockPos pos) {

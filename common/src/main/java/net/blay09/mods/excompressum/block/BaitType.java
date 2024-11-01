@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -68,7 +69,7 @@ public enum BaitType implements StringRepresentable {
 
     @Nullable
     public Entity createEntity(Level level) {
-        return entityType.create(level);
+        return entityType.create(level, EntitySpawnReason.NATURAL);
     }
 
     public ItemStack getDisplayItemFirst() {

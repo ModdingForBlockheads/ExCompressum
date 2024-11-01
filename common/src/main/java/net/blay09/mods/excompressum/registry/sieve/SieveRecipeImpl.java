@@ -4,9 +4,7 @@ import net.blay09.mods.excompressum.api.recipe.SieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.CommonMeshType;
 import net.blay09.mods.excompressum.registry.ExCompressumRecipe;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +32,16 @@ public class SieveRecipeImpl extends ExCompressumRecipe implements SieveRecipe {
     @Override
     public RecipeType<?> getType() {
         return ModRecipeTypes.heavySieveRecipeType;
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredient);
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipeTypes.heavySieveRecipeBookCategory;
     }
 
     @Override

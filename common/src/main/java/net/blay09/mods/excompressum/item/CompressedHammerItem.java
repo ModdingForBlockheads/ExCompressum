@@ -3,12 +3,12 @@ package net.blay09.mods.excompressum.item;
 import net.blay09.mods.excompressum.tag.ModBlockTags;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 
 public class CompressedHammerItem extends DiggerItem {
 
-    public CompressedHammerItem(Tier tier, Item.Properties properties) {
-        super(tier, ModBlockTags.MINEABLE_WITH_HAMMER, properties);
+    public CompressedHammerItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Item.Properties properties) {
+        super(toolMaterial, ModBlockTags.MINEABLE_WITH_HAMMER, attackDamage, attackSpeed, properties);
     }
 
 }

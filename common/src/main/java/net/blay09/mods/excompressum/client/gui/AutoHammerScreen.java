@@ -8,6 +8,7 @@ import net.blay09.mods.excompressum.block.entity.AutoHammerBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,19 +36,19 @@ public class AutoHammerScreen extends AbstractContainerScreen<AutoHammerMenu> {
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        guiGraphics.blit(texture, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+        guiGraphics.blit(RenderType::guiTextured, texture, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
 
         AutoHammerBlockEntity blockEntity = menu.getAutoHammer();
 
         if (blockEntity.isProcessing()) {
-            guiGraphics.blit(texture, leftPos + 32, topPos + 36, 176, 0, (int) (blockEntity.getProgress() * 15f), 14);
+            guiGraphics.blit(RenderType::guiTextured, texture, leftPos + 32, topPos + 36, 176, 0, (int) (blockEntity.getProgress() * 15f), 14, 256, 256);
         }
         if (blockEntity.isDisabledByRedstone()) {
-            guiGraphics.blit(texture, leftPos + 44, topPos + 48, 176, 14, 15, 16);
+            guiGraphics.blit(RenderType::guiTextured, texture, leftPos + 44, topPos + 48, 176, 14, 15, 16, 256, 256);
         }
 
         float energyPercentage = blockEntity.getEnergyPercentage();
-        guiGraphics.blit(texture, leftPos + 152, topPos + 8 + (70 - (int) (energyPercentage * 70)), 176 + 15, 0, 16, (int) (energyPercentage * 70));
+        guiGraphics.blit(RenderType::guiTextured, texture, leftPos + 152, topPos + 8 + (70 - (int) (energyPercentage * 70)), 176 + 15, 0, 16, (int) (energyPercentage * 70), 256, 256);
     }
 
 

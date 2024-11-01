@@ -35,13 +35,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -311,7 +309,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         final float HAMMER_BOOST = 0.5f;
         final float EFFICIENCY_BOOST = 0.5f;
         float boost = 1f;
-        final var efficiencyEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.EFFICIENCY);
+        final var efficiencyEnchantment = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.EFFICIENCY);
         ItemStack firstHammer = hammerSlots.getItem(0);
         if (!firstHammer.isEmpty() && isHammerUpgrade(firstHammer)) {
             boost += HAMMER_BOOST;
@@ -331,7 +329,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
 
     public float getEffectiveLuck() {
         float luck = 0f;
-        final var fortuneEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+        final var fortuneEnchantment = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
         ItemStack firstHammer = hammerSlots.getItem(0);
         if (!firstHammer.isEmpty() && isHammerUpgrade(firstHammer)) {
             luck += EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, firstHammer);

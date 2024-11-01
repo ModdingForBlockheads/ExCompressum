@@ -22,14 +22,26 @@ public class CompressedHammerRecipeImpl extends ExCompressumRecipe<RecipeInput> 
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<CompressedHammerRecipeImpl> getType() {
         return ModRecipeTypes.compressedHammerRecipeType;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredient);
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipeTypes.compressedHammerRecipeBookCategory;
+    }
+
+    @Override
+    public RecipeSerializer<CompressedHammerRecipeImpl> getSerializer() {
         return ModRecipeTypes.compressedHammerRecipeSerializer;
     }
+
+
 
     @Override
     public Ingredient getIngredient() {
