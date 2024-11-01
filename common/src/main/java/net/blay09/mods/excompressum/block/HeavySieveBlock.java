@@ -87,7 +87,7 @@ public class HeavySieveBlock extends BaseEntityBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (itemStack.isEmpty()) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         if (!(level.getBlockEntity(pos) instanceof HeavySieveBlockEntity heavySieve)) {
