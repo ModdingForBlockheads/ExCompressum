@@ -74,6 +74,10 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
                 ModBlocks.compressedBlocks[CompressedBlockType.GRAVEL.ordinal()],
                 ModBlocks.compressedBlocks[CompressedBlockType.NETHERRACK.ordinal()],
                 ModBlocks.compressedBlocks[CompressedBlockType.SAND.ordinal()]);
+
+        getOrCreateTagBuilder(ModBlockTags.MINEABLE_WITH_CHICKEN_STICK).addTag(ModBlockTags.MINEABLE_WITH_HAMMER);
+
+        getOrCreateTagBuilder(ModBlockTags.INCORRECT_FOR_CHICKEN_STICK);
     }
 
 }

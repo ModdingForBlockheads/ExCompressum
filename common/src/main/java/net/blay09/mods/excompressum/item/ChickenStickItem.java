@@ -21,10 +21,8 @@ import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class ChickenStickItem extends DiggerItem {
             ModItemTags.CHICKEN_STICK_TOOL_MATERIALS);
 
     public ChickenStickItem(Item.Properties properties) {
-        super(CHICKEN_STICK_TIER, ModBlockTags.MINEABLE_WITH_HAMMER, 6f, -3.2f, properties.fireResistant());
+        super(CHICKEN_STICK_TIER, ModBlockTags.MINEABLE_WITH_CHICKEN_STICK, 6f, -3.2f, properties.fireResistant());
     }
 
     @Override
@@ -52,27 +50,6 @@ public class ChickenStickItem extends DiggerItem {
         tryPlayChickenSound(level, player.blockPosition());
         player.swing(hand);
         return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
-        // TODO no more recipe manager on client, might need to introduce a tag and manage it alongside the recipes
-        // RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
-        // return ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock()));
-        return true;
-    }
-
-    @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        // TODO no more recipe manager on client, might need to introduce a tag and manage it alongside the recipes
-        // RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
-        // if ((ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock())))) {
-        //     if (isAngry(stack)) {
-        //         return CHICKEN_STICK_TIER.speed() * 1.5f;
-        //     }
-        //     return CHICKEN_STICK_TIER.speed();
-        // }
-        return 0.8f;
     }
 
     public void tryPlayChickenSound(LevelAccessor level, BlockPos pos) {
