@@ -4,16 +4,16 @@ import net.blay09.mods.excompressum.api.recipe.CompressedHammerRecipe;
 import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 
 import java.util.*;
 
 public class CompressedHammerRegistry {
 
-    public static List<ItemStack> rollHammerRewards(Level level, LootContext context, ItemStack itemStack) {
+    public static List<ItemStack> rollHammerRewards(ServerLevel level, LootContext context, ItemStack itemStack) {
         final var recipeManager = level.getServer().getRecipeManager();
         final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
         final var recipes = recipeMap.byType(ModRecipeTypes.compressedHammerRecipeType);
@@ -37,7 +37,7 @@ public class CompressedHammerRegistry {
         return recipe.getIngredient().test(itemStack);
     }
 
-    public boolean isHammerable(Level level, ItemStack itemStack) {
+    public boolean isHammerable(ServerLevel level, ItemStack itemStack) {
         return isHammerable(level.getServer().getRecipeManager(), itemStack);
     }
 

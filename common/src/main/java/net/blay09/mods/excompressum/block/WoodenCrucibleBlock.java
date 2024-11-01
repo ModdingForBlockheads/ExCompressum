@@ -7,6 +7,7 @@ import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.excompressum.block.entity.ModBlockEntities;
 import net.blay09.mods.excompressum.block.entity.WoodenCrucibleBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -78,8 +79,10 @@ public class WoodenCrucibleBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
 
-        if (woodenCrucible.addItem(itemStack, false, false)) {
-            return InteractionResult.CONSUME;
+        if (level instanceof ServerLevel serverLevel) {
+            if (woodenCrucible.addItem(serverLevel, itemStack, false, false)) {
+                return InteractionResult.CONSUME;
+            }
         }
 
         Balm.getHooks().useFluidTank(state, level, pos, player, hand, blockHitResult);

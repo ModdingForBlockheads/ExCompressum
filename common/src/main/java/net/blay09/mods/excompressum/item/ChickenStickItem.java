@@ -56,19 +56,22 @@ public class ChickenStickItem extends DiggerItem {
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack itemStack, BlockState state) {
-        RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
-        return ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock()));
+        // TODO no more recipe manager on client, might need to introduce a tag and manage it alongside the recipes
+        // RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
+        // return ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock()));
+        return true;
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
-        if ((ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock())))) {
-            if (isAngry(stack)) {
-                return CHICKEN_STICK_TIER.speed() * 1.5f;
-            }
-            return CHICKEN_STICK_TIER.speed();
-        }
+        // TODO no more recipe manager on client, might need to introduce a tag and manage it alongside the recipes
+        // RecipeManager recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
+        // if ((ExRegistries.getChickenStickRegistry().isHammerable(recipeManager, new ItemStack(state.getBlock())))) {
+        //     if (isAngry(stack)) {
+        //         return CHICKEN_STICK_TIER.speed() * 1.5f;
+        //     }
+        //     return CHICKEN_STICK_TIER.speed();
+        // }
         return 0.8f;
     }
 

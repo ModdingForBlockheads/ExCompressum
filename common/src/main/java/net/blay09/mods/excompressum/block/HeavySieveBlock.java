@@ -10,6 +10,7 @@ import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.block.entity.HeavySieveBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -99,9 +100,11 @@ public class HeavySieveBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        if (heavySieve.addSiftable(player, itemStack)) {
-            level.playSound(null, pos, SoundEvents.GRAVEL_STEP, SoundSource.BLOCKS, 0.5f, 1f);
-            return InteractionResult.SUCCESS;
+        if (level instanceof ServerLevel serverLevel) {
+            if (heavySieve.addSiftable(serverLevel, player, itemStack)) {
+                level.playSound(null, pos, SoundEvents.GRAVEL_STEP, SoundSource.BLOCKS, 0.5f, 1f);
+                return InteractionResult.SUCCESS;
+            }
         }
 
         return super.useItemOn(itemStack, state, level, pos, player, hand, blockHitResult);

@@ -32,14 +32,14 @@ public class AutoCompressedHammerBlockEntity extends AutoHammerBlockEntity {
     }
 
     @Override
-    public boolean isRegistered(ItemStack itemStack) {
+    public boolean isRegistered(ServerLevel level, ItemStack itemStack) {
         final var recipeManager = level.getServer().getRecipeManager();
         return ExRegistries.getCompressedHammerRegistry().isHammerable(recipeManager, itemStack);
     }
 
     @Override
-    public Collection<ItemStack> rollHammerRewards(ItemStack itemStack, ItemStack toolItem, RandomSource rand) {
-        LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) level), itemStack);
+    public Collection<ItemStack> rollHammerRewards(ServerLevel level, ItemStack itemStack, ItemStack toolItem, RandomSource rand) {
+        LootContext lootContext = LootTableUtils.buildLootContext(level, itemStack);
         return CompressedHammerRegistry.rollHammerRewards(level, lootContext, itemStack);
     }
 

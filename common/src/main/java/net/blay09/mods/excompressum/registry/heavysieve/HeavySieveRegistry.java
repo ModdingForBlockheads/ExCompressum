@@ -7,6 +7,7 @@ import net.blay09.mods.excompressum.config.ExCompressumConfig;
 import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.blay09.mods.excompressum.registry.*;
 import net.blay09.mods.excompressum.utils.StupidUtils;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -76,7 +77,7 @@ public class HeavySieveRegistry {
         return generatedRecipe.getRolls() > 0 ? generatedRecipe.getRolls() : ExCompressumConfig.getActive().general.heavySieveDefaultRolls;
     }
 
-    public boolean isSiftable(Level level, BlockState sieve, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh) {
+    public boolean isSiftable(ServerLevel level, BlockState sieve, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
         final var recipeManager = level.getServer().getRecipeManager();
         final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();

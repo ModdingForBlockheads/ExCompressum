@@ -16,6 +16,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -77,7 +78,7 @@ public class WoodenCrucibleBlockEntity extends BalmBlockEntity implements BalmFl
         super(ModBlockEntities.woodenCrucible.get(), pos, state);
     }
 
-    public boolean addItem(ItemStack itemStack, boolean isAutomated, boolean simulate) {
+    public boolean addItem(ServerLevel level, ItemStack itemStack, boolean isAutomated, boolean simulate) {
         // When inserting dust, turn it into clay if we have enough liquid
         if (fluidTank.getAmount() >= 1000 && itemStack.is(ModItemTags.DUSTS)) {
             if (!simulate) {

@@ -3,6 +3,7 @@ package net.blay09.mods.excompressum.registry.hammer;
 import net.blay09.mods.excompressum.api.recipe.HammerRecipe;
 import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -17,7 +18,7 @@ public class HammerRegistry {
         final var recipeManager = context.getLevel().getServer().getRecipeManager();
         final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
         final var recipes = recipeMap.byType(ModRecipeTypes.hammerRecipeType);
-        List<ItemStack> results = new ArrayList<>();
+        final var results = new ArrayList<ItemStack>();
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();
             if (testRecipe(itemStack, recipe)) {
@@ -35,7 +36,7 @@ public class HammerRegistry {
         return recipe.getIngredient().test(itemStack);
     }
 
-    public boolean isHammerable(Level level, ItemStack itemStack) {
+    public boolean isHammerable(ServerLevel level, ItemStack itemStack) {
         return isHammerable(level.getServer().getRecipeManager(), itemStack);
     }
 

@@ -99,7 +99,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         @Override
         public boolean canPlaceItem(int slot, ItemStack itemStack) {
             if (inputSlots.containsOuterSlot(slot)) {
-                return isRegistered(itemStack);
+                return level instanceof ServerLevel serverLevel && isRegistered(serverLevel, itemStack);
             } else if (hammerSlots.containsOuterSlot(slot)) {
                 return isHammerUpgrade(itemStack);
             }
@@ -197,7 +197,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         if (!isDisabledByRedstone() && overflowBuffer.isEmpty() && getEnergyStored() >= effectiveEnergy) {
             if (currentStack.isEmpty() && cooldown <= 0) {
                 ItemStack inputStack = inputSlots.getItem(0);
-                if (!inputStack.isEmpty() && isRegistered(inputStack)) {
+                if (!inputStack.isEmpty() && isRegistered((ServerLevel) level, inputStack)) {
                     boolean foundSpace = false;
                     for (int i = 0; i < outputSlots.getContainerSize(); i++) {
                         if (outputSlots.getItem(i).isEmpty()) {
@@ -235,7 +235,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                                 });
                             }
                         }
-                        Collection<ItemStack> rewards = rollHammerRewards(currentStack, getEffectiveTool(), level.random);
+                        Collection<ItemStack> rewards = rollHammerRewards((ServerLevel) level, currentStack, getEffectiveTool(), level.random);
                         for (ItemStack itemStack : rewards) {
                             if (!addItemToOutput(itemStack)) {
                                 overflowBuffer.add(itemStack);
@@ -250,8 +250,8 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
                 }
             }
         } else if (!overflowBuffer.isEmpty()) {
-            if (addItemToOutput(overflowBuffer.get(0))) {
-                overflowBuffer.remove(0);
+            if (addItemToOutput(overflowBuffer.getFirst())) {
+                overflowBuffer.removeFirst();
             }
         }
 
@@ -441,7 +441,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         return itemStack.is(ModItemTags.HAMMERS);
     }
 
-    public boolean isRegistered(ItemStack itemStack) {
+    public boolean isRegistered(ServerLevel level, ItemStack itemStack) {
         if (level == null) {
             return false;
         }
@@ -450,14 +450,14 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
         return ExNihilo.isHammerable(level, itemStack) || ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack);
     }
 
-    public Collection<ItemStack> rollHammerRewards(ItemStack itemStack, ItemStack toolItem, RandomSource rand) {
+    public Collection<ItemStack> rollHammerRewards(ServerLevel level, ItemStack itemStack, ItemStack toolItem, RandomSource rand) {
         if (level == null) {
             return Collections.emptyList();
         }
 
         final var recipeManager = level.getServer().getRecipeManager();
         if (ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack)) {
-            LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) level), itemStack);
+            LootContext lootContext = LootTableUtils.buildLootContext(level, itemStack);
             return HammerRegistry.rollHammerRewards(lootContext, itemStack);
         }
 

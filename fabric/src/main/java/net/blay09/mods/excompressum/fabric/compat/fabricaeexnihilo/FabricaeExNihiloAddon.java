@@ -268,7 +268,6 @@ public class FabricaeExNihiloAddon implements ExNihiloProvider {
     public List<HammerRecipe> getHammerRecipes() {
         List<HammerRecipe> result = new ArrayList<>();
 
-        final var recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
         ArrayListMultimap<IntList, RecipeHolder<ToolRecipe>> groupedRecipes = ArrayListMultimap.create();
         // for (final var hammerRecipe : recipeManager.getAllRecipesFor(ModRecipes.HAMMER)) {
         //     groupedRecipes.put(fromBlockIngredient(hammerRecipe.getBlock()).getStackingIds(), hammerRecipe);
@@ -311,7 +310,6 @@ public class FabricaeExNihiloAddon implements ExNihiloProvider {
     public List<SieveRecipe> getSieveRecipes() {
         List<SieveRecipe> result = new ArrayList<>();
 
-        final var recipeManager = ExCompressum.proxy.get().getRecipeManager(null);
         ArrayListMultimap<Pair<IntList, CommonMeshType>, RecipeHolder<wraith.fabricaeexnihilo.recipe.SieveRecipe>> groupedRecipes = ArrayListMultimap.create();
         // final var sieveRecipes = recipeManager.getAllRecipesFor(ModRecipes.SIEVE);
         // for (final var recipe : sieveRecipes) {

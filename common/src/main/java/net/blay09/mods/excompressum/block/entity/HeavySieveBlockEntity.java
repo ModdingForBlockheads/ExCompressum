@@ -52,7 +52,7 @@ public class HeavySieveBlockEntity extends BalmBlockEntity {
         super(ModBlockEntities.heavySieve.get(), pos, state);
     }
 
-    public boolean addSiftable(Player player, ItemStack itemStack) {
+    public boolean addSiftable(ServerLevel level, Player player, ItemStack itemStack) {
         if (!currentStack.isEmpty() || meshStack.isEmpty() || !ExRegistries.getHeavySieveRegistry().isSiftable(level, getBlockState(), itemStack, getSieveMesh())) {
             return false;
         }

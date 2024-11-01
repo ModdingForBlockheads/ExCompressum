@@ -6,9 +6,9 @@ import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 public class HammerSpeedHandler {
 
@@ -19,8 +19,13 @@ public class HammerSpeedHandler {
     public static void onDigSpeed(DigSpeedEvent event) {
         ItemStack heldItem = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
         final var targetItem = StupidUtils.getItemStackFromState(event.getState());
-        Level level = event.getPlayer().level();
-        if ((heldItem.is(ModItemTags.HAMMERS) || heldItem.is(ModItemTags.COMPRESSED_HAMMERS)) && (ExRegistries.getHammerRegistry().isHammerable(level, targetItem) || ExRegistries.getCompressedHammerRegistry().isHammerable(level, targetItem))) {
+        final var level = event.getPlayer().level();
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return; // TODO I believe this needs to run on client too though... might have to upgrade more stuff to tags and to be less dependent on recipe existence
+        }
+
+        if ((heldItem.is(ModItemTags.HAMMERS) || heldItem.is(ModItemTags.COMPRESSED_HAMMERS)) && (ExRegistries.getHammerRegistry()
+                .isHammerable(serverLevel, targetItem) || ExRegistries.getCompressedHammerRegistry().isHammerable(serverLevel, targetItem))) {
             float newSpeed = 2f;
             final var tool = heldItem.get(DataComponents.TOOL);
             if (tool != null) {

@@ -2,6 +2,7 @@ package net.blay09.mods.excompressum.registry.woodencrucible;
 
 import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class WoodenCrucibleRegistry {
 
     @Nullable
-    public WoodenCrucibleRecipe getRecipe(Level level, ItemStack itemStack) {
+    public WoodenCrucibleRecipe getRecipe(ServerLevel level, ItemStack itemStack) {
         final var recipeManager = level.getServer().getRecipeManager();
         final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
         final var recipes = recipeMap.byType(ModRecipeTypes.woodenCrucibleRecipeType);

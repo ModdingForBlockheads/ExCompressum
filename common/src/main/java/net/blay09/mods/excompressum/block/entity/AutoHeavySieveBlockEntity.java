@@ -24,13 +24,13 @@ public class AutoHeavySieveBlockEntity extends AutoSieveBlockEntity {
     }
 
     @Override
-    public boolean isSiftableWithMesh(ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
+    public boolean isSiftableWithMesh(ServerLevel level, ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
         return ExRegistries.getHeavySieveRegistry().isSiftable(level, getBlockState(), itemStack, sieveMesh);
     }
 
     @Override
-    public Collection<ItemStack> rollSieveRewards(Level level, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
-        LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) this.level), itemStack);
+    public Collection<ItemStack> rollSieveRewards(ServerLevel level, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+        LootContext lootContext = LootTableUtils.buildLootContext(level, itemStack);
         return HeavySieveRegistry.rollSieveRewards(level, lootContext, getBlockState(), sieveMesh, itemStack);
     }
 

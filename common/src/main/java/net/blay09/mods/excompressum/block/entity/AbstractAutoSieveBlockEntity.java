@@ -61,7 +61,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         @Override
         public boolean canPlaceItem(int slot, ItemStack itemStack) {
             if (inputSlots.containsOuterSlot(slot)) {
-                return isSiftableWithMesh(itemStack, getSieveMesh());
+                return level instanceof ServerLevel serverLevel && isSiftableWithMesh(serverLevel, itemStack, getSieveMesh());
             } else if (meshSlots.containsOuterSlot(slot)) {
                 return isMesh(itemStack);
             }
@@ -208,7 +208,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
             if (currentStack.isEmpty()) {
                 ItemStack inputStack = inputSlots.getItem(0);
                 SieveMeshRegistryEntry sieveMesh = getSieveMesh();
-                if (!inputStack.isEmpty() && sieveMesh != null && isSiftableWithMesh(inputStack, sieveMesh)) {
+                if (!inputStack.isEmpty() && sieveMesh != null && isSiftableWithMesh((ServerLevel) level, inputStack, sieveMesh)) {
                     boolean foundSpace = false;
                     for (int i = 0; i < outputSlots.getContainerSize(); i++) {
                         if (outputSlots.getItem(i).isEmpty()) {
@@ -239,7 +239,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                     if (!level.isClientSide) {
                         SieveMeshRegistryEntry sieveMesh = getSieveMesh();
                         if (sieveMesh != null) {
-                            Collection<ItemStack> rewards = rollSieveRewards(level, currentStack, sieveMesh, getEffectiveLuck(), level.random);
+                            Collection<ItemStack> rewards = rollSieveRewards((ServerLevel) level, currentStack, sieveMesh, getEffectiveLuck(), level.random);
                             for (ItemStack itemStack : rewards) {
                                 if (!addItemToOutput(itemStack)) {
                                     overflowBuffer.add(itemStack);
@@ -312,7 +312,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         return 0f;
     }
 
-    public boolean isSiftableWithMesh(ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
+    public boolean isSiftableWithMesh(ServerLevel level, ItemStack itemStack, @Nullable SieveMeshRegistryEntry sieveMesh) {
         return ExNihilo.isSiftableWithMesh(level, getBlockState(), itemStack, sieveMesh);
     }
 
@@ -320,7 +320,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         return SieveMeshRegistry.getEntry(itemStack) != null;
     }
 
-    public Collection<ItemStack> rollSieveRewards(Level level, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
+    public Collection<ItemStack> rollSieveRewards(ServerLevel level, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh, float luck, RandomSource rand) {
         return ExNihilo.rollSieveRewards(level, getBlockState(), itemStack, sieveMesh, luck, rand);
     }
 
@@ -463,10 +463,12 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         return meshSlots.getItem(0);
     }
 
-    public boolean isCorrectSieveMesh() {
+    public boolean isCorrectSieveMesh() { // TODO need to turn this into a data slot because it's used on client
         ItemStack inputStack = inputSlots.getItem(0);
         SieveMeshRegistryEntry sieveMesh = getSieveMesh();
-        return inputStack.isEmpty() || sieveMesh == null || isSiftableWithMesh(inputStack, sieveMesh);
+        return inputStack.isEmpty() || sieveMesh == null || (level instanceof ServerLevel serverLevel && isSiftableWithMesh(serverLevel,
+                inputStack,
+                sieveMesh));
     }
 
     public boolean shouldAnimate() {
