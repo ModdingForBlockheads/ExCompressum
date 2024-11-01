@@ -4,6 +4,7 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.recipe.HeavySieveRecipe;
 import net.blay09.mods.excompressum.api.sievemesh.SieveMeshRegistryEntry;
 import net.blay09.mods.excompressum.config.ExCompressumConfig;
+import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.blay09.mods.excompressum.registry.*;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +40,8 @@ public class HeavySieveRegistry {
     public static List<ItemStack> rollSieveRewards(Level level, LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
         final var recipeManager = context.getLevel().getServer().getRecipeManager();
-        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
+        final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
+        final var recipes = recipeMap.byType(ModRecipeTypes.heavySieveRecipeType);
         List<ItemStack> results = new ArrayList<>();
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();
@@ -51,7 +53,7 @@ public class HeavySieveRegistry {
             }
         }
 
-        final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
+        final var generatedRecipes = recipeMap.byType(ModRecipeTypes.generatedHeavySieveRecipeType);
         for (final var recipeHolder : generatedRecipes) {
             final var recipe = recipeHolder.value();
             if (testGeneratedRecipe(level, itemStack, recipe, sieve, mesh)) {
@@ -77,7 +79,8 @@ public class HeavySieveRegistry {
     public boolean isSiftable(Level level, BlockState sieve, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
         final var recipeManager = level.getServer().getRecipeManager();
-        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
+        final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
+        final var recipes = recipeMap.byType(ModRecipeTypes.heavySieveRecipeType);
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();
             if (testRecipe(sieveMesh, itemStack, waterlogged, recipe)) {
@@ -85,7 +88,7 @@ public class HeavySieveRegistry {
             }
         }
 
-        final var generatedRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.generatedHeavySieveRecipeType);
+        final var generatedRecipes = recipeMap.byType(ModRecipeTypes.generatedHeavySieveRecipeType);
         for (final var recipeHolder : generatedRecipes) {
             final var recipe = recipeHolder.value();
             if (testGeneratedRecipe(level, itemStack, recipe, sieve, sieveMesh)) {

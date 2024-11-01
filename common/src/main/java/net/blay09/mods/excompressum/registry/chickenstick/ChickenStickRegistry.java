@@ -1,5 +1,6 @@
 package net.blay09.mods.excompressum.registry.chickenstick;
 
+import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.blay09.mods.excompressum.registry.ModRecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -13,7 +14,9 @@ import java.util.List;
 public class ChickenStickRegistry {
 
     public static List<ItemStack> rollHammerRewards(Level level, LootContext context, ItemStack itemStack) {
-        final var recipes = level.getServer().getRecipeManager().getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
+        final var recipeManager = level.getServer().getRecipeManager();
+        final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
+        final var recipes = recipeMap.byType(ModRecipeTypes.chickenStickRecipeType);
         List<ItemStack> results = new ArrayList<>();
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();
@@ -37,7 +40,8 @@ public class ChickenStickRegistry {
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {
-        final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.chickenStickRecipeType);
+        final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
+        final var recipes = recipeMap.byType(ModRecipeTypes.chickenStickRecipeType);
         for (final var recipeHolder : recipes) {
             if (testRecipe(itemStack, recipeHolder.value())) {
                 return true;

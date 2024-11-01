@@ -1,6 +1,7 @@
 package net.blay09.mods.excompressum.registry.compressor;
 
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.excompressum.mixin.RecipeManagerAccessor;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +30,8 @@ public class CompressedRecipeRegistry {
         recipesSmall.clear();
         recipes.clear();
 
-        for (final var recipeHolder : recipeManager.getAllRecipesFor(RecipeType.CRAFTING)) {
+        final var recipeMap = ((RecipeManagerAccessor) recipeManager).getRecipes();
+        for (final var recipeHolder : recipeMap.byType(RecipeType.CRAFTING)) {
             final var recipe = recipeHolder.value();
             final var ingredients = recipe.getIngredients();
             int count = ingredients.size();
