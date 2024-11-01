@@ -46,16 +46,15 @@ public class CompressedRecipeRegistry {
 
                     boolean passes = true;
                     for (int i = 1; i < count; i++) {
-                        final var optionalOther = ingredients.get(i);
-                        if (optionalOther.isEmpty()) {
-                            continue;
-                        }
-                        final var other = optionalOther.get();
                         boolean passesInner = false;
-                        for (final var itemHolder : other.items()) {
-                            if (first.test(new ItemStack(itemHolder))) {
-                                passesInner = true;
-                                break;
+                        final var optionalOther = ingredients.get(i);
+                        if (optionalOther.isPresent()) {
+                            final var other = optionalOther.get();
+                            for (final var itemHolder : other.items()) {
+                                if (first.test(new ItemStack(itemHolder))) {
+                                    passesInner = true;
+                                    break;
+                                }
                             }
                         }
                         if (!passesInner) {
