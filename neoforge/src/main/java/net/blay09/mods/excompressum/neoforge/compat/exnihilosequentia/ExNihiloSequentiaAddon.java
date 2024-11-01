@@ -1,7 +1,6 @@
 package net.blay09.mods.excompressum.neoforge.compat.exnihilosequentia;
 
 import com.google.common.collect.ArrayListMultimap;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.excompressum.api.ExNihiloProvider;
 import net.blay09.mods.excompressum.api.recipe.CompressedHammerRecipe;
@@ -16,6 +15,7 @@ import net.blay09.mods.excompressum.registry.ExNihilo;
 import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -208,7 +208,7 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
     }
 
     private float getLuckFromTool(Level level, ItemStack tool) {
-        final var fortuneEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+        final var fortuneEnchantment = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
         return EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, tool);
     }
 
@@ -263,13 +263,13 @@ public class ExNihiloSequentiaAddon implements ExNihiloProvider {
 
     @Override
     public List<HammerRecipe> getHammerRecipes() {
-        ArrayListMultimap<IntList, CrushingRecipe> groupedRecipes = ArrayListMultimap.create();
+        ArrayListMultimap<HolderSet<Item>, CrushingRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : ExNihiloRegistries.HAMMER_REGISTRY.getRecipeList()) {
-            groupedRecipes.put(hammerRecipe.getInput().getStackingIds(), hammerRecipe);
+            groupedRecipes.put(hammerRecipe.getInput().getValues(), hammerRecipe);
         }
 
         List<HammerRecipe> result = new ArrayList<>();
-        for (IntList packedStacks : groupedRecipes.keySet()) {
+        for (final var packedStacks : groupedRecipes.keySet()) {
             LootTable.Builder tableBuilder = LootTable.lootTable();
             for (final var hammerRecipe : groupedRecipes.get(packedStacks)) {
                 for (ItemStackWithChance itemStackWithChance : hammerRecipe.getDrops()) {

@@ -18,6 +18,8 @@ import net.blay09.mods.excompressum.registry.hammer.HammerRecipeImpl;
 import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.utils.StupidUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -206,7 +208,7 @@ public class ExDeorumAddon implements ExNihiloProvider {
     }
 
     private float getLuckFromTool(Level level, ItemStack tool) {
-        final var fortuneEnchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+        final var fortuneEnchantment = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
         return EnchantmentHelper.getItemEnchantmentLevel(fortuneEnchantment, tool);
     }
 
@@ -244,9 +246,9 @@ public class ExDeorumAddon implements ExNihiloProvider {
     public List<HammerRecipe> getHammerRecipes() {
         List<HammerRecipe> result = new ArrayList<>();
 
-        ArrayListMultimap<IntList, thedarkcolour.exdeorum.recipe.hammer.HammerRecipe> groupedRecipes = ArrayListMultimap.create();
+        ArrayListMultimap<HolderSet<Item>, thedarkcolour.exdeorum.recipe.hammer.HammerRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : RecipeUtil.getCachedHammerRecipes()) {
-            groupedRecipes.put(hammerRecipe.value().ingredient().getStackingIds(), hammerRecipe.value());
+            groupedRecipes.put(hammerRecipe.value().ingredient().getValues(), hammerRecipe.value());
         }
 
         for (final var packedStacks : groupedRecipes.keySet()) {
@@ -275,9 +277,9 @@ public class ExDeorumAddon implements ExNihiloProvider {
     public List<CompressedHammerRecipe> getCompressedHammerRecipes() {
         List<CompressedHammerRecipe> result = new ArrayList<>();
 
-        ArrayListMultimap<IntList, thedarkcolour.exdeorum.recipe.hammer.CompressedHammerRecipe> groupedRecipes = ArrayListMultimap.create();
+        ArrayListMultimap<HolderSet<Item>, thedarkcolour.exdeorum.recipe.hammer.CompressedHammerRecipe> groupedRecipes = ArrayListMultimap.create();
         for (final var hammerRecipe : RecipeUtil.getCachedCompressedHammerRecipes()) {
-            groupedRecipes.put(hammerRecipe.value().ingredient().getStackingIds(), hammerRecipe.value());
+            groupedRecipes.put(hammerRecipe.value().ingredient().getValues(), hammerRecipe.value());
         }
 
         for (final var packedStacks : groupedRecipes.keySet()) {
