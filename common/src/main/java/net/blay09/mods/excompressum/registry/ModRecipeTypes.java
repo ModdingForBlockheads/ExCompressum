@@ -9,6 +9,7 @@ import net.blay09.mods.excompressum.registry.heavysieve.GeneratedHeavySieveRecip
 import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRecipeImpl;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -35,6 +36,12 @@ public class ModRecipeTypes {
     public static RecipeSerializer<ChickenStickRecipe> chickenStickRecipeSerializer;
     public static RecipeSerializer<WoodenCrucibleRecipe> woodenCrucibleRecipeSerializer;
 
+    public static RecipeBookCategory heavySieveRecipeBookCategory;
+    public static RecipeBookCategory hammerRecipeBookCategory;
+    public static RecipeBookCategory woodenCrucibleRecipeBookCategory;
+    public static RecipeBookCategory chickenStickRecipeBookCategory;
+    public static RecipeBookCategory compressedHammerRecipeBookCategory;
+
     public static void initialize(BalmRecipes recipes) {
         recipes.registerRecipeType(() -> compressedHammerRecipeType = new RecipeType<>() {
             @Override
@@ -42,18 +49,21 @@ public class ModRecipeTypes {
                 return COMPRESSED_HAMMER.getPath();
             }
         }, () -> compressedHammerRecipeSerializer = new CompressedHammerRecipeImpl.Serializer(), COMPRESSED_HAMMER);
+        recipes.registerRecipeBookCategory(() -> compressedHammerRecipeBookCategory = new RecipeBookCategory(), id("compressed_hammer"));
         recipes.registerRecipeType(() -> chickenStickRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return CHICKEN_STICK.getPath();
             }
         }, () -> chickenStickRecipeSerializer = new ChickenStickRecipe.Serializer(), CHICKEN_STICK);
+        recipes.registerRecipeBookCategory(() -> chickenStickRecipeBookCategory = new RecipeBookCategory(), id("chicken_stick"));
         recipes.registerRecipeType(() -> hammerRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return HAMMER.getPath();
             }
         }, () -> hammerRecipeSerializer = new HammerRecipeImpl.Serializer(), HAMMER);
+        recipes.registerRecipeBookCategory(() -> hammerRecipeBookCategory = new RecipeBookCategory(), id("hammer"));
         recipes.registerRecipeType(() -> generatedHeavySieveRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
@@ -66,12 +76,17 @@ public class ModRecipeTypes {
                 return HEAVY_SIEVE.getPath();
             }
         }, () -> heavySieveRecipeSerializer = new HeavySieveRecipeImpl.Serializer(), HEAVY_SIEVE);
+        recipes.registerRecipeBookCategory(() -> heavySieveRecipeBookCategory = new RecipeBookCategory(), id("heavy_sieve"));
         recipes.registerRecipeType(() -> woodenCrucibleRecipeType = new RecipeType<>() {
             @Override
             public String toString() {
                 return WOODEN_CRUCIBLE.getPath();
             }
         }, () -> woodenCrucibleRecipeSerializer = new WoodenCrucibleRecipe.Serializer(), WOODEN_CRUCIBLE);
+        recipes.registerRecipeBookCategory(() -> woodenCrucibleRecipeBookCategory = new RecipeBookCategory(), id("wooden_crucible"));
+    }
 
+    private static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, path);
     }
 }

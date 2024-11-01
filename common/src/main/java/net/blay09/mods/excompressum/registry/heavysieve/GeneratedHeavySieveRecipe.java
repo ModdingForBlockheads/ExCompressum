@@ -52,7 +52,7 @@ public class GeneratedHeavySieveRecipe extends ExCompressumRecipe<RecipeInput> {
 
     @Override
     public RecipeBookCategory recipeBookCategory() {
-        return ModRecipeTypes.generatedHeavySieveRecipeBookCategory;
+        return ModRecipeTypes.heavySieveRecipeBookCategory;
     }
 
     public static class Serializer implements RecipeSerializer<GeneratedHeavySieveRecipe> {

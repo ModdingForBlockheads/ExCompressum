@@ -258,7 +258,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
         if (tagCompound.contains("CurrentRecipeResult")) {
             ItemStack itemStack = ItemStack.parseOptional(provider, tagCompound.getCompound("CurrentRecipeResult"));
             if (!itemStack.isEmpty()) {
-                currentRecipe = new CompressedRecipe(Ingredient.EMPTY, 0, itemStack);
+                // TODO currentRecipe = new CompressedRecipe(Ingredient.EMPTY, 0, itemStack);
             }
         }
         isDisabledByRedstone = tagCompound.getBoolean("IsDisabledByRedstone");

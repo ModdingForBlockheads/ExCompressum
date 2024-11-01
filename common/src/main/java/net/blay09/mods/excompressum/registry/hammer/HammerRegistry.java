@@ -13,7 +13,7 @@ import java.util.*;
 public class HammerRegistry {
 
     public static List<ItemStack> rollHammerRewards(LootContext context, ItemStack itemStack) {
-        final var recipeManager = context.getLevel().getRecipeManager();
+        final var recipeManager = context.getLevel().getServer().getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.hammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
         for (final var recipeHolder : recipes) {
@@ -34,7 +34,7 @@ public class HammerRegistry {
     }
 
     public boolean isHammerable(Level level, ItemStack itemStack) {
-        return isHammerable(level.getRecipeManager(), itemStack);
+        return isHammerable(level.getServer().getRecipeManager(), itemStack);
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {

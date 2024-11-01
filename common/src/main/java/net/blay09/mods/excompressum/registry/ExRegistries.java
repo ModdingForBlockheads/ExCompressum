@@ -1,7 +1,6 @@
 package net.blay09.mods.excompressum.registry;
 
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.balm.api.event.client.RecipesUpdatedEvent;
 import net.blay09.mods.balm.api.event.server.ServerReloadFinishedEvent;
 import net.blay09.mods.balm.api.event.server.ServerStartedEvent;
 import net.blay09.mods.excompressum.registry.chickenstick.ChickenStickRegistry;
@@ -9,7 +8,6 @@ import net.blay09.mods.excompressum.registry.compressedhammer.CompressedHammerRe
 import net.blay09.mods.excompressum.registry.compressor.CompressedRecipeRegistry;
 import net.blay09.mods.excompressum.registry.hammer.HammerRegistry;
 import net.blay09.mods.excompressum.registry.heavysieve.HeavySieveRegistry;
-import net.blay09.mods.excompressum.registry.sievemesh.SieveMeshRegistry;
 import net.blay09.mods.excompressum.registry.woodencrucible.WoodenCrucibleRegistry;
 
 public class ExRegistries {
@@ -28,11 +26,6 @@ public class ExRegistries {
         Balm.getEvents()
                 .onEvent(ServerReloadFinishedEvent.class,
                         it -> compressedRecipeRegistry.reloadRecipes(it.getServer().getRecipeManager(), it.getServer().registryAccess()));
-        Balm.getEvents().onEvent(RecipesUpdatedEvent.class, ExRegistries::onRecipesUpdated);
-    }
-
-    public static void onRecipesUpdated(RecipesUpdatedEvent event) {
-        compressedRecipeRegistry.reloadRecipes(event.getRecipeManager(), event.getRegistryAccess());
     }
 
     public static CompressedRecipeRegistry getCompressedRecipeRegistry() {

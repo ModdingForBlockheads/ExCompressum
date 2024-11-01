@@ -446,7 +446,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
             return false;
         }
 
-        final var recipeManager = level.getRecipeManager();
+        final var recipeManager = level.getServer().getRecipeManager();
         return ExNihilo.isHammerable(level, itemStack) || ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack);
     }
 
@@ -455,7 +455,7 @@ public class AutoHammerBlockEntity extends AbstractBaseBlockEntity implements Ba
             return Collections.emptyList();
         }
 
-        final var recipeManager = level.getRecipeManager();
+        final var recipeManager = level.getServer().getRecipeManager();
         if (ExRegistries.getHammerRegistry().isHammerable(recipeManager, itemStack)) {
             LootContext lootContext = LootTableUtils.buildLootContext(((ServerLevel) level), itemStack);
             return HammerRegistry.rollHammerRewards(lootContext, itemStack);

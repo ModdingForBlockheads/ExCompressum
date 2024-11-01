@@ -38,7 +38,7 @@ public class HeavySieveRegistry {
 
     public static List<ItemStack> rollSieveRewards(Level level, LootContext context, BlockState sieve, SieveMeshRegistryEntry mesh, ItemStack itemStack) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
-        final var recipeManager = context.getLevel().getRecipeManager();
+        final var recipeManager = context.getLevel().getServer().getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         List<ItemStack> results = new ArrayList<>();
         for (final var recipeHolder : recipes) {
@@ -76,7 +76,7 @@ public class HeavySieveRegistry {
 
     public boolean isSiftable(Level level, BlockState sieve, ItemStack itemStack, SieveMeshRegistryEntry sieveMesh) {
         boolean waterlogged = sieve.hasProperty(BlockStateProperties.WATERLOGGED) && sieve.getValue(BlockStateProperties.WATERLOGGED);
-        final var recipeManager = level.getRecipeManager();
+        final var recipeManager = level.getServer().getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.heavySieveRecipeType);
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();

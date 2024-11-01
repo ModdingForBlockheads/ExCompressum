@@ -6,9 +6,8 @@ import net.blay09.mods.excompressum.block.entity.AbstractAutoSieveBlockEntity;
 import net.blay09.mods.excompressum.block.entity.SieveAnimationType;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.world.entity.LivingEntity;
 
-public class TinyHumanModel extends PlayerModel<LivingEntity> {
+public class TinyHumanModel extends PlayerModel {
 
     public TinyHumanModel(ModelPart modelPart, boolean smallArms) {
         super(modelPart, smallArms);
@@ -34,8 +33,7 @@ public class TinyHumanModel extends PlayerModel<LivingEntity> {
         }
     }
 
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+    public void render(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
         float scale = 0.0625f;
 
         poseStack.pushPose();

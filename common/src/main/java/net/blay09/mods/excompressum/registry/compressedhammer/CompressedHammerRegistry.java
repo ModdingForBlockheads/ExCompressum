@@ -13,7 +13,7 @@ import java.util.*;
 public class CompressedHammerRegistry {
 
     public static List<ItemStack> rollHammerRewards(Level level, LootContext context, ItemStack itemStack) {
-        final var recipeManager = level.getRecipeManager();
+        final var recipeManager = level.getServer().getRecipeManager();
         final var recipes = recipeManager.getAllRecipesFor(ModRecipeTypes.compressedHammerRecipeType);
         List<ItemStack> results = new ArrayList<>();
         for (final var recipeHolder : recipes) {
@@ -36,7 +36,7 @@ public class CompressedHammerRegistry {
     }
 
     public boolean isHammerable(Level level, ItemStack itemStack) {
-        return isHammerable(level.getRecipeManager(), itemStack);
+        return isHammerable(level.getServer().getRecipeManager(), itemStack);
     }
 
     public boolean isHammerable(RecipeManager recipeManager, ItemStack itemStack) {

@@ -10,7 +10,7 @@ public class WoodenCrucibleRegistry {
 
     @Nullable
     public WoodenCrucibleRecipe getRecipe(Level level, ItemStack itemStack) {
-        final var recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
+        final var recipes = level.getServer().getRecipeManager().getAllRecipesFor(ModRecipeTypes.woodenCrucibleRecipeType);
         for (final var recipeHolder : recipes) {
             final var recipe = recipeHolder.value();
             if (recipe.getIngredient().test(itemStack)) {

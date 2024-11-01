@@ -161,16 +161,14 @@ public class AngryChickenEntity extends PathfinderMob {
         }
     }
 
-
-    @Override
-    public float getScale() {
+    public float getAngryScale() {
         float growProgress = easeInOutCubic(Math.min(1f, (tickCount - 5) / 20f));
         float maxSize = 1.15f;
         return 1f + maxSize * growProgress;
     }
 
     @Override
-    protected int getBaseExperienceReward() {
+    protected int getBaseExperienceReward(ServerLevel level) {
         return 25;
     }
 
@@ -179,13 +177,12 @@ public class AngryChickenEntity extends PathfinderMob {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (!source.isDirect()) {
             final var arrowEntity = source.getDirectEntity();
             final var attacker = source.getEntity();
-            final var level = level();
-            if (!level.isClientSide && arrowEntity != null && !(attacker instanceof AngryChickenEntity)) {
-                ((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, getX(), getY() + 1f, getZ(), 50, 0.25f, 0.25f, 0.25f, 0.2f);
+            if (arrowEntity != null && !(attacker instanceof AngryChickenEntity)) {
+                level.sendParticles(ParticleTypes.CLOUD, getX(), getY() + 1f, getZ(), 50, 0.25f, 0.25f, 0.25f, 0.2f);
                 if (arrowEntity instanceof Arrow arrow && attacker instanceof LivingEntity) {
                     final var reflectedArrow = new Arrow(level, this, arrow.getPickupItemStackOrigin(), arrow.getWeaponItem());
                     reflectedArrow.copyPosition(arrowEntity);
@@ -200,6 +197,6 @@ public class AngryChickenEntity extends PathfinderMob {
             return false;
         }
 
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 }

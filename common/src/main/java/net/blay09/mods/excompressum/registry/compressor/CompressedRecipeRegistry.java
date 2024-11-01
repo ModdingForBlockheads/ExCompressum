@@ -39,7 +39,7 @@ public class CompressedRecipeRegistry {
                 for (int i = 1; i < count; i++) {
                     Ingredient other = ingredients.get(i);
                     boolean passesInner = false;
-                    for (ItemStack itemStack : other.getItems()) {
+                    for (final var itemStack : other.items()) {
                         if (first.test(itemStack)) {
                             passesInner = true;
                             break;

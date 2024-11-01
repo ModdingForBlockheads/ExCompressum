@@ -5,9 +5,8 @@ import net.blay09.mods.balm.api.event.DigSpeedEvent;
 import net.blay09.mods.excompressum.registry.ExRegistries;
 import net.blay09.mods.excompressum.tag.ModItemTags;
 import net.blay09.mods.excompressum.utils.StupidUtils;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -23,8 +22,9 @@ public class HammerSpeedHandler {
         Level level = event.getPlayer().level();
         if ((heldItem.is(ModItemTags.HAMMERS) || heldItem.is(ModItemTags.COMPRESSED_HAMMERS)) && (ExRegistries.getHammerRegistry().isHammerable(level, targetItem) || ExRegistries.getCompressedHammerRegistry().isHammerable(level, targetItem))) {
             float newSpeed = 2f;
-            if (heldItem.getItem() instanceof DiggerItem) {
-                newSpeed = ((DiggerItem) heldItem.getItem()).getTier().getSpeed();
+            final var tool = heldItem.get(DataComponents.TOOL);
+            if (tool != null) {
+                newSpeed = tool.defaultMiningSpeed();
             }
             event.setSpeedOverride(newSpeed);
         }

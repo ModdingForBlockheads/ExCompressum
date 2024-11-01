@@ -33,7 +33,7 @@ public class ModRenderers {
         renderers.registerBlockEntityRenderer(ModBlockEntities.woodenCrucible::get, WoodenCrucibleRenderer::new);
         renderers.registerBlockEntityRenderer(ModBlockEntities.bait::get, BaitRenderer::new);
 
-        renderers.registerEntityRenderer(ModEntities.angryChicken::get, context -> new AngryChickenRenderer(context, new ChickenModel<>(context.bakeLayer(ModelLayers.CHICKEN)), 0.3f));
+        renderers.registerEntityRenderer(ModEntities.angryChicken::get, context -> new AngryChickenRenderer(context, new ChickenModel(context.bakeLayer(ModelLayers.CHICKEN)), 0.3f));
 
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
         if (resourceManager instanceof ReloadableResourceManager) {
