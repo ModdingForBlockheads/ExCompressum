@@ -15,7 +15,10 @@
     "LootTableAccessor",
     "SetItemCountFunctionAccessor",
     "TagEntryAccessor",
-    "UniformGeneratorAccessor"
+    "UniformGeneratorAccessor",
+    "RecipeManagerAccessor",
+    "ShapedRecipeAccessor",
+    "ShapelessRecipeAccessor"
   ],
   "client": [
   ],

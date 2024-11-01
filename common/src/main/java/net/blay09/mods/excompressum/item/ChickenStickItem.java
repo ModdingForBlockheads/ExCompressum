@@ -34,7 +34,7 @@ public class ChickenStickItem extends DiggerItem {
             0,
             ToolMaterial.DIAMOND.speed(),
             0f,
-            0,
+            1,
             ModItemTags.CHICKEN_STICK_TOOL_MATERIALS);
 
     public ChickenStickItem(Item.Properties properties) {
