@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "tag": "minecraft:fishes"
-    }
+    "minecraft:gunpowder",
+    "#minecraft:fishes"
   ],
   "result": {
     "count": 1,

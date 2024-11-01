@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    },
-    {
-      "item": "minecraft:granite"
-    }
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite",
+    "minecraft:granite"
   ],
   "result": {
     "count": 1,

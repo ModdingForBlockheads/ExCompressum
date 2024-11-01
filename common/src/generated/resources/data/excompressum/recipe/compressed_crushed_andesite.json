@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    },
-    {
-      "tag": "excompressum:crushed_andesites"
-    }
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites",
+    "#excompressum:crushed_andesites"
   ],
   "result": {
     "count": 1,

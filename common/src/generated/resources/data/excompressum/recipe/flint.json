@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "excompressum:compressed_flint"
-    }
+    "excompressum:compressed_flint"
   ],
   "result": {
     "count": 9,

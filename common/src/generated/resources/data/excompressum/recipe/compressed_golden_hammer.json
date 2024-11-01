@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "H": {
-      "tag": "excompressum:golden_hammers"
-    }
+    "H": "#excompressum:golden_hammers"
   },
   "pattern": [
     "HHH",

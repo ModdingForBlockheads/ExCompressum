@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    },
-    {
-      "tag": "excompressum:crushed_granites"
-    }
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites",
+    "#excompressum:crushed_granites"
   ],
   "result": {
     "count": 1,

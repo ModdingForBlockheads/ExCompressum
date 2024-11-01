@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "G": {
-      "item": "minecraft:glowstone_dust"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "G": "minecraft:glowstone_dust",
+    "R": "minecraft:redstone",
+    "S": "minecraft:stick"
   },
   "pattern": [
     " RG",

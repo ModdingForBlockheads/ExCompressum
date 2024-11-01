@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "item": "minecraft:jungle_log"
-    },
-    "S": {
-      "tag": "minecraft:wooden_slabs"
-    }
+    "P": "minecraft:jungle_log",
+    "S": "#minecraft:wooden_slabs"
   },
   "pattern": [
     "P P",

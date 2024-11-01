@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "excompressum:compressed_dirt"
-    }
+    "excompressum:compressed_dirt"
   ],
   "result": {
     "count": 9,

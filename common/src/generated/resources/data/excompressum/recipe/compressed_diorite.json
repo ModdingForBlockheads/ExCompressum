@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    },
-    {
-      "item": "minecraft:diorite"
-    }
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite",
+    "minecraft:diorite"
   ],
   "result": {
     "count": 1,

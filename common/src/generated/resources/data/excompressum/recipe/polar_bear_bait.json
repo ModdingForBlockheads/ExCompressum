@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "minecraft:fishes"
-    },
-    {
-      "item": "minecraft:snowball"
-    }
+    "#minecraft:fishes",
+    "minecraft:snowball"
   ],
   "result": {
     "count": 1,

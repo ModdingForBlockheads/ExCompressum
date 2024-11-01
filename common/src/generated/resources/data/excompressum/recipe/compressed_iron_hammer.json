@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "H": {
-      "tag": "excompressum:iron_hammers"
-    }
+    "H": "#excompressum:iron_hammers"
   },
   "pattern": [
     "HHH",

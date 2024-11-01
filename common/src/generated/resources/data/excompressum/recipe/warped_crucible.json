@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "item": "minecraft:warped_stem"
-    },
-    "S": {
-      "item": "minecraft:warped_slab"
-    }
+    "P": "minecraft:warped_stem",
+    "S": "minecraft:warped_slab"
   },
   "pattern": [
     "P P",

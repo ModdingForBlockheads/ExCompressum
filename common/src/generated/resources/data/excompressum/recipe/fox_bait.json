@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:sweet_berries"
-    },
-    {
-      "item": "minecraft:rabbit"
-    }
+    "minecraft:sweet_berries",
+    "minecraft:rabbit"
   ],
   "result": {
     "count": 1,

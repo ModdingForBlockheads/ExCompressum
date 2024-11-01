@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:beef"
-    },
-    {
-      "item": "minecraft:bone"
-    }
+    "minecraft:beef",
+    "minecraft:bone"
   ],
   "result": {
     "count": 1,

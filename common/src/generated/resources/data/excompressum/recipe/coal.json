@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    },
-    {
-      "item": "excompressum:uncompressed_coal"
-    }
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal",
+    "excompressum:uncompressed_coal"
   ],
   "result": {
     "count": 1,

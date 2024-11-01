@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:carrot"
-    },
-    {
-      "item": "minecraft:carrot"
-    }
+    "minecraft:carrot",
+    "minecraft:carrot"
   ],
   "result": {
     "count": 1,

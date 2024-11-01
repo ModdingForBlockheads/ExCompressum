@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "C": {
-      "tag": "excompressum:wooden_crooks"
-    }
+    "C": "#excompressum:wooden_crooks"
   },
   "pattern": [
     "CC",

@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    },
-    {
-      "tag": "excompressum:crushed_diorites"
-    }
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites",
+    "#excompressum:crushed_diorites"
   ],
   "result": {
     "count": 1,

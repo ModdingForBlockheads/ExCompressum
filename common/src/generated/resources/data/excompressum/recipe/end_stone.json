@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "excompressum:compressed_end_stone"
-    }
+    "excompressum:compressed_end_stone"
   ],
   "result": {
     "count": 9,

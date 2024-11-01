@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "H": {
-      "tag": "excompressum:netherite_hammers"
-    }
+    "H": "#excompressum:netherite_hammers"
   },
   "pattern": [
     "HHH",
