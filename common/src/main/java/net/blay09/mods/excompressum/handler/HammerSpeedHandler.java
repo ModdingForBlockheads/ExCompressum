@@ -16,12 +16,11 @@ public class HammerSpeedHandler {
     public static void onDigSpeed(DigSpeedEvent event) {
         final var heldItem = event.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
         if ((heldItem.is(ModItemTags.HAMMERS) || heldItem.is(ModItemTags.COMPRESSED_HAMMERS)) && event.getState().is(ModBlockTags.MINEABLE_WITH_HAMMER)) {
-            float newSpeed = 2f;
             final var tool = heldItem.get(DataComponents.TOOL);
             if (tool != null) {
-                newSpeed = tool.defaultMiningSpeed();
+                final var bestSpeed = tool.rules().stream().map(it -> it.speed().orElse(0f)).max(Float::compare);
+                event.setSpeedOverride(bestSpeed.orElse(tool.defaultMiningSpeed()));
             }
-            event.setSpeedOverride(newSpeed);
         }
     }
 
