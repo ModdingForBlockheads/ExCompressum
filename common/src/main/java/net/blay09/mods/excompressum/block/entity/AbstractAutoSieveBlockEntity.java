@@ -71,6 +71,9 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         @Override
         public void slotChanged(int slot) {
             super.slotChanged(slot);
+            if (level instanceof ServerLevel serverLevel) {
+                updateCorrectSieveMesh(serverLevel);
+            }
             // Make sure the mesh slot is always synced.
             if (meshSlots.containsOuterSlot(slot)) {
                 isDirty = true;
@@ -86,6 +89,8 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                 return AbstractAutoSieveBlockEntity.this.getEnergyStored();
             } else if (id == 2) {
                 return AbstractAutoSieveBlockEntity.this.isDisabledByRedstone() ? 1 : 0;
+            } else if (id == 3) {
+                return AbstractAutoSieveBlockEntity.this.isCorrectSieveMesh() ? 1 : 0;
             }
             return 0;
         }
@@ -97,11 +102,13 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
                 AbstractAutoSieveBlockEntity.this.setEnergyStored(value);
             } else if (id == 2) {
                 AbstractAutoSieveBlockEntity.this.setDisabledByRedstone(value == 1);
+            } else if (id == 3) {
+                AbstractAutoSieveBlockEntity.this.setCorrectSieveMesh(value == 1);
             }
         }
 
         public int getCount() {
-            return 3;
+            return 4;
         }
     };
 
@@ -155,6 +162,7 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     private int particleTicks;
     private int particleCount;
 
+    private boolean correctSieveMesh;
     private boolean isDisabledByRedstone;
 
     public AbstractAutoSieveBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -460,12 +468,18 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
         return meshSlots.getItem(0);
     }
 
+    public void updateCorrectSieveMesh(ServerLevel level) {
+        final var inputStack = inputSlots.getItem(0);
+        final var sieveMesh = getSieveMesh();
+        correctSieveMesh = inputStack.isEmpty() || sieveMesh == null || isSiftableWithMesh(level, inputStack, sieveMesh);
+    }
+
+    public void setCorrectSieveMesh(boolean correctSieveMesh) {
+        this.correctSieveMesh = correctSieveMesh;
+    }
+
     public boolean isCorrectSieveMesh() { // TODO need to turn this into a data slot because it's used on client
-        ItemStack inputStack = inputSlots.getItem(0);
-        SieveMeshRegistryEntry sieveMesh = getSieveMesh();
-        return inputStack.isEmpty() || sieveMesh == null || (level instanceof ServerLevel serverLevel && isSiftableWithMesh(serverLevel,
-                inputStack,
-                sieveMesh));
+        return correctSieveMesh;
     }
 
     public boolean shouldAnimate() {
