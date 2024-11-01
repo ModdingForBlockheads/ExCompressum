@@ -25,6 +25,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -129,7 +130,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
     }
 
     public boolean shouldCompress(Multiset<CompressedRecipe> inputItems, CompressedRecipe compressedRecipe) {
-        return inputItems.count(compressedRecipe) >= compressedRecipe.getCount();
+        return inputItems.count(compressedRecipe) >= compressedRecipe.count();
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, AutoCompressorBlockEntity blockEntity) {
@@ -151,24 +152,24 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
                     }
                 }
                 for (CompressedRecipe compressedRecipe : inputItems.elementSet()) {
-                    Ingredient ingredient = compressedRecipe.getIngredient();
+                    Ingredient ingredient = compressedRecipe.ingredient();
                     if (shouldCompress(inputItems, compressedRecipe)) {
                         int space = 0;
                         for (int i = 0; i < outputSlots.getContainerSize(); i++) {
                             ItemStack slotStack = outputSlots.getItem(i);
                             if (slotStack.isEmpty()) {
                                 space = 64;
-                            } else if (isItemEqualWildcard(slotStack, compressedRecipe.getResultStack())) {
+                            } else if (isItemEqualWildcard(slotStack, compressedRecipe.resultStack())) {
                                 space += slotStack.getMaxStackSize() - slotStack.getCount();
                             }
-                            if (space >= compressedRecipe.getResultStack().getCount()) {
+                            if (space >= compressedRecipe.resultStack().getCount()) {
                                 break;
                             }
                         }
-                        if (space < compressedRecipe.getResultStack().getCount()) {
+                        if (space < compressedRecipe.resultStack().getCount()) {
                             continue;
                         }
-                        int count = compressedRecipe.getCount();
+                        int count = compressedRecipe.count();
                         for (int i = 0; i < inputSlots.getContainerSize(); i++) {
                             ItemStack slotStack = inputSlots.getItem(i);
                             if (!slotStack.isEmpty() && ingredient.test(slotStack)) {
@@ -200,7 +201,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
                     if (!level.isClientSide) {
                         CompressedRecipe compressedRecipe = currentRecipe;
                         if (compressedRecipe != null) {
-                            ItemStack resultStack = compressedRecipe.getResultStack().copy();
+                            ItemStack resultStack = compressedRecipe.resultStack().copy();
                             if (!addItemToOutput(resultStack)) {
                                 overflowBuffer.add(resultStack);
                             }
@@ -255,11 +256,8 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
 
     @Override
     public void loadAdditional(CompoundTag tagCompound, HolderLookup.Provider provider) {
-        if (tagCompound.contains("CurrentRecipeResult")) {
-            ItemStack itemStack = ItemStack.parseOptional(provider, tagCompound.getCompound("CurrentRecipeResult"));
-            if (!itemStack.isEmpty()) {
-                // TODO currentRecipe = new CompressedRecipe(Ingredient.EMPTY, 0, itemStack);
-            }
+        if (tagCompound.contains("CurrentRecipe")) {
+            currentRecipe = ExRegistries.getCompressedRecipeRegistry().getRecipeById(ResourceLocation.parse(tagCompound.getString("CurrentRecipe")));
         }
         isDisabledByRedstone = tagCompound.getBoolean("IsDisabledByRedstone");
         progress = tagCompound.getFloat("Progress");
@@ -274,7 +272,7 @@ public class AutoCompressorBlockEntity extends AbstractBaseBlockEntity implement
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         if (currentRecipe != null) {
-            tag.put("CurrentRecipeResult", currentRecipe.getResultStack().save(provider));
+            tag.putString("CurrentRecipe", currentRecipe.id().toString());
         }
         tag.putBoolean("IsDisabledByRedstone", isDisabledByRedstone);
         tag.putFloat("Progress", progress);

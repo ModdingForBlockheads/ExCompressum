@@ -18,16 +18,18 @@ import java.util.Map;
 
 public class CompressedRecipeRegistry {
 
+    private final Map<ResourceLocation, CompressedRecipe> recipesById = new HashMap<>();
     private final List<CompressedRecipe> recipesSmall = new ArrayList<>();
     private final List<CompressedRecipe> recipes = new ArrayList<>();
 
-    private final Map<ResourceLocation, CompressedRecipe> cachedResults = new HashMap<>();
+    private final Map<ResourceLocation, CompressedRecipe> cacheByItemId = new HashMap<>();
 
     public CompressedRecipeRegistry() {
     }
 
     public void reloadRecipes(RecipeManager recipeManager, RegistryAccess registryAccess) {
-        cachedResults.clear();
+        recipesById.clear();
+        cacheByItemId.clear();
         recipesSmall.clear();
         recipes.clear();
 
@@ -66,11 +68,11 @@ public class CompressedRecipeRegistry {
                     final var result = ((ShapedRecipeAccessor) shapedRecipe).getResult();
                     if (count == 4 && shapedRecipe.getWidth() == 2 && shapedRecipe.getHeight() == 2) {
                         if (passes) {
-                            recipesSmall.add(new CompressedRecipe(first, 4, result.copy()));
+                            recipesSmall.add(new CompressedRecipe(recipeHolder.id().location(), first, 4, result.copy()));
                         }
                     } else if (count == 9 && shapedRecipe.getWidth() == 3 && shapedRecipe.getHeight() == 3) {
                         if (passes) {
-                            recipes.add(new CompressedRecipe(first, 9, result.copy()));
+                            recipes.add(new CompressedRecipe(recipeHolder.id().location(), first, 9, result.copy()));
                         }
                     }
                 }
@@ -97,11 +99,11 @@ public class CompressedRecipeRegistry {
                     final var result = ((ShapelessRecipeAccessor) shapelessRecipe).getResult();
                     if (count == 4) {
                         if (passes) {
-                            recipesSmall.add(new CompressedRecipe(first, 4, result.copy()));
+                            recipesSmall.add(new CompressedRecipe(recipeHolder.id().location(), first, 4, result.copy()));
                         }
                     } else {
                         if (passes) {
-                            recipes.add(new CompressedRecipe(first, 9, result.copy()));
+                            recipes.add(new CompressedRecipe(recipeHolder.id().location(), first, 9, result.copy()));
                         }
                     }
                 }
@@ -116,27 +118,30 @@ public class CompressedRecipeRegistry {
         }
 
         final ResourceLocation registryName = Balm.getRegistries().getKey(itemStack.getItem());
-        CompressedRecipe foundRecipe = cachedResults.get(registryName);
+        CompressedRecipe foundRecipe = cacheByItemId.get(registryName);
         if (foundRecipe != null) {
             return foundRecipe;
         }
 
         for (CompressedRecipe recipe : recipes) {
-            if (recipe.getIngredient().test(itemStack)) {
-                cachedResults.put(registryName, recipe);
+            if (recipe.ingredient().test(itemStack)) {
+                cacheByItemId.put(registryName, recipe);
                 return recipe;
             }
         }
 
         for (CompressedRecipe recipe : recipesSmall) {
-            if (recipe.getIngredient().test(itemStack)) {
-                cachedResults.put(registryName, recipe);
+            if (recipe.ingredient().test(itemStack)) {
+                cacheByItemId.put(registryName, recipe);
                 return recipe;
             }
         }
 
-        cachedResults.put(registryName, null);
+        cacheByItemId.put(registryName, null);
         return null;
     }
 
+    public CompressedRecipe getRecipeById(ResourceLocation id) {
+        return recipesById.get(id);
+    }
 }

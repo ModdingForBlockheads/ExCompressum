@@ -59,14 +59,14 @@ public class OreSmasherItem extends DiggerItem {
             if (!inventoryStack.isEmpty()) {
                 if (ExCompressumAPI.getExNihilo().isCompressableOre(inventoryStack)) {
                     CompressedRecipe recipe = ExRegistries.getCompressedRecipeRegistry().getRecipe(inventoryStack);
-                    if (recipe != null && recipe.getResultStack().getCount() == 1) {
-                        if (inventoryStack.getCount() >= recipe.getCount()) {
+                    if (recipe != null && recipe.resultStack().getCount() == 1) {
+                        if (inventoryStack.getCount() >= recipe.count()) {
                             BlockState oldState = level.getBlockState(pos);
-                            ItemStack resultStack = recipe.getResultStack().copy();
+                            ItemStack resultStack = recipe.resultStack().copy();
                             resultStack.getItem().useOn(new UseOnContext(player, context.getHand(), new BlockHitResult(context.getClickLocation(), context.getClickedFace(), context.getClickedPos(), context.isInside())));
                             level.sendBlockUpdated(pos, oldState, level.getBlockState(pos), 3);
                             if (resultStack.isEmpty()) {
-                                inventoryStack.shrink(recipe.getCount());
+                                inventoryStack.shrink(recipe.count());
                                 if (inventoryStack.isEmpty()) {
                                     player.getInventory().items.remove(i);
                                 }

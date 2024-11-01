@@ -12,6 +12,6 @@ public class RationingAutoCompressorBlockEntity extends AutoCompressorBlockEntit
 
     @Override
     public boolean shouldCompress(Multiset<CompressedRecipe> inputItems, CompressedRecipe compressedRecipe) {
-        return inputItems.count(compressedRecipe) >= compressedRecipe.getCount() + 1;
+        return inputItems.count(compressedRecipe) >= compressedRecipe.count() + 1;
     }
 }
