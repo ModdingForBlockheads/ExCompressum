@@ -403,9 +403,6 @@ public abstract class AbstractAutoSieveBlockEntity extends AbstractBaseBlockEnti
     public void setSkinProfile(@Nullable ResolvableProfile skinProfile) {
         this.skinProfile = skinProfile;
         updateSkinProfile();
-        // TODO remove?  if (skinProfile != null) {
-        // TODO remove?      ExCompressum.proxy.get().preloadSkin(skinProfile);
-        // TODO remove?  }
         isDirty = true;
         setChanged();
     }

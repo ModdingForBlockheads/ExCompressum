@@ -82,13 +82,17 @@ public abstract class AutoSieveBaseBlock extends BaseEntityBlock implements IUgl
         final var heldItem = itemStack.getItem();
         if (itemStack.has(DataComponents.FOOD) && ExCompressumConfig.getActive().automation.allowAutoSieveFoodSpeedBoosts) {
             final var food = itemStack.get(DataComponents.FOOD);
-            if (autoSieve.getFoodBoost() <= 1f) {
+            if (autoSieve.getFoodBoost() <= 1f && food != null) {
                 autoSieve.applyFoodBoost(food);
-                if (!player.getAbilities().instabuild) {
-                    ItemStack returnStack = heldItem.finishUsingItem(itemStack, level, player); // TODO player here should be FakePlayer
-                    if (returnStack != itemStack) {
-                        player.setItemInHand(hand, returnStack);
-                    }
+                int countBefore = itemStack.getCount();
+                itemStack.consume(1, player);
+                final var remainder = itemStack.get(DataComponents.USE_REMAINDER);
+                if (remainder != null) {
+                    final var remainderStack = remainder.convertIntoRemainder(itemStack,
+                            countBefore,
+                            player.hasInfiniteMaterials(),
+                            player::handleExtraItemsCreatedOnUse);
+                    player.setItemInHand(hand, remainderStack);
                 }
                 level.levelEvent(2005, pos, 0);
             }

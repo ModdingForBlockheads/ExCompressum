@@ -1,6 +1,5 @@
 package net.blay09.mods.excompressum.client;
 
-import com.google.common.collect.Sets;
 import net.blay09.mods.excompressum.CommonProxy;
 import net.blay09.mods.excompressum.client.render.HammeringParticle;
 import net.blay09.mods.excompressum.client.render.SievingParticle;
@@ -9,25 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ParticleStatus;
-import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Set;
-
 public class ClientProxy extends CommonProxy {
-
-    private final Set<ResolvableProfile> skinRequested = Sets.newHashSet();
-
-    @Override
-    public void preloadSkin(ResolvableProfile profile) {
-        if (!skinRequested.contains(profile)) {
-            Minecraft.getInstance().getSkinManager().getOrLoad(profile.gameProfile());
-            skinRequested.add(profile);
-        }
-    }
 
     @Override
     public void spawnCrushParticles(Level level, BlockPos pos, BlockState particleState) {
