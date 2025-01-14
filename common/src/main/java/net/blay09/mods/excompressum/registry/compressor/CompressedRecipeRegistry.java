@@ -52,7 +52,8 @@ public class CompressedRecipeRegistry {
                         final var optionalOther = ingredients.get(i);
                         if (optionalOther.isPresent()) {
                             final var other = optionalOther.get();
-                            for (final var itemHolder : other.items()) {
+                            final var items = other.items().toList();
+                            for (final var itemHolder : items) {
                                 if (first.test(new ItemStack(itemHolder))) {
                                     passesInner = true;
                                     break;
@@ -85,7 +86,8 @@ public class CompressedRecipeRegistry {
                     for (int i = 1; i < count; i++) {
                         Ingredient other = ingredients.get(i);
                         boolean passesInner = false;
-                        for (final var itemHolder : other.items()) {
+                        final var items = other.items().toList();
+                        for (final var itemHolder : items) {
                             if (first.test(new ItemStack(itemHolder))) {
                                 passesInner = true;
                                 break;

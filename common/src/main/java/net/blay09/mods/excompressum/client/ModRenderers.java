@@ -1,8 +1,6 @@
 package net.blay09.mods.excompressum.client;
 
 import net.blay09.mods.balm.api.client.rendering.BalmRenderers;
-import net.blay09.mods.excompressum.block.BaitBlock;
-import net.blay09.mods.excompressum.block.BaitType;
 import net.blay09.mods.excompressum.block.ModBlocks;
 import net.blay09.mods.excompressum.client.render.entity.AngryChickenRenderer;
 import net.blay09.mods.excompressum.client.render.blockentity.*;
@@ -15,7 +13,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.world.level.block.Block;
 
 public class ModRenderers {
 
@@ -39,15 +36,5 @@ public class ModRenderers {
         if (resourceManager instanceof ReloadableResourceManager) {
             ((ReloadableResourceManager) resourceManager).registerReloadListener((ResourceManagerReloadListener) manager -> AutoSieveRenderer.cacheKey++);
         }
-
-        renderers.registerItemColorHandler((itemStack, tintIndex) -> {
-            Block block = Block.byItem(itemStack.getItem());
-            if (block instanceof BaitBlock) {
-                BaitType baitType = ((BaitBlock) block).getBaitType();
-                return baitType.getItemColor(tintIndex);
-            }
-
-            return 0;
-        }, () -> ModBlocks.baits);
     }
 }

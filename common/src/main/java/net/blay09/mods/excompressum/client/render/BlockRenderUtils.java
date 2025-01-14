@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelBakery;
@@ -26,7 +27,7 @@ import java.util.Random;
 // Apache License 2.0
 public class BlockRenderUtils {
 
-    private static final RenderType RENDER_TYPE_BREAK = RenderType.crumbling(InventoryMenu.BLOCK_ATLAS);
+    private static final RenderType RENDER_TYPE_BREAK = RenderType.crumbling(TextureAtlas.LOCATION_BLOCKS);
     private static final RandomSource random = RandomSource.create();
 
     /**
@@ -49,7 +50,7 @@ public class BlockRenderUtils {
             ResourceLocation tex = ModelBakery.DESTROY_STAGES.get((breakProgress - 1) % ModelBakery.DESTROY_STAGES.size());
             BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state);
 
-            TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(tex);
+            TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(tex);
             VertexConsumer vertex = Minecraft.getInstance().renderBuffers().crumblingBufferSource().getBuffer(RENDER_TYPE_BREAK);
 
             for (Direction direction : Direction.values()) {

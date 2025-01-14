@@ -14,7 +14,7 @@ neoForge {
     // Automatically enable neoforge AccessTransformers if the file exists
     def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath)
+        accessTransformers.from(at.absolutePath)
     }
 
     parchment {
@@ -34,10 +34,6 @@ neoForge {
 
         server {
             server()
-        }
-
-        data {
-            data()
         }
     }
 

@@ -1,22 +1,25 @@
 package net.blay09.mods.excompressum.fabric.datagen;
 
+import net.blay09.mods.excompressum.ExCompressum;
 import net.blay09.mods.excompressum.block.*;
 import net.blay09.mods.excompressum.item.ModItems;
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.data.models.blockstates.PropertyDispatch;
-import net.minecraft.data.models.blockstates.Variant;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.*;
+import net.minecraft.client.color.item.Constant;
+import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Optional;
 
-import static net.minecraft.data.models.BlockModelGenerators.createHorizontalFacingDispatch;
+import static net.minecraft.client.data.models.BlockModelGenerators.createHorizontalFacingDispatch;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricDataOutput output) {
@@ -31,10 +34,6 @@ public class ModModelProvider extends FabricModelProvider {
         createUglifyableHorizontalFacingModel(generators, ModBlocks.autoCompressedHammer);
         createUglifyableHorizontalFacingModel(generators, ModBlocks.autoSieve);
         createUglifyableHorizontalFacingModel(generators, ModBlocks.autoHeavySieve);
-        generators.skipAutoItemBlock(ModBlocks.autoHammer);
-        generators.skipAutoItemBlock(ModBlocks.autoCompressedHammer);
-        generators.skipAutoItemBlock(ModBlocks.autoSieve);
-        generators.skipAutoItemBlock(ModBlocks.autoHeavySieve);
 
         for (final var woodenCrucibleType : WoodenCrucibleType.values()) {
             final var woodenCrucible = ModBlocks.woodenCrucibles[woodenCrucibleType.ordinal()];
@@ -58,7 +57,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         for (final var baitType : BaitType.values()) {
             final var bait = ModBlocks.baits[baitType.ordinal()];
-            createBait(generators, bait, baitType);
+            createBait(generators, (BaitBlock) bait, baitType);
         }
     }
 
@@ -79,12 +78,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.generateFlatItem(ModItems.uncompressedCoal, ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ModItems.uglySteelPlating, ModelTemplates.FLAT_ITEM);
 
-        for (Block bait : ModBlocks.baits) {
-            final var modelLocation = ModelLocationUtils.getModelLocation(bait.asItem());
-            final var baitTexture = ResourceLocation.fromNamespaceAndPath("excompressum", "item/bait");
-            final var baitOverlayTexture = ResourceLocation.fromNamespaceAndPath("excompressum", "item/bait_overlay");
-            itemModelGenerator.generateLayeredItem(modelLocation, baitTexture, baitOverlayTexture);
-        }
+        final var baitTexture = ResourceLocation.fromNamespaceAndPath("excompressum", "item/bait");
+        final var baitOverlayTexture = ResourceLocation.fromNamespaceAndPath("excompressum", "item/bait_overlay");
+        itemModelGenerator.generateLayeredItem(ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "item/bait"), baitTexture, baitOverlayTexture);
     }
 
     private ResourceLocation createSimpleRetexturedModel(BlockModelGenerators generators, Block block, Block baseBlock, ResourceLocation template) {
@@ -102,8 +98,12 @@ public class ModModelProvider extends FabricModelProvider {
                 .with(createHorizontalFacingDispatch()));
     }
 
-    private void createBait(BlockModelGenerators generators, Block block, BaitType baitType) {
+    private void createBait(BlockModelGenerators generators, BaitBlock block, BaitType baitType) {
         generators.createAirLikeBlock(block, baitType.getDisplayItemFirst().getItem());
-        generators.skipAutoItemBlock(block);
+        final var itemModelLocation = ResourceLocation.fromNamespaceAndPath(ExCompressum.MOD_ID, "item/bait");
+        generators.itemModelOutput.accept(block.asItem(),
+                ItemModelUtils.tintedModel(itemModelLocation,
+                        new Constant(block.getBaitType().getItemColor(0)),
+                        new Constant(block.getBaitType().getItemColor(1))));
     }
 }
